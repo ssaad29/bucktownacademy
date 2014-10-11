@@ -1,0 +1,20 @@
+pg_dump --username=username drummond -h localhost public | psql -h ec2-23-23-211-161.compute-1.amazonaws.com dc7k7qpbovg8j5
+
+sudo pg_dump -U drummond -h localhost drummond | psql -h ec2-23-23-211-161.compute-1.amazonaws.com dc7k7qpbovg8j5
+
+localhost:5432:drummond:drummond:drummond
+
+pg_dump -U drummond -h localhost drummond -f drummonddump.sql
+
+host    dc7k7qpbovg8j5    xxfyyqperlwikz         ec2-23-23-211-161.compute-1.amazonaws.com      md5
+
+"pg://drummond:drummond@ec2-23-23-211-161.compute-1.amazonaws.com:5432/drummond";
+
+ heroku pgbackups:restore DATABASE 'https://s3.amazonaws.com/me/items/3H0q/mydb.dump'
+ 
+ 
+ 
+ heroku pgbackups:restore HEROKU_POSTGRESQL_GRAY_URL 'http://www.schoolishness.com/drummonddump.sql' --app tap2class
+ 
+ 
+psql "dbname=dc7k7qpbovg8j5 host=ec2-23-23-211-161.compute-1.amazonaws.com user=xxfyyqperlwikz password=4klJQzQKHjDp_jlm7mB8YsL9rK port=5432 sslmode=require" -f ~/drummonddump.sql

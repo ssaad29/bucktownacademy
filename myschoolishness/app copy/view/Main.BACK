@@ -1,0 +1,279 @@
+Ext.define('myschoolishness.view.Main', {
+    extend: 'Ext.Panel',
+    alias: "widget.mainview",
+    xtype: 'main',
+	requires: ['Ext.form.FieldSet','Ext.Label','Ext.Img','Ext.Button','Ext.TitleBar'],
+	config: {
+  layout: {
+   type: 'fit',
+   
+  },
+  items: [
+   {
+    xtype: 'titlebar',
+    docked: 'top',
+    align: 'center',
+    title: '',
+    	items: [
+    		{
+		        		xtype: 'button',
+		        		itemId:'prefButton',
+		        		id:'prefButton',
+						iconCls: 'settings',
+						title: 'Preferences' ,
+						align: 'center',
+                		},
+                		
+                		{
+		        		xtype: 'button',
+		        		itemId:'directoryButton',
+		        		id:'directoryButton',
+						iconCls: 'icon-profile',
+						text: 'Directory' ,
+						style: 'font-size:13px;',
+						iconAlign: 'top',
+						align: 'center',
+                		},
+                		{
+		        		xtype: 'button',
+		        		itemId:'adminButton',
+		        		id:'adminButton',
+						iconCls: 'key',
+						text: 'admin' ,
+						style: 'font-size:13px;',
+						iconAlign: 'top',
+						align: 'center',
+                		},
+                		{
+		        		xtype: 'button',
+		        		itemId:'logoutButton',
+		        		id:'logoutButton',
+		        		ui:'small',
+						text: 'Logout' ,
+						align: 'center',
+                		},
+    	],
+   },
+   {
+    xtype: 'container',
+	layout: 'vbox',
+    title: 'Directory',
+       items: [
+		{
+    	xtype: 'tabpanel',
+    	itemId: 'maintabpanel',
+	  	id: 'maintabpanel',
+    		flex:4,
+    		layout: {
+     		animation: 'slide',
+     		type: 'card'
+    		},
+    		items: [
+	 			{
+      xtype: 'class-home',
+      itemId: 'classhome',
+	  id: 'classhome',
+      title: 'My Class',
+     },	
+		        	{
+      xtype: 'kids-home',
+      itemId: 'kidshome',
+	  id: 'kidshome',
+      title: 'My Kid(s)',
+     },
+     
+     {
+      xtype: 'school-home',
+      itemId: 'schoolhome',
+	  id: 'schoolhome',
+      title: 'My School',
+     },
+     {
+       xtype: 'directory-home',
+       itemId: 'directory-home',
+	   id: 'directory-home',
+	   title: 'Directory',
+	},
+		        	],
+		    tabBar: {
+     		docked: 'top',
+     		layout: {
+      			pack: 'left',
+      			type: 'hbox'
+     			},
+    		},
+		},
+	    {
+		   xtype: 'rotating-carousel',
+		   width:'100%',
+		   height:'100%',
+		   flex:1,
+		},
+    ],
+    
+   },
+   
+  ],
+  listeners: [{
+			delegate: '#attendanceButton',
+			event: 'tap',
+			fn: 'onAbsentTap'
+		},
+		
+		{
+			delegate: '#prefButton',
+			event: 'tap',
+			fn: 'onPrefTap'
+		},
+		{
+			delegate: '#adminButton',
+			event: 'tap',
+			fn: 'onAdminTap'
+		},
+		{
+			delegate: '#logoutButton',
+			event: 'tap',
+			fn: 'onLogoutTap'
+		}
+		
+		]
+ },
+ 
+ 	show: function () {
+		window.location.hash = 'home';		
+		this.setRoles(sessionStorage.getItem("roles"));		
+	},
+	
+	loadData: function () {	
+	},
+	
+	onPrefTap: function () {
+		sessionStorage.setItem("edit_user.origin","pref");
+		sessionStorage.setItem("edit_student.origin","pref");
+		sessionStorage.setItem("user_crud.user_id",sessionStorage.getItem("user_id"));
+		this.fireEvent("showPrefView", this);
+	},
+	
+	
+	onDirectoryTap: function () {
+		this.fireEvent("showDirectory", this);
+	},
+	
+	onAdminTap: function () {
+		this.fireEvent("showStaff", this);
+	},
+	
+	onAbsentTap: function () {
+		this.fireEvent("absentChosen", this);
+	},
+	
+	onLogoutTap: function () {
+		sessionStorage.setItem("logout","yes");
+		myschoolishness.controller.Utils.logout();
+	},
+	
+	setRoles: function (roles) {
+	console.log("set roles called in main");
+	 var me = this;
+	 var dir = Ext.getCmp('directoryButton');	
+		
+		if (roles != null && roles.indexOf("S") === -1 && roles.indexOf("A") === -1 && roles.indexOf("T") === -1 && roles.indexOf("R") === -1) {
+			var admin = Ext.getCmp('adminButton');
+			admin.setHidden(true);
+		}
+		this.configureTabs();
+	},
+	
+	configureTabs: function () {
+		var options = this.loadKids();
+		for (var i=0;i<options.length;i++) {
+			console.log("OPTION AT " + i + " " + options[i]);
+		}
+		
+		var roles = sessionStorage.getItem("roles");
+		console.log("ROLES " + roles);
+		var tabpanel = Ext.getCmp("maintabpanel");
+		var kidshome = Ext.getCmp("kidshome");
+		var classhome = Ext.getCmp("classhome");
+		var schoolhome = Ext.getCmp("schoolhome");
+		var loadKids = true;
+		var loadClass = true;
+		var loadSchool = true;
+		
+		console.log("kidshome " + kidshome);
+		console.log("classhome " + classhome);
+		console.log("schoolhome " + schoolhome);
+		
+		if (roles.indexOf("T") === -1) {
+			tabpanel.remove(classhome);
+			loadClass = false;
+			console.log("NOT TEACHER");
+		} 
+		
+		if (roles.indexOf("P") === -1) {
+			tabpanel.remove(kidshome);
+			loadKids = false;
+			console.log("NOT PARENT");
+		} 
+		
+		if (roles.indexOf("A") === -1 ) {
+			tabpanel.remove(schoolhome);
+			loadSchool = false;
+			console.log("NOT AN ADMIN");
+		} 
+		
+		if (loadClass) {
+			classhome.loadData();
+		}
+		
+		if (loadKids) {
+			console.log("LOADING KIDS");
+			//kidshome.setOptions(options);
+			//kidshome.loadData();
+			tabpanel.setActiveItem(kidshome);
+		}
+		
+		if (loadSchool) {
+			schoolhome.loadData();
+		}
+		//tabpanel.setActiveItem(schoolhome);
+	},
+	
+	onTabSelect: function (sender, newActiveItem, oldActiveItem, eOpts ) {
+		newActiveItem.loadData();
+	},
+	
+	loadKids: function () {
+			console.log("LOAD KIDS in main ");
+			var options = [];
+			
+            
+		 	var user_id = sessionStorage.getItem("user_id");
+		 	console.log("KIDS SELECT user_id " + user_id);
+		 	var kidsStore = Ext.create('myschoolishness.store.DirectoryStudentsStore', {
+			model: 'myschoolishness.model.DirectoryStudentsModel'
+			});
+			kidsStore.load({
+    		//define the parameters of the store:
+    		params: {
+        		user_id: user_id,
+        		token: sessionStorage.getItem("token")
+    		    				},
+
+    				scope: this,
+    				callback : function(records, operation, success) {
+							if (success) {
+								for (var i=0;i<records.length;i++) {
+    								//console.log("FIRST " + records[i].get('student_first'));
+								//console.log("LAST " + records[i].get('student_last'));
+        							options.push({
+            						value: records[0].get('student_first') + " " + records[i].get('student_last'),
+            						text: records[0].get('student_first') + " " + records[i].get('student_last'),
+        							});
+    							};
+							}
+    					}
+					})
+			return options;
+	},
+});

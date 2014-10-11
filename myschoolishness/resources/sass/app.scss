@@ -1,0 +1,47 @@
+$base-color: #4682B4 !default; // black
+//$confirm-color: #FFFFFF !default; // white
+$active-color: #B0C4DE !default; // 
+//$neutral-color: #FFFFFF !default; // white
+$font-family:'Comic Sans MS, cursive, sans-serif';
+$base_gradient:'bevel';
+//$font-color: #FFFFFF;
+
+// The following two lines import the default Sencha Touch theme. If you are building
+// a new theme, remove them and the add your own CSS on top of the base CSS (which
+// is already included in your app.json file).
+@import 'sencha-touch/default';
+@import 'sencha-touch/default/all';
+
+// Custom code goes here..
+
+@include icon-font('custom', inline-font-files(
+  'custom/icomoon.woff', woff, 
+  'custom/icomoon.ttf', truetype,
+  'custom/icomoon.svg', svg
+));
+ 
+
+// Examples of using the icon mixin:
+// @include icon('user');
+@include icon('time');
+@include icon('user');
+@include icon('photos');
+@include icon('team');
+@include icon('key');
+@include icon('check');
+@include icon('news');
+@include icon("icon-gift"  , '\e600','custom');
+@include icon("icon-users"  , '\e601','custom');
+@include icon("icon-user"  , '\e602','custom');
+@include icon("icon-user2"  , '\e603','custom');
+@include icon("icon-users2"  , '\e604','custom');
+@include icon("icon-user3"  , '\e605','custom');
+@include icon("icon-user4"  , '\e606','custom');
+@include icon("icon-hammer"  , '\e607','custom');
+@include icon("icon-hammer2"  , '\e608','custom');
+@include icon("icon-signup"  , '\e609','custom');
+@include icon("icon-checkbox-checked"  , '\e60a','custom');
+@include icon("icon-profile"  , '\e60b','custom');
+@include icon("icon-mug"  , '\e60c','custom');
+@include icon("icon-wondering"  , '\e60d','custom');
+@include icon("icon-wondering2"  , '\e60e','custom');

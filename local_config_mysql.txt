@@ -1,0 +1,13 @@
+{
+	"WEB_ROOT": "public",
+    "MySQL_HOSTNAME": "localhost",
+    "MySQL_PORT": 3306,
+    "MySQL_USER": "salma",
+    "MySQL_PASSWORD": "salma",
+    "MySQL_DB": "school_master",
+
+    "EXTDIRECT_NAMESPACE" : "ExtRemote",
+    "EXTDIRECT_API_NAME" : "REMOTING_API",
+    "EXTDIRECT_PATH" : "/direct",
+    "EXTDIRECT_PREFIX" : "DX"
+}

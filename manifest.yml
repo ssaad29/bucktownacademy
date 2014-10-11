@@ -1,0 +1,17 @@
+--- 
+applications: 
+  .: 
+    infra: aws
+    instances: 1
+    services: 
+      schoolishness-mysql: 
+        type: mysql
+    mem: 64M
+    url: ${name}.${target-base}
+    framework: 
+      info: 
+        description: Node.js Application
+        exec: 
+        mem: 64M
+      name: node
+    name: myschoolishness

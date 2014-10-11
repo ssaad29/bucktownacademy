@@ -1,0 +1,15 @@
+delete from absence_owner;
+delete from absence;
+delete from class_bulletins;
+delete from bulletins;
+delete from sponsorship_school;
+delete from sponsorship;
+delete from class_student;
+delete from user_class;
+delete from classroom;
+delete from user_student;
+delete from user_school;
+delete from user;
+delete from student;
+delete from grades;
+delete from school;
