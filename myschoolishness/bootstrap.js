@@ -681,6 +681,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.controller.Admin": [],
   "myschoolishness.controller.Directory": [],
   "myschoolishness.controller.Login": [],
+  "myschoolishness.controller.MyKids": [],
   "myschoolishness.controller.Student": [],
   "myschoolishness.controller.Utils": [],
   "myschoolishness.model.AbsenceAllStaffModel": [],
@@ -720,6 +721,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.model.GetStudentModel": [],
   "myschoolishness.model.GradesModel": [],
   "myschoolishness.model.LoginModel": [],
+  "myschoolishness.model.MyKidsModel": [],
   "myschoolishness.model.ParentKidsModel": [],
   "myschoolishness.model.ParentStudentAssociationModel": [],
   "myschoolishness.model.ParentsModel": [],
@@ -774,6 +776,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.store.GetParentsForStudentStore": [],
   "myschoolishness.store.GetStudentStore": [],
   "myschoolishness.store.GradesStore": [],
+  "myschoolishness.store.MyKidsStore": [],
   "myschoolishness.store.ParentStudentAssociationStore": [],
   "myschoolishness.store.ParentsSettingCategoriesStore": [],
   "myschoolishness.store.ParentsStore": [],
@@ -823,6 +826,9 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.view.ManageBulletins": [],
   "myschoolishness.view.ManageParents": [],
   "myschoolishness.view.ManageStudents": [],
+  "myschoolishness.view.MyClassHome": [],
+  "myschoolishness.view.MyKidsHome": [],
+  "myschoolishness.view.MySchoolHome": [],
   "myschoolishness.view.Register": [],
   "myschoolishness.view.RotatingCarousel": [
     "Ext.RotatingCarousel"
@@ -1576,6 +1582,7 @@ Ext.ClassManager.addNameAliasMappings({
   "myschoolishness.controller.Admin": [],
   "myschoolishness.controller.Directory": [],
   "myschoolishness.controller.Login": [],
+  "myschoolishness.controller.MyKids": [],
   "myschoolishness.controller.Student": [],
   "myschoolishness.controller.Utils": [
     "widget.utils"
@@ -1617,6 +1624,7 @@ Ext.ClassManager.addNameAliasMappings({
   "myschoolishness.model.GetStudentModel": [],
   "myschoolishness.model.GradesModel": [],
   "myschoolishness.model.LoginModel": [],
+  "myschoolishness.model.MyKidsModel": [],
   "myschoolishness.model.ParentKidsModel": [],
   "myschoolishness.model.ParentStudentAssociationModel": [],
   "myschoolishness.model.ParentsModel": [],
@@ -1685,6 +1693,7 @@ Ext.ClassManager.addNameAliasMappings({
   "myschoolishness.store.GetParentsForStudentStore": [],
   "myschoolishness.store.GetStudentStore": [],
   "myschoolishness.store.GradesStore": [],
+  "myschoolishness.store.MyKidsStore": [],
   "myschoolishness.store.ParentStudentAssociationStore": [],
   "myschoolishness.store.ParentsSettingCategoriesStore": [],
   "myschoolishness.store.ParentsStore": [],
@@ -1722,7 +1731,8 @@ Ext.ClassManager.addNameAliasMappings({
     "widget.absence-rollcall"
   ],
   "myschoolishness.view.AbsentManageStaff": [
-    "widget.absence-manage-staff"
+    "widget.absence-manage-staff",
+    "widget.manage-staff"
   ],
   "myschoolishness.view.AbsentManageStudents": [
     "widget.absence-manage-students"
@@ -1802,6 +1812,15 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "myschoolishness.view.ManageStudents": [
     "widget.manage-students"
+  ],
+  "myschoolishness.view.MyClassHome": [
+    "widget.class-home"
+  ],
+  "myschoolishness.view.MyKidsHome": [
+    "widget.my-kids-home"
+  ],
+  "myschoolishness.view.MySchoolHome": [
+    "widget.school-home"
   ],
   "myschoolishness.view.Register": [
     "widget.register"
