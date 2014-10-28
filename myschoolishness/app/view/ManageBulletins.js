@@ -11,6 +11,7 @@ Ext.define('myschoolishness.view.ManageBulletins', {
 		itemId:'Class Bulletins List',
 		listeners: {
             itemtap: function (list, idx, target, record, evt) {
+            	console.log("ITEM TAPP invoked");
             	console.log("calling edit bulletin");
             	sessionStorage.setItem("edit_bulletin.origin","staffEdit");
 				sessionStorage.setItem("edit_bulletin.bulletin_id", record.get("id"));
@@ -20,6 +21,7 @@ Ext.define('myschoolishness.view.ManageBulletins', {
 		},
 	
 	invokeNewFlow: function () {	
+		console.log("New invoked");
 		sessionStorage.setItem("newbulletin.index","0");
 		this.fireEvent("newBulletin", this);
 	},
@@ -42,6 +44,7 @@ Ext.define('myschoolishness.view.ManageBulletins', {
     				scope: this,
     				callback : function(records, operation, success) {
 							if (success) {
+								console.log("GOT DATA for bulletins");
 								this.setStore(bulletinsStore);
 							}
     					}

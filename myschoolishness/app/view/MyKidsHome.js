@@ -48,7 +48,7 @@ Ext.define('myschoolishness.view.MyKidsHome', {
                     					}, ], // items
                     					listeners: {
                         					toggle: function (segBtn, btn, isPressed) {
-                            					if (btn.getText() === "Updates") {
+                            					if (btn.getText() === "Updates:") {
                             						var kidsPanel = Ext.getCmp('kidsPanel');
 													var bulletinsKids = Ext.getCmp('bulletinsKids');	
 													kidsPanel.setActiveItem(0);
@@ -62,6 +62,7 @@ Ext.define('myschoolishness.view.MyKidsHome', {
                         					} // toggle
                     					} // listeners
                	 					},
+               	 					
             
                 			]
            		},
@@ -98,9 +99,12 @@ Ext.define('myschoolishness.view.MyKidsHome', {
 								event: 'tap',
 								fn: 'showAttendance'
 								},
+								
 							]
 
     },
+	
+	
 	
 	showUpdates: function () {
 		var kidsPanel = Ext.getCmp('kidsPanel');
@@ -116,6 +120,7 @@ Ext.define('myschoolishness.view.MyKidsHome', {
 		console.log("ABSENCE LIST " + absenceList.getStore());
 		var kidsPanel = Ext.getCmp('kidsPanel');
 		kidsPanel.setActiveItem(1);
+		var absenceList = Ext.getCmp('kidsAttendance');	
 	},
 		
 	initialize: function() {

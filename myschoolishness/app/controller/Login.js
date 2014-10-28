@@ -33,6 +33,9 @@ Ext.define('myschoolishness.controller.Login', {
 			bulletinView: {
 				showBulletinDetail: 'onShowBulletinDetail'
 			},
+			bulletinDetailView: {
+				goHome: 'goHome',
+			},
 			userCrudCard: {
 				goToLogin: 'goToLogin'
 			},
@@ -126,7 +129,7 @@ Ext.define('myschoolishness.controller.Login', {
 		Ext.Viewport.animateActiveItem(this.getMainView(),myschoolishness.controller.Utils.getDefaultSlideTransition());
 	},*/
 
-	goHome: function () {
+	initHome: function () {
 		console.log("IN GO HOME");
 		var mainView = this.getMainView();
 		if (mainView != null && mainView!=undefined) {
@@ -140,6 +143,14 @@ Ext.define('myschoolishness.controller.Login', {
 				Ext.Viewport.animateActiveItem(mainView,myschoolishness.controller.Utils.getDefaultSlideTransition());
 			}
 		}
+	},
+	
+	goHome: function () {
+		console.log("IN GO HOME");
+		var mainView = this.getMainView();
+		if (mainView != null && mainView!=undefined) {
+				Ext.Viewport.animateActiveItem(mainView,myschoolishness.controller.Utils.getDefaultSlideTransition());
+			}
 	},
 	
 	onSignOffCommand: function () {
@@ -231,7 +242,7 @@ console.log("isAutherized!success " + success);
 						record.set('public_profile', records[0].get("public_profile") );
 						record.set('last_sync', new Date() );
 						loginView.setMasked(false);
-						this.goHome();
+						this.initHome();
 					} else {
 						myschoolishness.controller.Utils.logout();
 					}

@@ -20,14 +20,16 @@ Ext.define('myschoolishness.controller.Admin', {
 			bulletinClassroomsPanel: 'bulletins-classrooms-panel',
 			viewbulletindetails: 'viewbulletindetails',
 			loginView: 'loginview',
-			adminHome: 'admin-home'
+			adminHome: 'admin-home',
+			kidsHome: 'my-kids-home',
+			bulletinHome: 'bulletin-home'
 		},
 		control: {
 			adminHome: {
 				goHome: 'goHome',
 			},
-			viewbulletindetails: {
-				goHome: 'goHome',
+			bulletinHome: {
+				newBulletin: 'newBulletin'
 			},
 			loginview: {
 				doNewRegistration: 'newRegistration',
@@ -67,6 +69,7 @@ Ext.define('myschoolishness.controller.Admin', {
 			mainView: {
 				showStaff: 'showStaffHome',
 				goHome: 'goHome',
+				showBulletinAdminList: 'manageBulletins',
 			},
 			bulletinCrudCard: {
 				showEditBulletin: 'editBulletin',
@@ -113,6 +116,13 @@ Ext.define('myschoolishness.controller.Admin', {
         }
 	},
 	
+	manageBulletins: function () {
+		console.log("Fired!!");
+		var bulletinHome = this.getBulletinHome();
+		bulletinHome.loadData();
+		Ext.Viewport.animateActiveItem(bulletinHome,myschoolishness.controller.Utils.getDefaultSlideTransition());
+	},
+	
 	showBulletinAdminList: function () {
 		var staffHome = this.getStaffHome();
 		staffHome.showBulletins();
@@ -151,14 +161,12 @@ Ext.define('myschoolishness.controller.Admin', {
 	},
 	
 	showUserCard: function () {
-		console.log("SHOWING USER CARD");
 		var userCrudCard = this.getUserCrudCard();
 		userCrudCard.activateItem();
 		Ext.Viewport.animateActiveItem(userCrudCard,myschoolishness.controller.Utils.getDefaultSlideTransition());
 	},
 	
 	showEditStudent: function () {
-		console.log("showEditStudent ");
 		var editStudentView = this.getEditStudentView();
 		editStudentView.configureList();
 		Ext.Viewport.animateActiveItem(editStudentView,myschoolishness.controller.Utils.getDefaultSlideTransition());
@@ -191,6 +199,7 @@ Ext.define('myschoolishness.controller.Admin', {
 	},
 	
 	newBulletin: function () {
+		console.log("NEW fired ");
 		var bulletinCrudCard = this.getBulletinCrudCard();
 		bulletinCrudCard.doNext();
 		Ext.Viewport.animateActiveItem(bulletinCrudCard,myschoolishness.controller.Utils.getDefaultSlideTransition());

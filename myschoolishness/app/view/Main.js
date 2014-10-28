@@ -13,49 +13,26 @@ config: {
     		align: 'center',
     		title: '',
     			items: [
-    					{
-                					   		xtype: 'button',
-		        							itemId:'prefButton',
-		        							id:'prefButton',
-											iconCls: 'settings',
-											title: 'Preferences' ,
-											align: 'center',
-                							},
-                							{
-		        							xtype: 'button',
-		        							itemId:'adminButton',
-		        							id:'adminButton',
-											iconCls: 'key',
-											text: 'admin' ,
-											style: 'font-size:13px;',
-											iconAlign: 'top',
-											align: 'center',
-                							},
-                							{
+                			{
+                				xtype: 'segmentedbutton',
+                				itemId:'mainSegmentedButton',
+		        				id:'mainSegmentedButton',
+                				allowMultiple: false,
+                				items: [{
+                    				text: 'My Kids',
+                    				pressed: true
+                				}, {text: 'My Class'
+                				}, {text: 'My School'
+                				}, {text: 'Directory'
+                				}, 
+                				]},
+                				{
 		        							xtype: 'button',
 		        							itemId:'logoutButton',
 		        							id:'logoutButton',
 		        							ui:'small',
 											text: 'Logout' ,
 											align: 'center',
-                							},
-                							
-                							{
-                							xtype: 'segmentedbutton',
-                							itemId:'mainSegmentedButton',
-		        							id:'mainSegmentedButton',
-                							allowMultiple: false,
-                							items: [{
-                    							text: 'My Kids',
-                    							pressed: true
-                							}, {
-                    							text: 'My Class'
-                							}, {
-                    							text: 'My School'
-                							}, {
-                    							text: 'Directory'
-                							}, 
-                							]
                 							},
 								]
 		
@@ -106,6 +83,35 @@ config: {
         								layout: 'fit',
 										flex:1,
         								items: [
+        									{
+    										xtype: 'toolbar',
+    										docked: 'top',
+    										align: 'center',
+    										title: '',
+    										items: [
+    										{
+                					   		xtype: 'button',
+		        							itemId:'prefButton',
+		        							id:'prefButton',
+											iconCls: 'settings',
+											title: 'Preferences' ,
+											align: 'center',
+                							},
+                							{
+		        							xtype: 'button',
+		        							itemId:'adminButton',
+		        							id:'adminButton',
+											iconCls: 'key',
+											text: 'admin' ,
+											style: 'font-size:13px;',
+											iconAlign: 'top',
+											align: 'center',
+                							},
+                							
+								]
+		
+        						
+        									},
 		        		    				{
 		        							xtype: 'rotating-carousel',
 		        							}
@@ -117,7 +123,11 @@ config: {
 			event: 'tap',
 			fn: 'onAbsentTap'
 		},
-		
+		{
+								delegate: '#addNewNote',
+								event: 'tap',
+								fn: 'newNote'
+								},
 		{
 			delegate: '#prefButton',
 			event: 'tap',
@@ -152,10 +162,16 @@ config: {
 		],	
         },
 
+	newNote: function () {
+		console.log("Should fire show list");
+		this.fireEvent('showBulletinAdminList');
+	},
+	
 	onSegButtonTap: function (container, button, pressed) {
 		var homePanel = Ext.getCmp('homePanel');	
 		if (button.getText() === "My Kids") {
 			this.loadData();
+			homePanel.setActiveItem(0);
 		} else if (button.getText() === "My Class") {
 			this.loadData();
 			homePanel.setActiveItem(1);
@@ -208,9 +224,9 @@ config: {
 			//activeItemIndex = 0;
 		}
 		
-		console.log("SETTING to ACTIVE " + activeItemIndex);
-		var homePanel = Ext.getCmp('homePanel');	
-		homePanel.setActiveItem(activeItemIndex);
+		//console.log("SETTING to ACTIVE " + activeItemIndex);
+		//var homePanel = Ext.getCmp('homePanel');	
+		//homePanel.setActiveItem(activeItemIndex);
 	},
 	
 	onPrefTap: function () {
@@ -257,7 +273,7 @@ config: {
 			if (roles.indexOf("A") === -1 ) {
 				segmentedbutton.removeAt(2);
 				console.log("NOT AN ADMIN");
-			}
+			} 
 			if (roles.indexOf("T") === -1 ) {
 				segmentedbutton.removeAt(1);
 				console.log("NOT AN TEACHER");
@@ -266,6 +282,8 @@ config: {
 				segmentedbutton.removeAt(0);
 				console.log("NOT a PARENT");
 			} 
+			
+			segmentedbutton.setPressed(0);
 		}
 	},
 	

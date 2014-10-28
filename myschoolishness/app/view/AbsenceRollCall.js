@@ -10,11 +10,17 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
 		indexBar: false,
 		store: 'AttendanceStore',
 		itemTpl:'{display_first_name} {display_last_name} ',
-		itemId:'attendanceList',
+		itemId:'attendanceNamesList',
+		id:'attendanceNamesList',
 		listeners: {
                 itemtap: function (list, idx, target, record, evt) {
                 	setTimeout(function() {
 					console.log("Item tap" + idx);
+					console.log("Student id I clicked " + record.get("student_id"));
+					sessionStorage.setItem("attendance.id_type", "student");
+					sessionStorage.setItem("attendance.student_id", record.get("student_id"));
+					sessionStorage.setItem("attendance.first_name", record.get("first_name"));
+					sessionStorage.setItem("attendance.last_name", record.get("last_name"));
 					if (this.actions) {
 					console.log("Hidden" + this.actions.getHidden());
 					}
@@ -25,14 +31,9 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
 		        								xtype: 'actionsheet',
 		        								items: [
         											{
-            										text: 'Roll call',
+            										text: 'Attendance',
             										scope: this,
             											handler: function() {
-            												
-            												sessionStorage.setItem("attendance.id_type", "student");
-															sessionStorage.setItem("attendance.student_id", record.get("student_id"));
-															sessionStorage.setItem("attendance.first_name", record.get("first_name"));
-															sessionStorage.setItem("attendance.last_name", record.get("last_name"));
 															sessionStorage.setItem("absence.edit.role", "approver");
 															window.location.hash = 'absence/absenceList';
 															//this.fireEvent('showAbsenceList');
@@ -41,17 +42,33 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
             											}
         											},
         											{
-            										text: 'Sign in / Sign out',
+            										text: 'Sign out',
             										scope: this,
             											handler: function() {
             												this.actions.hide();
-            												//this.up().up().up().onRecordTardy();
+															var attendanceNamesList = Ext.getCmp('attendanceNamesList');
+            												attendanceNamesList.fireShowSignaturePad();
+            												console.log("Hiding...");
+            											}
+        											},
+        											{
+            										text: 'Absent Today',
+            										scope: this,
+            											handler: function() {
+															sessionStorage.setItem("absence.edit.role", "approver");
+            												this.actions.hide();
+            												var attendanceNamesList = Ext.getCmp('attendanceNamesList');
+            												attendanceNamesList.fireMarkOutForToday();
+            												//console.log("ROLL CALL DOWN " + this.down('#absence-rollcall'));
+            												//console.log("ROLL CALL UP " + this.up('#absence-rollcall'));
+            												//this.down('#absence-rollcall').fireMarkOutForToday();
+            												//this.parent.parent.parent.parent.fireEvent('markOutToday');
             												console.log("Hiding...");
             											}
         											},
     											]
 		        							})
-		        						} else if (this.actions.getHidden() === true){
+		        						} else {
 		        							console.log("Showing OLD");
 		        							this.actions.show();
 		        							console.log("Showing...");
@@ -61,7 +78,42 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
         		
 			}
 		},
-			
+	
+	fireMarkOutForToday: function () {	
+	 	this.fireEvent('markOutToday');
+	},
+	
+	fireShowSignaturePad: function () {	
+	console.log("FIRE showSigPanel");
+	 	this.checkSignature();
+	},
+	
+	checkSignature: function (imageData) {
+    		console.log("checkSignature called");
+		 	var checkSignatureStore = Ext.create('myschoolishness.store.CheckSignedOutStore', {
+			model: 'myschoolishness.model.CheckSignedOutModel'
+			});
+			console.log("checkSignatureStore student ID " + sessionStorage.getItem("attendance.student_id"));
+			checkSignatureStore.load({
+    		//define the parameters of the store:
+    		params: {
+        		student_id: sessionStorage.getItem("attendance.student_id"),
+        		token: sessionStorage.getItem("token"),
+    		    				},
+    				scope: this,
+    				callback : function(records, operation, success) {
+							if (success) {
+								if (records.length===0) {
+									//console.log("No signature found for today. Inserting");
+									//this.insertSignature(imageData);
+									this.fireEvent('showSigPanel');
+								} else {
+									Ext.Msg.alert('Unable to complete', 'Already signed out for today', Ext.emptyFn);
+								}
+							}
+    					}
+					})
+	},		
 	tabChosen: function () {	
 	 	this.loadData();
 	},

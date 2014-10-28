@@ -2,9 +2,6 @@ Ext.define('myschoolishness.view.Register', {
     extend: 'Ext.Panel',
 	alias: "widget.register",
 	xtype: 'register',
-	requires: [
-		'Ext.ux.signaturefield'
-    ],
 	config: {
 		title: 'Register',
 		fullstreen: true,

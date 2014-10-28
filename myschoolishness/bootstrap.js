@@ -45,9 +45,10 @@ Ext.Loader.addClassPathMappings({
   "Ext.device.sqlite.SQLResultSet": "touch/src/device/sqlite/Sencha.js",
   "Ext.device.sqlite.SQLResultSetRowList": "touch/src/device/sqlite/Sencha.js",
   "Ext.device.sqlite.SQLTransaction": "touch/src/device/sqlite/Sencha.js",
+  "SignatureField": "touch/src/SignatureField",
+  "SignatureField.Canvas": "touch/src/SignatureField/SignatureField.js",
   "myschoolishness": "app",
-  "myschoolishness.model.validationsStudentNameValidation": "app/model/validations/validationsStudentNameValidation.js",
-  "ux.signature.Canvas": "touch/src/ux/signaturefield.js"
+  "myschoolishness.model.validationsStudentNameValidation": "app/model/validations/validationsStudentNameValidation.js"
 });
 Ext.ClassManager.addNameAlternateMappings({
   "Ext.AbstractComponent": [],
@@ -668,7 +669,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.ux.picker.Time": [
     "Ext.TimePicker"
   ],
-  "Ext.ux.signaturefield": [],
   "Ext.ux.slidenavigation.View": [],
   "Ext.viewport.Android": [],
   "Ext.viewport.Default": [],
@@ -677,11 +677,14 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.viewport.WindowsPhone": [
     "Ext.viewport.WP"
   ],
+  "SignatureField.Canvas": [],
+  "SignatureField.SignatureField": [],
   "myschoolishness.controller.Absence": [],
   "myschoolishness.controller.Admin": [],
   "myschoolishness.controller.Directory": [],
   "myschoolishness.controller.Login": [],
   "myschoolishness.controller.MyKids": [],
+  "myschoolishness.controller.Signature": [],
   "myschoolishness.controller.Student": [],
   "myschoolishness.controller.Utils": [],
   "myschoolishness.model.AbsenceAllStaffModel": [],
@@ -705,6 +708,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.model.CategoryModel": [],
   "myschoolishness.model.CheckDuplicateEmailModel": [],
   "myschoolishness.model.CheckEmailTokenModel": [],
+  "myschoolishness.model.CheckSignedOutModel": [],
   "myschoolishness.model.CheckTokenModel": [],
   "myschoolishness.model.ClassroomForBulletinIdModel": [],
   "myschoolishness.model.ClassroomModel": [],
@@ -720,6 +724,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.model.GetParentsForStudentModel": [],
   "myschoolishness.model.GetStudentModel": [],
   "myschoolishness.model.GradesModel": [],
+  "myschoolishness.model.InsertSignatureModel": [],
   "myschoolishness.model.LoginModel": [],
   "myschoolishness.model.MyKidsModel": [],
   "myschoolishness.model.ParentKidsModel": [],
@@ -761,6 +766,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.store.BulletinClassAssociationStore": [],
   "myschoolishness.store.CheckDuplicateEmailStore": [],
   "myschoolishness.store.CheckEmailTokenStore": [],
+  "myschoolishness.store.CheckSignedOutStore": [],
   "myschoolishness.store.CheckTokenStore": [],
   "myschoolishness.store.ClassroomForBulletinIdStore": [],
   "myschoolishness.store.ClassroomStore": [],
@@ -776,6 +782,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.store.GetParentsForStudentStore": [],
   "myschoolishness.store.GetStudentStore": [],
   "myschoolishness.store.GradesStore": [],
+  "myschoolishness.store.InsertSignatureStore": [],
   "myschoolishness.store.MyKidsStore": [],
   "myschoolishness.store.ParentStudentAssociationStore": [],
   "myschoolishness.store.ParentsSettingCategoriesStore": [],
@@ -805,6 +812,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.view.BulletinBoard": [],
   "myschoolishness.view.BulletinCrudCard": [],
   "myschoolishness.view.BulletinDetails": [],
+  "myschoolishness.view.BulletinHome": [],
   "myschoolishness.view.BulletinsClassroomsPanel": [],
   "myschoolishness.view.ChildCrudCard": [],
   "myschoolishness.view.ChooseClassWindow": [],
@@ -833,6 +841,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.view.RotatingCarousel": [
     "Ext.RotatingCarousel"
   ],
+  "myschoolishness.view.SignOutView": [],
+  "myschoolishness.view.SignaturePad": [],
   "myschoolishness.view.SignaturePanel": [],
   "myschoolishness.view.StudentClassGradePanel": [],
   "myschoolishness.view.StudentDetailsPanel": [],
@@ -846,8 +856,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.view.UserPasswordForm": [],
   "myschoolishness.view.UserProfilePanel": [],
   "myschoolishness.view.UserRolesPanel": [],
-  "myschoolishness.view.ViewBulletinDetails": [],
-  "ux.signature.Canvas": []
+  "myschoolishness.view.ViewBulletinDetails": []
 });
 Ext.ClassManager.addNameAliasMappings({
   "Ext.AbstractComponent": [],
@@ -1565,9 +1574,6 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.picker.Time": [
     "widget.timepicker"
   ],
-  "Ext.ux.signaturefield": [
-    "widget.signaturefield"
-  ],
   "Ext.ux.slidenavigation.View": [
     "widget.slidenavigationview"
   ],
@@ -1578,11 +1584,18 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.viewport.Ios": [],
   "Ext.viewport.Viewport": [],
   "Ext.viewport.WindowsPhone": [],
+  "SignatureField.Canvas": [
+    "widget.signaturefieldcanvas"
+  ],
+  "SignatureField.SignatureField": [
+    "widget.signaturefield"
+  ],
   "myschoolishness.controller.Absence": [],
   "myschoolishness.controller.Admin": [],
   "myschoolishness.controller.Directory": [],
   "myschoolishness.controller.Login": [],
   "myschoolishness.controller.MyKids": [],
+  "myschoolishness.controller.Signature": [],
   "myschoolishness.controller.Student": [],
   "myschoolishness.controller.Utils": [
     "widget.utils"
@@ -1608,6 +1621,7 @@ Ext.ClassManager.addNameAliasMappings({
   "myschoolishness.model.CategoryModel": [],
   "myschoolishness.model.CheckDuplicateEmailModel": [],
   "myschoolishness.model.CheckEmailTokenModel": [],
+  "myschoolishness.model.CheckSignedOutModel": [],
   "myschoolishness.model.CheckTokenModel": [],
   "myschoolishness.model.ClassroomForBulletinIdModel": [],
   "myschoolishness.model.ClassroomModel": [],
@@ -1623,6 +1637,7 @@ Ext.ClassManager.addNameAliasMappings({
   "myschoolishness.model.GetParentsForStudentModel": [],
   "myschoolishness.model.GetStudentModel": [],
   "myschoolishness.model.GradesModel": [],
+  "myschoolishness.model.InsertSignatureModel": [],
   "myschoolishness.model.LoginModel": [],
   "myschoolishness.model.MyKidsModel": [],
   "myschoolishness.model.ParentKidsModel": [],
@@ -1678,6 +1693,7 @@ Ext.ClassManager.addNameAliasMappings({
   "myschoolishness.store.BulletinClassAssociationStore": [],
   "myschoolishness.store.CheckDuplicateEmailStore": [],
   "myschoolishness.store.CheckEmailTokenStore": [],
+  "myschoolishness.store.CheckSignedOutStore": [],
   "myschoolishness.store.CheckTokenStore": [],
   "myschoolishness.store.ClassroomForBulletinIdStore": [],
   "myschoolishness.store.ClassroomStore": [],
@@ -1693,6 +1709,7 @@ Ext.ClassManager.addNameAliasMappings({
   "myschoolishness.store.GetParentsForStudentStore": [],
   "myschoolishness.store.GetStudentStore": [],
   "myschoolishness.store.GradesStore": [],
+  "myschoolishness.store.InsertSignatureStore": [],
   "myschoolishness.store.MyKidsStore": [],
   "myschoolishness.store.ParentStudentAssociationStore": [],
   "myschoolishness.store.ParentsSettingCategoriesStore": [],
@@ -1748,6 +1765,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "myschoolishness.view.BulletinDetails": [
     "widget.bulletindetails"
+  ],
+  "myschoolishness.view.BulletinHome": [
+    "widget.bulletin-home"
   ],
   "myschoolishness.view.BulletinsClassroomsPanel": [
     "widget.bulletins-classrooms-panel"
@@ -1828,6 +1848,12 @@ Ext.ClassManager.addNameAliasMappings({
   "myschoolishness.view.RotatingCarousel": [
     "widget.rotating-carousel"
   ],
+  "myschoolishness.view.SignOutView": [
+    "widget.signoutview"
+  ],
+  "myschoolishness.view.SignaturePad": [
+    "widget.signaturepad"
+  ],
   "myschoolishness.view.SignaturePanel": [
     "widget.signatureview"
   ],
@@ -1869,9 +1895,6 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "myschoolishness.view.ViewBulletinDetails": [
     "widget.viewbulletindetails"
-  ],
-  "ux.signature.Canvas": [
-    "widget.signaturefieldcanvas"
   ]
 });
 

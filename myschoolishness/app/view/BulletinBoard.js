@@ -5,7 +5,7 @@ Ext.define('myschoolishness.view.BulletinBoard', {
 config: {
 	 title: 'Welcome',
      store : 'AllBulletinsStore',
-     itemTpl: '{title} ',
+     itemTpl: '• <font size=2>{title} </font>',
 	title: 'News',
 	listeners: {
                 itemtap: function (list, idx, target, record, evt) {

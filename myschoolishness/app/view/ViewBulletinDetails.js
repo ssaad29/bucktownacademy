@@ -2,12 +2,10 @@ Ext.define('myschoolishness.view.ViewBulletinDetails', {
     extend: 'Ext.Panel',
 	alias: "widget.viewbulletindetails",
     xtype: 'viewbulletindetails',
-	fullscreen: true,
 	title: 'View Bulletin',
 	config: {
 		title: 'View Bulleting',
-		layout: 'fit',
-		fullstreen: true,
+		layout: 'vbox',
         items: [
         		{
                 			xtype: 'titlebar',
@@ -20,31 +18,24 @@ Ext.define('myschoolishness.view.ViewBulletinDetails', {
 		        				id:'backButton',
 		        				ui: 'back',
 		        				padding: '10px',
-		        				text: 'Back'
+		        				text: 'Home'
                 				}
                 				]
            		},
-        		{ xtype: 'fieldset',
-                   itemId:'bulletinInfo',
-		        	items: [
 		        		    {
-                    		xtype: 'textfield',
+                    		xtype: 'label',
                     		itemId: 'bulletinTitle',
-                    		placeHolder: "Title",
 		        		    name: 'bulletinTitle',
-		        		    disabled: true,
-                    		value:""
+    						style: 'text-align: center;font-size:0.90em;',
+    						padding: 6,
                     		},
+                    		
                     		{
-                    		xtype: 'textareafield',
-                    		placeHolder: "Message",
+                    		xtype: 'label',
                     		itemId: 'bulletinMessage',
-                    		disabled: true,
 		        		    name: 'bulletinMessage',
-                    		value:""
+		        		    style: 'font-size:0.75em;',
                     		},
-		        		    ]
-		        }
         ],
         		        	listeners: [
 		        		{
@@ -60,27 +51,23 @@ onBackButtonTap: function () {
 },
 	
 setMessage: function (value) {
-	var fieldSet = this.getComponent('bulletinInfo');
-	var messageField = fieldSet.getComponent("bulletinMessage");
-	messageField.setValue(value);
+	var messageField = this.getComponent("bulletinMessage");
+	messageField.setHtml(value);
 },
 
 setTitle: function (value) {
-	var fieldSet = this.getComponent('bulletinInfo');
-	var titleField = fieldSet.getComponent("bulletinTitle");
-	titleField.setValue(value);
+	var titleField = this.getComponent("bulletinTitle");
+	titleField.setHtml(value);
 },
 
 getMessage: function () {
-	var fieldSet = this.getComponent('bulletinInfo');
-	var messageField = fieldSet.getComponent("bulletinMessage");
-	return messageField.getValue();
+	var messageField = this.getComponent("bulletinMessage");
+	return messageField.getHtml();
 },
 
 getTitle: function () {
-	var fieldSet = this.getComponent('bulletinInfo');
-	var titleField = fieldSet.getComponent("bulletinTitle");
-	return titleField.getValue();
+	var titleField = this.getComponent("bulletinTitle");
+	return titleField.getHtml();
 },
 
 })

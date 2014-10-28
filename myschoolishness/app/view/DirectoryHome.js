@@ -24,15 +24,6 @@ Ext.define('myschoolishness.view.DirectoryHome', {
                 		itemId: 'dirTitlebar',
                 		docked: 'top',
                 		items: [
-                			
-                			{
-		        			xtype: 'button',
-		        			itemId:'backButtonDir',
-		        			id:'backButton',
-		        			ui: 'back',
-		        			padding: '10px',
-		        			text: 'Back'
-                			},
                 			{
                              xtype: 'searchfield',
                              id:'searchfieldDirectory',
