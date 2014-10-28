@@ -70,7 +70,7 @@ Ext.application({
     launch: function() {     
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
-		console.log("LAUNCHING");
+		console.log("LAUNCHING:NEW");
         // Initialize the main view
         //Ext.Viewport.add(Ext.create('myschoolishness.view.Login'));
     	Ext.Viewport.add([
