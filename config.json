@@ -30,9 +30,9 @@
     "MySQLConfig": {
         "hostname": "us-cdbr-iron-east-01.cleardb.net",
         "port": 3306,
-        "user": "b9292906831891",
-        "password": "14a9bced",
-        "db": "heroku_b076f62bc11b3ef",
+        "user": "b79c17503204e9",
+        "password": "7e75a554",
+        "db": "heroku_47a8991097d29fc",
         "key": "./config/EC2-SSH.pem",
         "cert": "./config/amazon-rds-ca-cert.pem"
     },
@@ -40,9 +40,9 @@
     "RedisConfig": {
         "hostname": "us-cdbr-iron-east-01.cleardb.net",
         "port": 3306,
-        "user": "b9292906831891",
-        "password": "3ee90982",
-        "db": "heroku_b076f62bc11b3ef"
+        "user": "b79c17503204e9",
+        "password": "7e75a554",
+        "db": "heroku_47a8991097d29fc"
     },
     
     "LocalRedisConfig": {

@@ -12,6 +12,15 @@ Ext.define('myschoolishness.view.BulletinDetails', {
         		{ xtype: 'fieldset',
                    itemId:'bulletinInfo',
 		        	items: [
+		        			{
+		        		    xtype:'checkboxfield',
+		        		    name: 'school-level',
+		        		    label: 'School Wide Bulletin',
+		        		    labelWidth: '50%',
+		        		    itemId: 'school-wide',
+		        		    checked: true,
+		        		    labelWrap:'false',
+		        			},
 		        		    {
                     		xtype: 'textfield',
                     		itemId: 'bulletinTitle',
@@ -30,7 +39,13 @@ Ext.define('myschoolishness.view.BulletinDetails', {
 		        }
         ],
 	},
-	
+
+setType: function (type) {
+	var fieldSet = this.getComponent('bulletinInfo');
+	var schoolWideCheckBox = fieldSet.getComponent("school-wide");
+	schoolWideCheckBox.setChecked(type);
+},
+
 setMessage: function (value) {
 	var fieldSet = this.getComponent('bulletinInfo');
 	var messageField = fieldSet.getComponent("bulletinMessage");
@@ -53,6 +68,12 @@ getTitle: function () {
 	var fieldSet = this.getComponent('bulletinInfo');
 	var titleField = fieldSet.getComponent("bulletinTitle");
 	return titleField.getValue();
+},
+
+getType: function () {
+	var fieldSet = this.getComponent('bulletinInfo');
+	var schoolWideCheckBox = fieldSet.getComponent("school-wide");
+	return schoolWideCheckBox.isChecked();
 },
 
 })

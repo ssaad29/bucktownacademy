@@ -27,6 +27,7 @@ Ext.define('myschoolishness.controller.Signature', {
     },
     
     insertSignature: function (imageData) {
+    		console.log("insertSignature called");
 		 	var insertSignatureStore = Ext.create('myschoolishness.store.InsertSignatureStore', {
 			model: 'myschoolishness.model.InsertSignatureModel'
 			});

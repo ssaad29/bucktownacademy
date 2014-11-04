@@ -5,7 +5,7 @@ INSERT INTO `class_bulletins`
 `created_by`)
 VALUES
 (
-11,
+61,
 331,
 NOW(),
 'Admin'

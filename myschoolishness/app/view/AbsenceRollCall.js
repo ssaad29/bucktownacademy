@@ -25,8 +25,14 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
 					console.log("Hidden" + this.actions.getHidden());
 					}
 					console.log("this.actions" + this.actions);
-					if (!this.actions) {
-										console.log("CREATING NEW");
+					if (this.actions) {
+						console.log("GET HIDDEN?? " + this.actions.getHidden());
+						console.log("IS HIDDEN?? " + this.actions.isHidden());
+					} else {
+						console.log("ACTIONS NOT FOUND ");
+					}
+					if (!this.actions || this.actions.isHidden()) {
+						//				console.log("CREATING NEW");
 		        							this.actions = Ext.Viewport.add({
 		        								xtype: 'actionsheet',
 		        								items: [

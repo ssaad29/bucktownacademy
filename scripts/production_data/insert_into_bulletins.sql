@@ -8,7 +8,7 @@ INSERT INTO `bulletins`
 VALUES
 (
 'Welcome',
-'Welcome to the Tribune YMCA mobile website!. Log in here to stay in touch with whats happening at camp',
+'Welcome to the Bucktown Academy Parent Portal!',
  11,
  0,
 NOW(),

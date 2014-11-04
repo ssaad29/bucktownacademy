@@ -6,7 +6,7 @@ INSERT INTO `user_class`
 VALUES
 (
 331,
-1831,
+1891,
 NOW(),
 'Admin'
 );
@@ -20,7 +20,7 @@ INSERT INTO `user_class`
 VALUES
 (
 331,
-1851,
+1871,
 NOW(),
 'Admin'
 );

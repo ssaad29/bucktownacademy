@@ -250,7 +250,6 @@ config: {
 	},
 	
 	setRoles: function (roles) {
-	console.log("set roles called in main");
 	 var me = this;
 	 var dir = Ext.getCmp('directoryButton');	
 		
@@ -264,26 +263,30 @@ config: {
 	
 	configureTabs: function () {
 		var roles = sessionStorage.getItem("roles");
-		console.log("ROLES " + roles);
 		var segmentedbutton = Ext.getCmp("mainSegmentedButton");
 		
 		var items = segmentedbutton.getItems();
-		
+		var toPress = [];
+		toPress[0] = 0;
 		if (items.length === 4) {
+			
+			if (roles.indexOf("A") != -1 ) {
+				toPress[0] = 2;
+			}
+			if (roles.indexOf("T") != -1 ) {
+				toPress[0] = 1;
+			}  
+			segmentedbutton.setPressedButtons(toPress);
+
 			if (roles.indexOf("A") === -1 ) {
 				segmentedbutton.removeAt(2);
-				console.log("NOT AN ADMIN");
 			} 
 			if (roles.indexOf("T") === -1 ) {
 				segmentedbutton.removeAt(1);
-				console.log("NOT AN TEACHER");
 			}
 			if (roles.indexOf("P") === -1 ) {
 				segmentedbutton.removeAt(0);
-				console.log("NOT a PARENT");
 			} 
-			
-			segmentedbutton.setPressed(0);
 		}
 	},
 	

@@ -14,19 +14,19 @@ INSERT INTO school
 `admin_email`)
 VALUES
 (
-'McCormick Tribune YMCA',
-'1834 N. Lawndale Ave',
+'Bucktown Academy',
+'1903 N Milwaukee Ave, Chicago, IL 60647',
 '',
 'Chicago',
 'IL',
 '60647',
-'773.235.2525',
-'Metro Chicago Y',
+'(773) 666-5788',
+'None',
 null,
 NOW(),
 'loader',
 null,
-'admin@schoolishness.com'
+'Bucktownacademy@gmail.com'
 );
 
 commit;

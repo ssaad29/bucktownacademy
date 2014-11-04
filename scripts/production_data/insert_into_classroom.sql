@@ -9,7 +9,7 @@ INSERT INTO classroom
 VALUES
 (
 11,
-'Summer Camp',
+'PreK',
 0,
 NOW(),
 NOW(),

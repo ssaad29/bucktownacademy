@@ -6,7 +6,7 @@ Ext.define('myschoolishness.model.CheckSignedOutModel', {
 		proxy: {
             //Set proxy type
             type: 'direct',
-			directFn:'ExtRemote.DXSignature.isSignedOutCheck',
+			directFn:'ExtRemote.DXSignature.alreadySignedOutCheck',
         },
 	}
 })

@@ -143,7 +143,7 @@ Ext.define('myschoolishness.view.BulletinCrudCard', {
 		console.log("SAVE called");
 		var detailsPanel = Ext.getCmp("bulletinDetailsPanel");
 		var isValid = this.validateBulletin(detailsPanel.getTitle(),detailsPanel.getMessage());
-		
+		var type = detailsPanel.getType();
 		if (!isValid) {
 				return;
 			} else {
@@ -198,6 +198,7 @@ Ext.define('myschoolishness.view.BulletinCrudCard', {
 								var detailsPanel = Ext.getCmp("bulletinDetailsPanel");
 								detailsPanel.setTitle(records[0].get('title'));
 								detailsPanel.setMessage(records[0].get('message'));
+								detailsPanel.setType(records[0].get('type'));
 							}
     					}
 					})

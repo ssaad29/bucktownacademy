@@ -147,7 +147,7 @@ var DXBulletins  = {
         
 		var newBulletinQuery = "INSERT INTO bulletins (title, message, type,school_id,creation_date,created_by) VALUES ( ?,?,?,?,NOW(),?)";
 		//var classBulletinInsertQuery = "INSERT INTO class_bulletins (bulletin_id, classroom_id,creation_date,created_by) VALUES ( ?,?,?,?)";
-		var bulletinUpdateQuery = "UPDATE bulletins SET title=?, message=? where id = ?";
+		var bulletinUpdateQuery = "UPDATE bulletins SET title=?, message=?,type=? where id = ?";
 
 		//This is a new Bulletin
 		if (!db.isValidValue(bulletin_id)) {  //NEW Bulletin
@@ -164,7 +164,8 @@ var DXBulletins  = {
 				var paramsList = new Array();
 			    paramsList[0] = title;
 			    paramsList[1] = message;
-			    paramsList[2] = bulletin_id;
+			    paramsList[2] = type;
+			    paramsList[3] = bulletin_id;
 				db.queryWithParams(bulletinUpdateQuery,paramsList,callback,true);
 		} 
 		}

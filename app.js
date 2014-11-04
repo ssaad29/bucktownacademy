@@ -33,47 +33,8 @@ var ServerConfig = nconf.get("ServerConfig"),
     LocalRedisConfig = nconf.get("LocalRedisConfig"),
 	EmailConfig = nconf.get("EmailConfig");
 	
-var pool  = mysql.createPool({
-  connectionLimit : 5,
-  host     : MySQLConfig.hostname,
-  user     : MySQLConfig.user,
-  password : MySQLConfig.password,
-  database : MySQLConfig.db,
-});
 
-var numConcurrantConnections = 0;
-var numMaxConnections = 9;
 
-logWaitingForConnection = function(){
-	console.log("Waiting for a connection " + numConcurrantConnections);
-};
-
-getConnection = function(){
-	console.log("GETTING THE CONN " + numConcurrantConnections);
-	var newConn = null;
-	
-	while (numConcurrantConnections > numMaxConnections) {
-		setTimeout(logWaitingForConnection, 2000);
-	}
-	numConcurrantConnections = numConcurrantConnections + 1;
-	
-	try {
-		newConn = mysql.createConnection({
-  		host     : MySQLConfig.hostname,
-  		user     : MySQLConfig.user,
-  		password : MySQLConfig.password,
-  		database : MySQLConfig.db,
-		});
-		console.log("Created new connection... " + newConn);
-		newConn.connect();
-		console.log("Connected ");
-		} catch (ex) {
-			console.log("getConnection has ERROR " + err);
-    		handleDBError(ex);
-  		}
-  		
-  		return newConn
-};
   
 
 var env = ServerConfig.env;
@@ -108,7 +69,6 @@ var port =  process.env.PORT || ExtDirectConfig.port;
 console.log("PRINTING CONFIG ");
 console.log("server " + server);
 console.log("port " + port);
-console.log("pool " + pool);
 console.log("host " + MySQLConfig.hostname);
 console.log("user " + MySQLConfig.user);
 console.log("password " + MySQLConfig.password);
@@ -235,12 +195,6 @@ console.log("SID!!!!" + sid);
 }
 });
 
-
-
-var mysqlDisconnect = function(conn){
-    conn.release();
-};
-
 var getCleanValue = function(value) {
 	if (value === null || value === undefined) {
 		return "";
@@ -270,18 +224,37 @@ var isValidToken = function(clientToken,serverToken) {
 	return true;
 };
 
-var handleDBError = function(err){
-		console.log("Handling error " + err);
-		console.log("CODE " + err.code);
-		console.log("PROTOCOL_CONNECTION_LOST " + PROTOCOL_CONNECTION_LOST);
-       	if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-    			console.log("SERVER DISCONNECT");
-    	} else if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-    			console.log("SERVER DISCONNECT");
-    	} else {     
-    			console.log("Fatal Error " + err.code);
-      			throw err;                                  // server variable configures this)
-    	}
+
+handleDBError = function(ex){
+	console.log("handleDBError called " + ex);
+};
+
+getConnection = function(){
+	console.log("GETTING THE CONN ");
+	var newConn = null;
+	
+	
+	try {
+		newConn = mysql.createConnection({
+  		host     : MySQLConfig.hostname,
+  		user     : MySQLConfig.user,
+  		password : MySQLConfig.password,
+  		database : MySQLConfig.db,
+		});
+		console.log("Created new connection... " + newConn);
+		newConn.connect();
+		console.log("Connected ");
+		} catch (ex) {
+			console.log("getConnection has ERROR " + err);
+    		handleDBError(ex);
+  		}
+  		
+  		newConn.connect(function(err) {
+  			console.log(err.code); // 'ECONNREFUSED'
+  			console.log(err.fatal); // true
+		});
+		
+  		return newConn
 };
 
 var simpleQuery = function(queryString, callback){
@@ -295,16 +268,11 @@ var simpleQuery = function(queryString, callback){
   
 	try {
 		connection = getConnection();
-		connection.on('error', function(err) {
-    		console.log('DB error in simpleQuery ', err);
-    		connection = getConnection();
-  		});
   		connection.query( queryString, function(err, rows) {
     		console.log("Recieved reply for " + queryString);
     		console.log(JSON.stringify(rows) + " +++++++++DONE +++++++");
     		callback(rows);
     		connection.end();
-    		numConcurrantConnections = numConcurrantConnections - 1;
 	});
 	} catch (err) {
 		console.log("simpleQuery has ERROR " + err);
@@ -312,7 +280,6 @@ var simpleQuery = function(queryString, callback){
 		if (connection!=null) {
 			connection.end();
 		}
-		numConcurrantConnections = numConcurrantConnections - 1;
 		
 	}
 };   
@@ -329,12 +296,6 @@ var queryWithParams = function(queryString,params,callback,shouldCommit){
 		
 	try {
 		connection = getConnection();
-		connection.on('error', function(err) {
-    	console.log('DB error in query with params ', err);
-    	connection = getConnection();
-  		});
-  	
-
   		connection.query(queryString, params,function(err, rows, fields) {
     		// And done with the connection.
     		if(ServerConfig.debug) {
@@ -353,7 +314,6 @@ var queryWithParams = function(queryString,params,callback,shouldCommit){
         	});
         } 
         connection.end();
-    	numConcurrantConnections = numConcurrantConnections - 1;
   		});
   		} catch (err) {
   			console.log("queryWithParams has ERROR " + err);
@@ -361,14 +321,12 @@ var queryWithParams = function(queryString,params,callback,shouldCommit){
 			if (connection!=null) {
 				connection.end();
 			}
-			numConcurrantConnections = numConcurrantConnections - 1;
 		}
 };       
 
 //if you don't want to use an id from an insert then send in -1 for the id index
 var nestedQueryWithParams = function(queryString1,params1,queryString2,params2,callback,indexToInsertIdInParams2){
 	var connection = null;
-	
 	
   	if(ServerConfig.debug) {
     				console.log("Params 1" + JSON.stringify(params1));
@@ -382,10 +340,6 @@ var nestedQueryWithParams = function(queryString1,params1,queryString2,params2,c
 		
 	try {
 		connection = getConnection();
-		connection.on('error', function(err) {
-    		console.log('DB error in nestedQueryWithParams ', err);
-    		connection = getConnection();
-  		});
 		if(ServerConfig.debug) {
 			console.log("*****NESTED QUERY ******* " + queryString1);
 		}
@@ -413,12 +367,10 @@ var nestedQueryWithParams = function(queryString1,params1,queryString2,params2,c
             	//ST2.1 List / Dataview response
             	callback(rows);
             	connection.end();
-    			numConcurrantConnections = numConcurrantConnections - 1;
         	});
         } else {
         	callback(rows);
             connection.end();
-    		numConcurrantConnections = numConcurrantConnections - 1;
         }
   		});
   		} catch (err) {
@@ -427,7 +379,6 @@ var nestedQueryWithParams = function(queryString1,params1,queryString2,params2,c
 			if (connection!=null) {
 				connection.end();
 			}
-			numConcurrantConnections = numConcurrantConnections - 1;
 		}
 };  
 
@@ -458,12 +409,6 @@ var nestedQueriesUptoFour = function(queryString1,queryString2,queryString3,quer
   	
 		try {
 			connection = getConnection();
-			
-			connection.on('error', function(err) {
-    			console.log('DB error in nestedQueriesUptoFour ', err);
-    			connection = getConnection();
-  			});
-
   			connection.query(queryString1, params1,function(err, info) {
     		if(ServerConfig.debug) {
         		console.log(JSON.stringify(info));
@@ -514,24 +459,20 @@ var nestedQueriesUptoFour = function(queryString1,queryString2,queryString3,quer
             				//ST2.1 List / Dataview response
             				callback(rows);
             				connection.end();
-    						numConcurrantConnections = numConcurrantConnections - 1;
         					});
         					} else {
         						callback(rows);
         						connection.end();
-    							numConcurrantConnections = numConcurrantConnections - 1;
         				}
         			});
         			} else {
         				callback(rows);
         				connection.end();
-    					numConcurrantConnections = numConcurrantConnections - 1;
         			}
         	});
         	} else {
         		callback(rows);
         		connection.end();
-    			numConcurrantConnections = numConcurrantConnections - 1;
         	}
   		});
   		} catch (err) {
@@ -540,7 +481,6 @@ var nestedQueriesUptoFour = function(queryString1,queryString2,queryString3,quer
 			if (connection!=null) {
 				connection.end();
 			}
-			numConcurrantConnections = numConcurrantConnections - 1;
 		}
 };
 
@@ -629,7 +569,6 @@ var appURL = function() {
 global['dbConnection'] =  {
     nestedQueryWithParams : nestedQueryWithParams,
     nestedQueriesUptoFour : nestedQueriesUptoFour,
-    disconnect : mysqlDisconnect,
     simpleQuery : simpleQuery,
     queryWithParams : queryWithParams,
     getCleanValue : getCleanValue,
