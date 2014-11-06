@@ -162,6 +162,16 @@ config: {
 		],	
         },
 
+	initScreens: function() {
+		console.log("INIT SCREENS in main");
+			var schoolHome = Ext.getCmp('schoolHome');	
+			schoolHome.loadScreens();
+			var classHome = Ext.getCmp('classHome');	
+			classHome.loadScreens();
+			var kidsHome = Ext.getCmp('kidsHome');	
+			kidsHome.loadScreens();
+	},
+		
 	newNote: function () {
 		console.log("Should fire show list");
 		this.fireEvent('showBulletinAdminList');
@@ -201,26 +211,27 @@ config: {
 	loadData: function () {	
 		console.log("LOAD DATA called in MAIN!!");
 		var roles = sessionStorage.getItem("roles");
-		sessionStorage.setItem("school_id",3);
 		window.location.hash = 'home';		
 		this.setRoles(roles);	
 		var activeItemIndex = 0;
 		
 		if (roles.indexOf("A") != -1) {
 			var schoolHome = Ext.getCmp('schoolHome');	
+			schoolHome.loadScreens();
 			schoolHome.show();
 			activeItemIndex = 2;
 		}
 		
 		if (roles.indexOf("T") != -1) {
 			var classHome = Ext.getCmp('classHome');	
+			classHome.loadScreens();
 			classHome.show();
 			activeItemIndex = 1;
 		}
 		
 		if (roles.indexOf("P") != -1) {
 			var kidsHome = Ext.getCmp('kidsHome');	
-			//kidsHome.loadData();
+			kidsHome.loadScreens();
 			//activeItemIndex = 0;
 		}
 		

@@ -104,13 +104,17 @@ Ext.define('myschoolishness.view.MyKidsHome', {
 
     },
 	
-	
-	
+	initialize: function () {
+		console.log("My kids show");
+		        	this.loadSelect();
+        	this.showUpdates();
+
+	},
 	showUpdates: function () {
 		var kidsPanel = Ext.getCmp('kidsPanel');
 		var bulletinsKids = Ext.getCmp('bulletinsKids');	
-		kidsPanel.setActiveItem(0);
 		bulletinsKids.load();	
+		kidsPanel.setActiveItem(0);
 		
 	},
 	
@@ -123,10 +127,10 @@ Ext.define('myschoolishness.view.MyKidsHome', {
 		var absenceList = Ext.getCmp('kidsAttendance');	
 	},
 		
-	initialize: function() {
+	loadScreens: function() {
     	console.log("Init CALLED->" + this.schoolIdIsValid());
-        	this.loadSelect();
-        	this.showUpdates();
+        	//this.loadSelect();
+        	//this.showUpdates();
 	},
 		
 	onTabSelect: function (sender, newActiveItem, oldActiveItem, eOpts ) {

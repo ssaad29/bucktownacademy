@@ -119,7 +119,7 @@ Ext.application({
       	          	    {xtype: 'signatureview'},
       	          	    {xtype: 'user-agreement-panel'},
       	          	    {xtype: 'register'},
-      	          	    {xtype: 'my-kids-home'},
+      	          	    //{xtype: 'my-kids-home'},
       	          	    {xtype: 'class-home'},
       	          	    {xtype: 'bulletin-home'},
       	          	    {xtype: 'viewbulletindetails'},

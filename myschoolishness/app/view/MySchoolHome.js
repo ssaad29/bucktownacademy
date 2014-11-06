@@ -84,7 +84,7 @@ Ext.define('myschoolishness.view.MySchoolHome', {
 		schoolPanel.setActiveItem(1);
 	},
 		
-	initialize: function() {
+	loadScreens: function() {
     	console.log("Init CALLED->" + this.schoolIdIsValid());
         	this.showUpdates();
 	},

@@ -44,6 +44,7 @@ config: {
 							if (success) {
 								this.setStore(bulletinStore);
 								console.log("SETTING BUlletin STORE");
+								this.fireEvent("goHome", this);
 							}
     					}
 					})

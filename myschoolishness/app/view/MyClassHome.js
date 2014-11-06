@@ -83,9 +83,10 @@ Ext.define('myschoolishness.view.MyClassHome', {
 		classPanel.setActiveItem(1);
 	},
 		
-	initialize: function() {
+	loadScreens: function() {
     	console.log("Init CALLED->" + this.schoolIdIsValid());
-        	this.showUpdates();
+        this.showUpdates();
+        this.initialize();
 	},
 		
 	onTabSelect: function (sender, newActiveItem, oldActiveItem, eOpts ) {

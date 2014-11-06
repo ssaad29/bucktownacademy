@@ -76,7 +76,30 @@ var DXBulletins  = {
 		db.nestedQueryWithParams("delete from class_bulletins where bulletin_id = ?;",paramsList,"delete from bulletins where id = ?;",paramsList,callback);
     },
     
-	getAllBulletinsForUser: function(params, callback){
+    getAllBulletinsForUser: function(params, callback){
+    	if (!db.isValidToken(params.token,arguments[arguments.length-1])) {
+    		console.log("Token invalid");
+			callback({success:false});
+			return;
+		} 
+		
+		console.log("SCHOOL ID ->" + params.school_id);
+		console.log("USER ID ->" + params.userId);
+		
+
+		var allQuery = "SELECT id,title,message,type,reminder,event_date from bulletins where school_id = ? order by last_update_time desc";
+		var roles = params.roles;
+        var paramsList = [];
+        var theQuery =allQuery;
+		paramsList[0] = params.school_id;
+		        
+        console.log("INVOKING FOR BULLETIN BOARD " + theQuery);
+        console.log("with params " + paramsList);
+        console.log("db " + db);
+		db.queryWithParams(theQuery,paramsList,callback,false);
+    },
+    
+	getAllBulletinsForUserOLD: function(params, callback){
     	if (!db.isValidToken(params.token,arguments[arguments.length-1])) {
     		console.log("Token invalid");
 			callback({success:false});

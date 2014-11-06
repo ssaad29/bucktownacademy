@@ -146,9 +146,9 @@ Ext.define('myschoolishness.controller.Utils', {
     		callback : function(records, operation, success) {	
 					console.log("checkTokenOnServer success " + success);
 					if (success ===true) {
-						if (successRedirect) {
-							myschoolishness.app.redirectTo('home');
-						} 
+						//if (successRedirect) {
+						//	myschoolishness.app.redirectTo('home');
+						//} 
 						return true;
 					} else {
 						if (failureRedirect) {

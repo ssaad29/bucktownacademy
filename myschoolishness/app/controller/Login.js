@@ -31,7 +31,8 @@ Ext.define('myschoolishness.controller.Login', {
 				showPrefView: 'showPref'
 			},
 			bulletinView: {
-				showBulletinDetail: 'onShowBulletinDetail'
+				showBulletinDetail: 'onShowBulletinDetail',
+				goHome: 'goHome',
 			},
 			bulletinDetailView: {
 				goHome: 'goHome',
@@ -133,15 +134,16 @@ Ext.define('myschoolishness.controller.Login', {
 		console.log("IN GO HOME");
 		var mainView = this.getMainView();
 		if (mainView != null && mainView!=undefined) {
+			mainView.initScreens();
 			mainView.loadData();	
 			var roles = sessionStorage.getItem("roles");
 			console.log("roles " + roles);
-			if (roles != null && roles.length > 0) {
-				console.log("NOT NULL " );
-				mainView.setRoles(roles);	
-				mainView.setMasked(false);
-				Ext.Viewport.animateActiveItem(mainView,myschoolishness.controller.Utils.getDefaultSlideTransition());
-			}
+			//if (roles != null && roles.length > 0) {
+			//	console.log("NOT NULL " );
+			//	mainView.setRoles(roles);	
+			//	mainView.setMasked(false);
+			//	Ext.Viewport.animateActiveItem(mainView,myschoolishness.controller.Utils.getDefaultSlideTransition());
+			//}
 		}
 	},
 	
@@ -212,7 +214,7 @@ console.log("isAutherized!success " + success);
 			console.log("SESSION " + tokenRecords[0].get("session_id"));
 			console.log("roles " + records[0].get("roles"));
 			console.log("user_id " + records[0].get("id"));
-			console.log("school_id " + records[0].get("school_id"));
+			console.log("1. SETTING school_id " + records[0].get("school_id"));
 					Ext.Viewport.add([
       	          	    {xtype: 'mainview'},
       	          	    ]);
@@ -224,6 +226,7 @@ console.log("isAutherized!success " + success);
 						var record = store.getAt(0);
 						record.set('dbId', records[0].get("id") );
 						record.set('roles', records[0].get("roles") );
+						record.set('school_id', records[0].get("school_id") );
 						record.set('username', records[0].get("user_name") );
 						record.set('password', records[0].get("password") );
 						record.set('first_name', records[0].get("first_name") );

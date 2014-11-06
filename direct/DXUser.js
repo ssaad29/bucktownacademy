@@ -8,7 +8,6 @@ var DXUser  = {
         var paramsList = [];
     	paramsList[0] = params.username;
     	paramsList[1] = params.password;
-    	paramsList[2] = params.school;	
     	console.log("VERIFYING AUTH " + params.username + " " + params.password + " " + params.school);	
     	db.queryWithParams("select t1.id,t1.user_name,t1.password,t1.roles,t1.first_name,t1.last_name,t1.phone,email,t1.addr1,t1.addr2,t1.city,t1.state,t1.public_profile,t1.zip,t1.cell_phone,t1.birthdate,t2.school_id from user t1, user_school t2 where user_name = ? and password =? and t1.id = t2.user_id",paramsList,callback,false);
     },
