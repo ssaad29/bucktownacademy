@@ -45,7 +45,23 @@ var isHeroku = false;
 if (env==="production" || env==="test" || env==="ymca" || env==="prod") {
 	isHeroku = true;
 }
-  
+
+ app.use( function(req, res, next) {
+    	console.log("SETTING Access-Control-Allow-Origin " + ServerConfig.AccessControlAllowOrigin);
+        res.header('Access-Control-Allow-Origin', ServerConfig.AccessControlAllowOrigin); // allowed hosts
+        res.header('Access-Control-Allow-Methods', ServerConfig.AccessControlAllowMethods); // what methods should be allowed
+        res.header('Access-Control-Allow-Headers', ServerConfig.AccessControlAllowHeaders); //specify headers
+        res.header('Access-Control-Allow-Credentials', ServerConfig.AccessControlAllowCredentials); //include cookies as part of the request if set to true
+        res.header('Access-Control-Max-Age', ServerConfig.AccessControlMaxAge); //prevents from requesting OPTIONS with every server-side call (value in seconds)
+
+        if (req.method === 'OPTIONS') {
+            res.send(204);
+        }
+        else {
+            next();
+        }
+    });
+    
 if (env==="production") {
 		console.log("IS PROD ");
 		ExtDirectConfig = nconf.get("ExtDirectProdConfig");
@@ -601,21 +617,7 @@ process.on('uncaughtException', function (exception) {
   // email as well ?
 });
 
- app.use( function(req, res, next) {
-    	console.log("SETTING Access-Control-Allow-Origin " + ServerConfig.AccessControlAllowOrigin);
-        res.header('Access-Control-Allow-Origin', ServerConfig.AccessControlAllowOrigin); // allowed hosts
-        res.header('Access-Control-Allow-Methods', ServerConfig.AccessControlAllowMethods); // what methods should be allowed
-        res.header('Access-Control-Allow-Headers', ServerConfig.AccessControlAllowHeaders); //specify headers
-        res.header('Access-Control-Allow-Credentials', ServerConfig.AccessControlAllowCredentials); //include cookies as part of the request if set to true
-        res.header('Access-Control-Max-Age', ServerConfig.AccessControlMaxAge); //prevents from requesting OPTIONS with every server-side call (value in seconds)
 
-        if (req.method === 'OPTIONS') {
-            res.send(204);
-        }
-        else {
-            next();
-        }
-    });
     http.createServer(app).listen(app.get('port'), function(){
     console.log("Express server listening on port %d in %s mode", app.get('port'), app.settings.env);
 });
