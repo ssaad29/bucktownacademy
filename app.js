@@ -133,8 +133,6 @@ console.log("SETTING WEBROOT " + ServerConfig.webRoot);
 });
 
 //CORS Support 
-if(ServerConfig.enableCORS){
-	//app.use(allowCrossDomain);
     app.use( function(req, res, next) {
         res.header('Access-Control-Allow-Origin', ServerConfig.AccessControlAllowOrigin); // allowed hosts
         res.header('Access-Control-Allow-Methods', ServerConfig.AccessControlAllowMethods); // what methods should be allowed
@@ -149,7 +147,7 @@ if(ServerConfig.enableCORS){
             next();
         }
     });
-}
+
 
 
 

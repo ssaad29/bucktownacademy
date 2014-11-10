@@ -11,7 +11,7 @@
         "enableCORS": true,
         "debug": true,
         "env": "production",
-        "AccessControlAllowOrigin": "bucktownacademy.herokuapp.com",
+        "AccessControlAllowOrigin": "*",
         "AccessControlAllowMethods": "GET,PUT,POST,DELETE,OPTIONS",
         "AccessControlAllowHeaders": "Origin, X-Requested-With, Content-Type, Accept",
         "AccessControlAllowCredentials": true,
