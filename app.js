@@ -107,9 +107,6 @@ if (isHeroku) {
 		
 		redisStore = new RedisStore(options);
 	}
-console.log("Signing up for sessions ");
-app.use(session({ store: redisStore, secret: 'session_cookie_secret' }));
-console.log("SIGNED up for sessions ");
 
 app.configure(function(){
 	console.log("CONFIGURE NOT production CALLED");
@@ -130,6 +127,10 @@ app.configure(function(){
         }
     });
     
+    console.log("Signing up for sessions ");
+	app.use(session({ store: redisStore, secret: 'session_cookie_secret' }));
+	console.log("SIGNED up for sessions ");
+
     app.set('port', port);
     app.set('server', server);
     app.use(express.logger(ServerConfig.logger));
