@@ -157,7 +157,7 @@ console.log("SETTING WEBROOT " + ServerConfig.webRoot);
 
 //GET method returns API
 app.get(ExtDirectConfig.apiPath, function(request, response) {		
-//console.log("GET REQUEST on apiPath " + request.url);
+console.log("GET REQUEST on apiPath " + request.url);
     try{
         var api = extdirect.getAPI(ExtDirectConfig);
         response.writeHead(200, {'Content-Type': 'application/json'});
@@ -170,8 +170,9 @@ app.get(ExtDirectConfig.apiPath, function(request, response) {
 
 // Ignoring any GET requests on class path
 app.get(ExtDirectConfig.classPath, function(request, response) {
+console.log("GET REQUEST on classpath " + request.url);
     try{
-	//console.log("GET REQUEST on classpath " + request.url);
+	
     response.writeHead(200, {'Content-Type': 'application/json'});
     response.end(JSON.stringify({success:false, msg:'Unsupported method. Use POST instead.'}));
     }catch(e){
