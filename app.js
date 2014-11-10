@@ -13,7 +13,6 @@ var methodOverride = require('method-override');
 	var nodemailer = require("nodemailer");
 	var emailTemplates = require('email-templates');
 	var templatesDir   = path.join(__dirname, 'templates');
-	var cors = require('cors');
 	
 	
 nconf.env().file({ file: 'config.json'});  
@@ -75,7 +74,7 @@ console.log("user " + MySQLConfig.user);
 console.log("password " + MySQLConfig.password);
 console.log("database " + MySQLConfig.db);
 var app = express();
-app.use(cors());
+
 //var session = require('express-session');
 //var SessionStore = new RedisStore({ host: server, port: 6379, client: redis });
 //var SessionStore = require('express-mysql-session')
@@ -112,7 +111,21 @@ if (isHeroku) {
 app.configure(function(){
 	console.log("CONFIGURE NOT production CALLED");
 	console.log("ADDING prod header " + ServerConfig.AccessControlAllowOrigin);
-	
+	//CORS Support 
+    app.use( function(req, res, next) {
+        res.header('Access-Control-Allow-Origin', ServerConfig.AccessControlAllowOrigin); // allowed hosts
+        res.header('Access-Control-Allow-Methods', ServerConfig.AccessControlAllowMethods); // what methods should be allowed
+        res.header('Access-Control-Allow-Headers', ServerConfig.AccessControlAllowHeaders); //specify headers
+        //res.header('Access-Control-Allow-Credentials', ServerConfig.AccessControlAllowCredentials); //include cookies as part of the request if set to true
+        res.header('Access-Control-Max-Age', ServerConfig.AccessControlMaxAge); //prevents from requesting OPTIONS with every server-side call (value in seconds)
+
+        if (req.method === 'OPTIONS') {
+            res.send(204);
+        }
+        else {
+            next();
+        }
+    });
     
     console.log("Signing up for sessions ");
 	app.use(session({ store: redisStore, secret: 'session_cookie_secret' }));
@@ -144,7 +157,7 @@ console.log("SETTING WEBROOT " + ServerConfig.webRoot);
 
 //GET method returns API
 app.get(ExtDirectConfig.apiPath, function(request, response) {		
-console.log("GET REQUEST on apiPath " + request.url);
+//console.log("GET REQUEST on apiPath " + request.url);
     try{
         var api = extdirect.getAPI(ExtDirectConfig);
         response.writeHead(200, {'Content-Type': 'application/json'});
@@ -157,9 +170,8 @@ console.log("GET REQUEST on apiPath " + request.url);
 
 // Ignoring any GET requests on class path
 app.get(ExtDirectConfig.classPath, function(request, response) {
-console.log("GET REQUEST on classpath " + request.url);
     try{
-	
+	//console.log("GET REQUEST on classpath " + request.url);
     response.writeHead(200, {'Content-Type': 'application/json'});
     response.end(JSON.stringify({success:false, msg:'Unsupported method. Use POST instead.'}));
     }catch(e){
@@ -573,12 +585,40 @@ global['dbConnection'] =  {
 
 
 	app.configure('development', function(){
-		console.log("CONFIGURE development CALLED");
+		console.log("CONFIGURE production CALLED");
+		app.use( function(req, res, next) {
+        res.header('Access-Control-Allow-Origin', ServerConfig.AccessControlAllowOrigin); // allowed hosts
+        res.header('Access-Control-Allow-Methods', ServerConfig.AccessControlAllowMethods); // what methods should be allowed
+        res.header('Access-Control-Allow-Headers', ServerConfig.AccessControlAllowHeaders); //specify headers
+        //res.header('Access-Control-Allow-Credentials', ServerConfig.AccessControlAllowCredentials); //include cookies as part of the request if set to true
+        res.header('Access-Control-Max-Age', ServerConfig.AccessControlMaxAge); //prevents from requesting OPTIONS with every server-side call (value in seconds)
+
+        if (req.method === 'OPTIONS') {
+            res.send(204);
+        }
+        else {
+            next();
+        }
+    });
  	   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 	});
 
 app.configure('production', function(){
 	console.log("CONFIGURE production CALLED");
+	app.use( function(req, res, next) {
+        res.header('Access-Control-Allow-Origin', ServerConfig.AccessControlAllowOrigin); // allowed hosts
+        res.header('Access-Control-Allow-Methods', ServerConfig.AccessControlAllowMethods); // what methods should be allowed
+        res.header('Access-Control-Allow-Headers', ServerConfig.AccessControlAllowHeaders); //specify headers
+        //res.header('Access-Control-Allow-Credentials', ServerConfig.AccessControlAllowCredentials); //include cookies as part of the request if set to true
+        res.header('Access-Control-Max-Age', ServerConfig.AccessControlMaxAge); //prevents from requesting OPTIONS with every server-side call (value in seconds)
+
+        if (req.method === 'OPTIONS') {
+            res.send(204);
+        }
+        else {
+            next();
+        }
+    });
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
     //app.enable('trust proxy');
 });
