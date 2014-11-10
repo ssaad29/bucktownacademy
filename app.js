@@ -111,23 +111,8 @@ console.log("Signing up for sessions ");
 app.use(session({ store: redisStore, secret: 'session_cookie_secret' }));
 console.log("SIGNED up for sessions ");
 
-app.configure(function(){
-	//CORS Support 
-    app.use( function(req, res, next) {
-    	console.log("SETTING Access-Control-Allow-Origin " + ServerConfig.AccessControlAllowOrigin);
-        res.header('Access-Control-Allow-Origin', ServerConfig.AccessControlAllowOrigin); // allowed hosts
-        res.header('Access-Control-Allow-Methods', ServerConfig.AccessControlAllowMethods); // what methods should be allowed
-        res.header('Access-Control-Allow-Headers', ServerConfig.AccessControlAllowHeaders); //specify headers
-        res.header('Access-Control-Allow-Credentials', ServerConfig.AccessControlAllowCredentials); //include cookies as part of the request if set to true
-        res.header('Access-Control-Max-Age', ServerConfig.AccessControlMaxAge); //prevents from requesting OPTIONS with every server-side call (value in seconds)
 
-        if (req.method === 'OPTIONS') {
-            res.send(204);
-        }
-        else {
-            next();
-        }
-    });
+app.configure(function(){
     app.set('port', port);
     app.set('server', server);
     app.use(express.logger(ServerConfig.logger));
@@ -564,6 +549,25 @@ var appURL = function() {
 	return url;
 };
 
+allowCrossDomain = function(){
+	//CORS Support 
+    app.use( function(req, res, next) {
+    	console.log("SETTING Access-Control-Allow-Origin " + ServerConfig.AccessControlAllowOrigin);
+        res.header('Access-Control-Allow-Origin', ServerConfig.AccessControlAllowOrigin); // allowed hosts
+        res.header('Access-Control-Allow-Methods', ServerConfig.AccessControlAllowMethods); // what methods should be allowed
+        res.header('Access-Control-Allow-Headers', ServerConfig.AccessControlAllowHeaders); //specify headers
+        res.header('Access-Control-Allow-Credentials', ServerConfig.AccessControlAllowCredentials); //include cookies as part of the request if set to true
+        res.header('Access-Control-Max-Age', ServerConfig.AccessControlMaxAge); //prevents from requesting OPTIONS with every server-side call (value in seconds)
+
+        if (req.method === 'OPTIONS') {
+            res.send(204);
+        }
+        else {
+            next();
+        }
+    });
+};
+
 // Make MySql connections available globally, so we can access them from within modules
 global['dbConnection'] =  {
     nestedQueryWithParams : nestedQueryWithParams,
@@ -577,6 +581,7 @@ global['dbConnection'] =  {
     createNewToken : createNewToken,
     getTextContent : getTextContent,
     appURL : appURL,
+    allowCrossDomain : allowCrossDomain,
 };
 
 
@@ -596,6 +601,7 @@ process.on('uncaughtException', function (exception) {
   // email as well ?
 });
 
+global.allowCrossDomain();
 http.createServer(app).listen(app.get('port'), function(){
     console.log("Express server listening on port %d in %s mode", app.get('port'), app.settings.env);
 });
