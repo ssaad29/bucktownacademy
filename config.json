@@ -11,7 +11,7 @@
         "enableCORS": true,
         "debug": true,
         "env": "production",
-        "AccessControlAllowOrigin": "*",
+        "AccessControlAllowOrigin": "bucktownacademy.herokuapp.com",
         "AccessControlAllowMethods": "GET,PUT,POST,DELETE,OPTIONS",
         "AccessControlAllowHeaders": "Origin, X-Requested-With, Content-Type, Accept",
         "AccessControlAllowCredentials": true,
@@ -21,9 +21,9 @@
 	
 	"EmailConfig": {
         "serviceName": "Mailgun",
-        "user": "postmaster@tribuneymca.com",
+        "user": "postmaster@bucktownacademy.schooltalknow.com",
         "password": "14a9bced",
-        "fromAddress": "admin@tribuneymca.com"
+        "fromAddress": "admin@bucktownacademy.schooltalknow.com"
     },
     
     
