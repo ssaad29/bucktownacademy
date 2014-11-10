@@ -108,45 +108,30 @@ if (isHeroku) {
 		redisStore = new RedisStore(options);
 	}
 
-app.configure(function(){
-	console.log("CONFIGURE NOT production CALLED");
-	console.log("ADDING prod header " + ServerConfig.AccessControlAllowOrigin);
-	//CORS Support 
-    app.use( function(req, res, next) {
-        res.header('Access-Control-Allow-Origin', ServerConfig.AccessControlAllowOrigin); // allowed hosts
-        res.header('Access-Control-Allow-Methods', ServerConfig.AccessControlAllowMethods); // what methods should be allowed
-        res.header('Access-Control-Allow-Headers', ServerConfig.AccessControlAllowHeaders); //specify headers
-        //res.header('Access-Control-Allow-Credentials', ServerConfig.AccessControlAllowCredentials); //include cookies as part of the request if set to true
-        res.header('Access-Control-Max-Age', ServerConfig.AccessControlMaxAge); //prevents from requesting OPTIONS with every server-side call (value in seconds)
+//CORS middleware
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
 
-        if (req.method === 'OPTIONS') {
-            res.send(204);
-        }
-        else {
-            next();
-        }
-    });
-    
+    next();
+};
+
+app.configure(function() {
+    app.use(express.bodyParser());
+    app.use(express.cookieParser());
     console.log("Signing up for sessions ");
 	app.use(session({ store: redisStore, secret: 'session_cookie_secret' }));
 	console.log("SIGNED up for sessions ");
-
-    app.set('port', port);
+	app.set('port', port);
     app.set('server', server);
     app.use(express.logger(ServerConfig.logger));
-
-    if(ServerConfig.enableUpload){
-        app.use(express.bodyParser({uploadDir:'./uploads'})); //take care of body parsing/multipart/files
-    }
-
     app.use(express.methodOverride());
-
+    app.use(allowCrossDomain);
+    app.use(app.router);
     if(ServerConfig.enableCompression){
         app.use(express.compress()); //Performance - we tell express to use Gzip compression
     }
-
-console.log("SETTING WEBROOT " + ServerConfig.webRoot);
-
     app.use(express.static(path.join(__dirname, ServerConfig.webRoot)));
 });
 
@@ -581,47 +566,6 @@ global['dbConnection'] =  {
     getTextContent : getTextContent,
     appURL : appURL,
 };
-
-
-
-	app.configure('development', function(){
-		console.log("CONFIGURE production CALLED");
-		app.use( function(req, res, next) {
-        res.header('Access-Control-Allow-Origin', ServerConfig.AccessControlAllowOrigin); // allowed hosts
-        res.header('Access-Control-Allow-Methods', ServerConfig.AccessControlAllowMethods); // what methods should be allowed
-        res.header('Access-Control-Allow-Headers', ServerConfig.AccessControlAllowHeaders); //specify headers
-        //res.header('Access-Control-Allow-Credentials', ServerConfig.AccessControlAllowCredentials); //include cookies as part of the request if set to true
-        res.header('Access-Control-Max-Age', ServerConfig.AccessControlMaxAge); //prevents from requesting OPTIONS with every server-side call (value in seconds)
-
-        if (req.method === 'OPTIONS') {
-            res.send(204);
-        }
-        else {
-            next();
-        }
-    });
- 	   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-	});
-
-app.configure('production', function(){
-	console.log("CONFIGURE production CALLED");
-	app.use( function(req, res, next) {
-        res.header('Access-Control-Allow-Origin', ServerConfig.AccessControlAllowOrigin); // allowed hosts
-        res.header('Access-Control-Allow-Methods', ServerConfig.AccessControlAllowMethods); // what methods should be allowed
-        res.header('Access-Control-Allow-Headers', ServerConfig.AccessControlAllowHeaders); //specify headers
-        //res.header('Access-Control-Allow-Credentials', ServerConfig.AccessControlAllowCredentials); //include cookies as part of the request if set to true
-        res.header('Access-Control-Max-Age', ServerConfig.AccessControlMaxAge); //prevents from requesting OPTIONS with every server-side call (value in seconds)
-
-        if (req.method === 'OPTIONS') {
-            res.send(204);
-        }
-        else {
-            next();
-        }
-    });
-    app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
-    //app.enable('trust proxy');
-});
 
 process.on('uncaughtException', function (exception) {
   console.log(exception); // to see your exception details in the console
