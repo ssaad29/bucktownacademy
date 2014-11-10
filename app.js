@@ -13,6 +13,7 @@ var methodOverride = require('method-override');
 	var nodemailer = require("nodemailer");
 	var emailTemplates = require('email-templates');
 	var templatesDir   = path.join(__dirname, 'templates');
+	var cors = require('cors');
 	
 	
 nconf.env().file({ file: 'config.json'});  
@@ -74,7 +75,7 @@ console.log("user " + MySQLConfig.user);
 console.log("password " + MySQLConfig.password);
 console.log("database " + MySQLConfig.db);
 var app = express();
-
+app.use(cors());
 //var session = require('express-session');
 //var SessionStore = new RedisStore({ host: server, port: 6379, client: redis });
 //var SessionStore = require('express-mysql-session')
