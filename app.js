@@ -112,21 +112,7 @@ if (isHeroku) {
 app.configure(function(){
 	console.log("CONFIGURE NOT production CALLED");
 	console.log("ADDING prod header " + ServerConfig.AccessControlAllowOrigin);
-	//CORS Support 
-    app.use( function(req, res, next) {
-        res.header('Access-Control-Allow-Origin', ServerConfig.AccessControlAllowOrigin); // allowed hosts
-        res.header('Access-Control-Allow-Methods', ServerConfig.AccessControlAllowMethods); // what methods should be allowed
-        res.header('Access-Control-Allow-Headers', ServerConfig.AccessControlAllowHeaders); //specify headers
-        res.header('Access-Control-Allow-Credentials', ServerConfig.AccessControlAllowCredentials); //include cookies as part of the request if set to true
-        res.header('Access-Control-Max-Age', ServerConfig.AccessControlMaxAge); //prevents from requesting OPTIONS with every server-side call (value in seconds)
-
-        if (req.method === 'OPTIONS') {
-            res.send(204);
-        }
-        else {
-            next();
-        }
-    });
+	
     
     console.log("Signing up for sessions ");
 	app.use(session({ store: redisStore, secret: 'session_cookie_secret' }));
@@ -588,39 +574,11 @@ global['dbConnection'] =  {
 
 	app.configure('development', function(){
 		console.log("CONFIGURE development CALLED");
-		app.use( function(req, res, next) {
-        res.header('Access-Control-Allow-Origin', ServerConfig.AccessControlAllowOrigin); // allowed hosts
-        res.header('Access-Control-Allow-Methods', ServerConfig.AccessControlAllowMethods); // what methods should be allowed
-        res.header('Access-Control-Allow-Headers', ServerConfig.AccessControlAllowHeaders); //specify headers
-        res.header('Access-Control-Allow-Credentials', ServerConfig.AccessControlAllowCredentials); //include cookies as part of the request if set to true
-        res.header('Access-Control-Max-Age', ServerConfig.AccessControlMaxAge); //prevents from requesting OPTIONS with every server-side call (value in seconds)
-
-        if (req.method === 'OPTIONS') {
-            res.send(204);
-        }
-        else {
-            next();
-        }
-    });
  	   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 	});
 
 app.configure('production', function(){
 	console.log("CONFIGURE production CALLED");
-	app.use( function(req, res, next) {
-        res.header('Access-Control-Allow-Origin', ServerConfig.AccessControlAllowOrigin); // allowed hosts
-        res.header('Access-Control-Allow-Methods', ServerConfig.AccessControlAllowMethods); // what methods should be allowed
-        res.header('Access-Control-Allow-Headers', ServerConfig.AccessControlAllowHeaders); //specify headers
-        res.header('Access-Control-Allow-Credentials', ServerConfig.AccessControlAllowCredentials); //include cookies as part of the request if set to true
-        res.header('Access-Control-Max-Age', ServerConfig.AccessControlMaxAge); //prevents from requesting OPTIONS with every server-side call (value in seconds)
-
-        if (req.method === 'OPTIONS') {
-            res.send(204);
-        }
-        else {
-            next();
-        }
-    });
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
     //app.enable('trust proxy');
 });
