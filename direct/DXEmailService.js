@@ -8,8 +8,16 @@ var DXEmailService  = {
 			
 			return;
 		} 
+		
+		console.log("TEMPLATE!!!" + params.template);
+		
     	if (params.template === "invite") {
     		var token = db.createNewToken("registration",params.host,function(token) {
+    					console.log("host" + params.host);
+			console.log("username" + params.studentId);
+			console.log("token" + params.token);
+			console.log("schoolId" + params.schoolId);
+			console.log("appURL" + db.appURL());
     				var locals = {
       					host: params.host,
       					studentId: params.studentId,
@@ -17,10 +25,13 @@ var DXEmailService  = {
       					schoolId: params.schoolId,
       					app_url: db.appURL(),
     				};
-					db.sendEmail("Invitation to sign up for tribuneymca.com",params.recipient,"invite",locals,callback);
+					db.sendEmail("Invitation to sign up for bucktownacademy.schooltalknow.com",params.recipient,"invite",locals,callback);
 			});
 		} else if (params.template === "forgotPassword") {
 			console.log("userId" + params.userId);
+			console.log("username" + params.username);
+			console.log("token" + params.token);
+			console.log("appURL" + db.appURL());
     		var token = db.createNewToken("forgotPassword",params.userId,function(token) {
     				var locals = {
       					userId: params.userId,
@@ -28,7 +39,7 @@ var DXEmailService  = {
       					token: token,
       					app_url: db.appURL(),
     				};
-					db.sendEmail("Myschoolishness password reset",params.recipient,"forgotPassword",locals,callback);
+					db.sendEmail("Bucktown Academy password reset",params.recipient,"forgotPassword",locals,callback);
 			});
 		}
     },
