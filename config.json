@@ -22,7 +22,7 @@
 	"EmailConfig": {
         "serviceName": "Mailgun",
         "user": "postmaster@bucktownacademy.schooltalknow.com",
-        "password": "14a9bced",
+        "password": "41898f0f8cee260acf22efff55d15c00",
         "fromAddress": "admin@bucktownacademy.schooltalknow.com"
     },
     
