@@ -492,7 +492,7 @@ var sendEmail = function(subject,recipeint,templateName,locals,callback){
 	});
 	console.log("smtpTransport " + smtpTransport );
 	emailTemplates(templatesDir, function(err, template)  {
-	console.log("EMAILING!!!!! " + template +  " " + err);
+	console.log("EMAILING!!!!! " +  err);
       if (err) {
         console.log("Error getting template " + err);
       } else {
