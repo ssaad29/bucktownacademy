@@ -527,6 +527,9 @@ var getTextContent = function(templateName,callback){
 };   
  
 var createNewToken = function(type,user,callback) {
+	console.log("createNewToken+++");
+	console.log("type " + type);
+	console.log("user " + user);
 	crypto.randomBytes(32, function(ex, buf) {
     	var token = buf.toString('hex');
     	callback(token);
@@ -534,7 +537,7 @@ var createNewToken = function(type,user,callback) {
 		var paramsList = new Array();
     				paramsList[0] = token;
     				paramsList[1] = type;
-    				paramsList[3] = user;
+    				paramsList[2] = user;
     				console.log(JSON.stringify(paramsList));
 		dbConnection.queryWithParams(newTokenQuery,paramsList,null,true);
 	});
