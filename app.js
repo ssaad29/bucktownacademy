@@ -505,7 +505,8 @@ var sendEmail = function(subject,recipeint,templateName,locals,callback){
           // generateTextFromHTML: true,
           text: text
         }, function(err, responseStatus) {
-        console.log("responseStatus " + responseStatus);
+        console.log("responseStatus " + responseStatus[0] + " " + responseStatus[1]);
+        console.log("Error while sending " + err);
           if (err) {
             console.log("Error while sending " + err);
             callback({success:false});
