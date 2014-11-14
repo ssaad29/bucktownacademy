@@ -478,6 +478,9 @@ var sendEmail = function(subject,recipeint,templateName,locals,callback){
 		console.log("recipeint " + recipeint);
 		console.log("templateName " + templateName);
 		console.log("locals " + locals);
+		console.log("serviceName " + EmailConfig.serviceName);
+		console.log("user " + EmailConfig.user);
+		console.log("password " + EmailConfig.password);
 	//	}
 
 	var smtpTransport = nodemailer.createTransport("SMTP",{
@@ -487,7 +490,9 @@ var sendEmail = function(subject,recipeint,templateName,locals,callback){
        			pass: EmailConfig.password
    			}
 	});
+	console.log("smtpTransport " + smtpTransport );
 	emailTemplates(templatesDir, function(err, template)  {
+	console.log("EMAILING!!!!! " + template +  " " + err);
       if (err) {
         console.log("Error getting template " + err);
       } else {
@@ -500,6 +505,7 @@ var sendEmail = function(subject,recipeint,templateName,locals,callback){
           // generateTextFromHTML: true,
           text: text
         }, function(err, responseStatus) {
+        console.log("responseStatus " + responseStatus);
           if (err) {
             console.log("Error while sending " + err);
             callback({success:false});
