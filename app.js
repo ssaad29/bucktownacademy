@@ -472,13 +472,13 @@ var nestedQueriesUptoFour = function(queryString1,queryString2,queryString3,quer
 };
 
 var sendEmail = function(subject,recipeint,templateName,locals,callback){
-	if(ServerConfig.debug) {
+	//if(ServerConfig.debug) {
 		console.log("*****SENDING EMAIL *******");
 		console.log("subject " + subject);
 		console.log("recipeint " + recipeint);
 		console.log("templateName " + templateName);
 		console.log("locals " + locals);
-		}
+	//	}
 
 	var smtpTransport = nodemailer.createTransport("SMTP",{
    			service: EmailConfig.serviceName, 
