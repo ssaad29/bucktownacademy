@@ -30,11 +30,15 @@ Ext.define('myschoolishness.controller.Directory', {
 			directoryStaff: {
 				showStaffDetail: 'showStaffDetail'
 			},
+			directoryStaffDetail: {
+				goHome: 'goHome'
+			},
 			mainView: {
 				showDirectory: 'showStudentDirectory'
 			},
 			directoryFamily: {
-				showDirectory: 'showStudentDirectory'
+				showDirectory: 'showStudentDirectory',
+				goHome: 'goHome'
 			}
 		},
         routes: {
@@ -45,6 +49,14 @@ Ext.define('myschoolishness.controller.Directory', {
             'directory/staff': 'showStaffDirectory',
             'directory/birthdays': 'showBirthdays'
         }
+	},
+	
+	goHome: function () {
+		console.log("IN GO HOME");
+		var mainView = this.getMainView();
+		if (mainView != null && mainView!=undefined) {
+				Ext.Viewport.animateActiveItem(mainView,myschoolishness.controller.Utils.getDefaultSlideTransition());
+			}
 	},
 	
 	showStaffDetail: function () {

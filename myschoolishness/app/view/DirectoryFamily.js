@@ -58,7 +58,7 @@ Ext.define('myschoolishness.view.DirectoryFamily', {
     },
 	
     onBackButtonTap: function () {
-		this.fireEvent("showDirectory", this);
+		this.fireEvent("goHome", this);
 	},
 	
 	onSegButtonTap: function () {

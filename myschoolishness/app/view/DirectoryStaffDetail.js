@@ -107,7 +107,8 @@ Ext.define('myschoolishness.view.DirectoryStaffDetail', {
 	},
 	
 	onBackButtonTap: function () {
-		this.fireEvent("showStaffDetail", this);
+		console.log("SHOULD GO BACK NOW");
+		this.fireEvent("goHome", this);
 	},
 	
 	loadStaff: function () {
