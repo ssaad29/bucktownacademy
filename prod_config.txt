@@ -21,18 +21,18 @@
 	
 	"EmailConfig": {
         "serviceName": "Mailgun",
-        "user": "postmaster@tribuneymca.com",
-        "password": "14a9bced",
-        "fromAddress": "admin@tribuneymca.com"
+        "user": "postmaster@bucktownacademy.schooltalknow.com",
+        "password": "41898f0f8cee260acf22efff55d15c00",
+        "fromAddress": "admin@bucktownacademy.schooltalknow.com"
     },
     
     
     "MySQLConfig": {
         "hostname": "us-cdbr-iron-east-01.cleardb.net",
         "port": 3306,
-        "user": "b9292906831891",
-        "password": "14a9bced",
-        "db": "heroku_b076f62bc11b3ef",
+        "user": "b79c17503204e9",
+        "password": "7e75a554",
+        "db": "heroku_47a8991097d29fc",
         "key": "./config/EC2-SSH.pem",
         "cert": "./config/amazon-rds-ca-cert.pem"
     },
@@ -40,9 +40,9 @@
     "RedisConfig": {
         "hostname": "us-cdbr-iron-east-01.cleardb.net",
         "port": 3306,
-        "user": "b9292906831891",
-        "password": "3ee90982",
-        "db": "heroku_b076f62bc11b3ef"
+        "user": "b79c17503204e9",
+        "password": "7e75a554",
+        "db": "heroku_47a8991097d29fc"
     },
     
     "LocalRedisConfig": {
@@ -69,7 +69,7 @@
         "apiPath": "/directapi",
         "classPath": "/direct",
         "classPrefix": "DX",
-        "server": "demo.schooltalknow.com",
+        "server": "bucktownacademy.schooltalknow.com",
         "port": "80",
         "protocol": "http",
         "appendRequestResponseObjects": true
@@ -105,7 +105,7 @@
         "apiPath": "/directapi",
         "classPath": "/direct",
         "classPrefix": "DX",
-        "server": "demo.schooltalknow.com",
+        "server": "bucktownacademy.schooltalknow.com",
         "port": "80",
         "protocol": "http",
         "appendRequestResponseObjects": true

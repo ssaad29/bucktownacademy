@@ -1,31 +1,35 @@
 {
     "ServerConfig": {
-    	"dbEnv": "AWS",
-        "port": 3200,
-        "logger": "dev",
+        "env": "local",
+        "logger": "/ymcaapp",
         "enableUpload": true,
         "enableCompression": true,
-        "webRoot": "/prod",
+        "webRoot": "/myschoolishness",
         "enableSessions": true,
         "sessionSecret": "vdW3F6y3506h",
         "enableCORS": true,
         "debug": true,
-        "env": "production",
+        "templates_dir": true,
         "AccessControlAllowOrigin": "*",
         "AccessControlAllowMethods": "GET,PUT,POST,DELETE,OPTIONS",
         "AccessControlAllowHeaders": "Origin, X-Requested-With, Content-Type, Accept",
         "AccessControlAllowCredentials": true,
         "AccessControlMaxAge": 3600
+    },
 
+    "RedisConfig": {
+        "hostname": "us-cdbr-east-04.cleardb.com",
+        "port": 3306,
+        "user": "b0dae7a74acbaa",
+        "password": "3ee90982",
+        "db": "heroku_57cdeb8b945c9bf"
     },
-	
-	"EmailConfig": {
-        "serviceName": "Mailgun",
-        "user": "postmaster@bucktownacademy.schooltalknow.com",
-        "password": "41898f0f8cee260acf22efff55d15c00",
-        "fromAddress": "admin@bucktownacademy.schooltalknow.com"
+
+    "LocalRedisConfig": {
+        "hostname": "localhost",
+        "port": "6379",
+        "password": ""
     },
-    
     
     "MySQLConfig": {
         "hostname": "us-cdbr-iron-east-01.cleardb.net",
@@ -37,20 +41,13 @@
         "cert": "./config/amazon-rds-ca-cert.pem"
     },
 
-    "RedisConfig": {
-        "hostname": "us-cdbr-iron-east-01.cleardb.net",
-        "port": 3306,
-        "user": "b79c17503204e9",
-        "password": "7e75a554",
-        "db": "heroku_47a8991097d29fc"
+	"EmailConfig": {
+        "serviceName": "Mailgun",
+        "user": "postmaster@myschoolishness.com",
+        "password": "2wfp9sv0dip0",
+        "fromAddress": "admin@myschoolishness.com"
     },
     
-    "LocalRedisConfig": {
-        "hostname": "localhost",
-        "port": "6379",
-        "password": ""
-    },
-
     "ExtDirectLocalConfig": {
        "namespace": "ExtRemote",
         "apiName": "REMOTING_API",
@@ -69,32 +66,8 @@
         "apiPath": "/directapi",
         "classPath": "/direct",
         "classPrefix": "DX",
-        "server": "bucktownacademy.schooltalknow.com",
+        "server": "test.myschoolishness.com",
         "port": "80",
-        "protocol": "http",
-        "appendRequestResponseObjects": true
-    },
-    
-    "ExtDirectYMCAConfig": {
-       "namespace": "ExtRemote",
-        "apiName": "REMOTING_API",
-        "apiPath": "/directapi",
-        "classPath": "/direct",
-        "classPrefix": "DX",
-        "server": "www.tribuneymca.com",
-        "port": "80",
-        "protocol": "http",
-        "appendRequestResponseObjects": true
-    },
-    
-    "ExtDirectLocalProdConfig": {
-       "namespace": "ExtRemote",
-        "apiName": "REMOTING_API",
-        "apiPath": "/directapi",
-        "classPath": "/direct",
-        "classPrefix": "DX",
-        "server": "localhost",
-        "port": "3000",
         "protocol": "http",
         "appendRequestResponseObjects": true
     },
@@ -105,7 +78,7 @@
         "apiPath": "/directapi",
         "classPath": "/direct",
         "classPrefix": "DX",
-        "server": "bucktownacademy.schooltalknow.com",
+        "server": "myschoolishness.com",
         "port": "80",
         "protocol": "http",
         "appendRequestResponseObjects": true

@@ -43,7 +43,7 @@ Ext.define('myschoolishness.view.MySchoolHome', {
 													var schoolPanel = Ext.getCmp('schoolPanel');
 													schoolPanel.setActiveItem(1);
                             					} else if (btn.getText() === "Sign Out") {
-                            						var signOutList = Ext.getCmp('classSignOut');	
+                            						var signOutList = Ext.getCmp('schoolSignOut');	
 													signOutList.loadData();
 													var schoolPanel = Ext.getCmp('schoolPanel');
 													schoolPanel.setActiveItem(2);
@@ -76,8 +76,8 @@ Ext.define('myschoolishness.view.MySchoolHome', {
     	       		},
     	       		{
     	       		xtype: 'absence-signout',
-    	       		itemId: 'classSignOut',
-    	       		id: 'classSignOut',
+    	       		itemId: 'schoolSignOut',
+    	       		id: 'schoolSignOut',
     	       		title:'Sign Out'
     	       		},
     	       	]},
