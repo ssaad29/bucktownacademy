@@ -38,8 +38,8 @@ Ext.define('myschoolishness.view.MySchoolHome', {
 													schoolPanel.setActiveItem(0);
 													bulletinsSchool.load();	
                             					} else if (btn.getText() === "Attendance") {
-                            						//var absenceList = Ext.getCmp('schoolAttendance');	
-													//absenceList.loadData();
+                            						var absenceList = Ext.getCmp('schoolAttendance');	
+													absenceList.loadData();
 													var schoolPanel = Ext.getCmp('schoolPanel');
 													schoolPanel.setActiveItem(1);
                             					} else if (btn.getText() === "Sign Out") {
@@ -69,10 +69,16 @@ Ext.define('myschoolishness.view.MySchoolHome', {
     	       		title:'Updates'
     	       		},
     	       		{
-    	       		xtype: 'absence-rollcall',
+    	       		xtype: 'absence-manage-students',
     	       		itemId: 'schoolAttendance',
     	       		id: 'schoolAttendance',
     	       		title:'Attendance'
+    	       		},
+    	       		{
+    	       		xtype: 'absence-signout',
+    	       		itemId: 'classSignOut',
+    	       		id: 'classSignOut',
+    	       		title:'Sign Out'
     	       		},
     	       	]},
     	      ],
@@ -95,6 +101,7 @@ Ext.define('myschoolishness.view.MySchoolHome', {
 	loadScreens: function() {
     	console.log("Init CALLED->" + this.schoolIdIsValid());
         	this.showUpdates();
+        	 this.initialize();
 	},
 		
 	onTabSelect: function (sender, newActiveItem, oldActiveItem, eOpts ) {

@@ -24,7 +24,6 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
                 	var moreThenOneSec = myschoolishness.controller.Utils.moreThanOneSecondHasElapsed(lastDate);
                 	
                 	if(moreThenOneSec) {
-                		console.log('PROCESSING TAP EVENT ');
         				if(evt.target.type == "button"){
         					if (record.get("present") === null || record.get("present") === 0 || record.get("present") === '0') {
         						
@@ -45,7 +44,6 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
 		},
 	
 	fireMarkOutForToday: function () {	
-		console.log('fireMarkOutForToday FIRED ');
 	 	//this.fireEvent('markOutToday');
 	 	this.checkForDupes();
 	},

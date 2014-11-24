@@ -195,7 +195,7 @@ config: {
 			this.loadData();
 			homePanel.setActiveItem(1);
 		} else if (button.getText() === "My School") {
-			//this.loadData();
+			this.loadData();
 			homePanel.setActiveItem(2);
 		} else {
 			homePanel.setActiveItem(3);

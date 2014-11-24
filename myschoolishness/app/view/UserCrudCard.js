@@ -750,11 +750,11 @@ Ext.define('myschoolishness.view.UserCrudCard', {
 	afterRegistrationComplete: function(store, records, successful, operation, eOpts) {
 		console.log("afterRegistrationComplete successful " + successful);
     	if (successful) {
-    		Ext.Msg.alert('Success', 'Your profile has been created. Please login with your new credentials', Ext.emptyFn);
     		console.log("About to redirect ");
     		sessionStorage.setItem("token","processed");
     		console.log("Redirect ");
 			this.fireEvent("goToLogin", this);
+			sessionStorage.setItem("welcome-alert","yes");
     	}
 	},
 	

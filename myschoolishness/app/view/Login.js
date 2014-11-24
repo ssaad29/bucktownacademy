@@ -209,6 +209,12 @@ Ext.define('myschoolishness.view.Login', {
 				}
 				});
 		}
+		
+		if (sessionStorage.getItem("welcome-alert") ==="yes") {
+			Ext.Msg.alert('Success', 'Your username is the same as your email address. Please login with your new credentials', Ext.emptyFn);
+			sessionStorage.setItem("welcome-alert","no");
+		}
+
     },
 	
 	onForgotButtonTap: function () {
