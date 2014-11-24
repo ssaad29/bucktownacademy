@@ -164,6 +164,7 @@ config: {
 
 	
 	initScreens: function() {
+	console.log("initScreens CALLED");
 			var schoolHome = Ext.getCmp('schoolHome');	
 			schoolHome.loadScreens();
 			var classHome = Ext.getCmp('classHome');	
@@ -177,12 +178,15 @@ config: {
 	},
 	
 	showSignature: function () {
+		console.log("showSignature CALLED");
+
 		var classHome = Ext.getCmp('classHome');
 		classHome.makeSignOutActive();
 		console.log("SHOW SIG CALLED");
 	},
 	
 	onSegButtonTap: function (container, button, pressed) {
+	console.log("onSegButtonTap CALLED");
 		var homePanel = Ext.getCmp('homePanel');	
 		if (button.getText() === "My Kids") {
 			this.loadData();
@@ -214,11 +218,12 @@ config: {
 	},
 		
 	loadData: function () {	
+	console.log("loadData:ONE");
 		var roles = sessionStorage.getItem("roles");
 		window.location.hash = 'home';		
 		this.setRoles(roles);	
 		var activeItemIndex = 0;
-		
+		console.log("loadData:TWO");
 		if (roles.indexOf("A") != -1) {
 			var schoolHome = Ext.getCmp('schoolHome');	
 			schoolHome.loadScreens();
@@ -239,7 +244,7 @@ config: {
 			kidsHome.loadScreens();
 			//activeItemIndex = 0;
 		}
-		
+		console.log("loadData:THREE");
 		//console.log("SETTING to ACTIVE " + activeItemIndex);
 		//var homePanel = Ext.getCmp('homePanel');	
 		//homePanel.setActiveItem(activeItemIndex);
@@ -266,6 +271,8 @@ config: {
 	},
 	
 	setRoles: function (roles) {
+		console.log("setRoles CALLED");
+
 	 var me = this;
 	 var dir = Ext.getCmp('directoryButton');	
 		
@@ -278,6 +285,8 @@ config: {
 	},
 	
 	configureTabs: function () {
+			console.log("configureTabs CALLED");
+
 		var roles = sessionStorage.getItem("roles");
 		var segmentedbutton = Ext.getCmp("mainSegmentedButton");
 		

@@ -50,7 +50,7 @@ Ext.define('myschoolishness.view.MyClassHome', {
                             					}
                         					}, // toggle
                         					painted: function (segBtn, btn, isPressed) {
-                        						this.setPressed(0);
+                        						//this.setPressed(0);
                         					},
                     					} // listeners
                	 					},
@@ -87,9 +87,6 @@ Ext.define('myschoolishness.view.MyClassHome', {
     	      ],
     },
 	
-	initialize: function () {
-		console.log("SHOW IN MY CLASS HOME CALLED");
-	},
 	
 	showUpdates: function () {
 		var classPanel = Ext.getCmp('classPanel');
@@ -112,7 +109,7 @@ Ext.define('myschoolishness.view.MyClassHome', {
 	},
 	*/
 	makeSignOutActive: function() {
-    	var segButtonClass = Ext.getCmp('classHomeSeg');
+    	//var segButtonClass = Ext.getCmp('classHomeSeg');
     	 //segButtonClass.setPressedButtons([2]);
     	 //segButtonClass.setPressed(2);
     	 //var classPanel = Ext.getCmp('classPanel');
@@ -120,11 +117,8 @@ Ext.define('myschoolishness.view.MyClassHome', {
 	},
 		
 	loadScreens: function() {
-    	console.log("Init CALLED->" + this.schoolIdIsValid());
         this.showUpdates();
         this.initialize();
-        var segButtonClass = Ext.getCmp('classHomeSeg');
-    	 console.log("segButtonClass IS " + segButtonClass);
 	},
 		
 	onTabSelect: function (sender, newActiveItem, oldActiveItem, eOpts ) {

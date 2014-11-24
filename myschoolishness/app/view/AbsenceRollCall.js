@@ -84,7 +84,7 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
 	},
 	
 	afterDupesCheck: function(store, records, successful, operation, eOpts) {
-		var typeToCreate = parseInt(sessionStorage.getItem("absenceType"));
+		var typeToCreate = 1;
 		if (myschoolishness.controller.Utils.hasRecords(records)) {
 			for (var i=0;i<records.length;i++) {
 				if (records[i].get("type") ===typeToCreate) {
