@@ -8,6 +8,8 @@ var DXSignature  = {
 			
 			return;
 		} 
+		console.log("IN insertSignature *********** + action" + params.action);
+		console.log("IN insertSignature *********** + student_id" + params.student_id);
 		
         var paramsList = [];
     	paramsList[0] = params.action;
@@ -15,9 +17,20 @@ var DXSignature  = {
     	paramsList[2] = params.student_id;
 		db.queryWithParams("INSERT INTO signature_records( action , signature , student_id, time_collected) VALUES(?, ?, ?, NOW())",paramsList,callback,false);
     },
-
+	
+	getStudentsSignedOutToday: function(params, callback){
+    	if (!db.isValidToken(params.token,arguments[arguments.length-1])) {
+			callback({success:false});
+			
+			return;
+		} 
+		
+		console.log("IN getStudentsSignedOutToday ***********");
+        db.simpleQuery("SELECT * FROM students_signed_out_today",callback);
+    },
+    
     alreadySignedOutCheck: function(params, callback){
-    	console.log("IN alreadySignedOutCheck: Token " + params.token);
+    	
     	if (!db.isValidToken(params.token,arguments[arguments.length-1])) {
 			callback({success:false});
 			

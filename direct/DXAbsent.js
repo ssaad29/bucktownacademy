@@ -86,7 +86,6 @@ var DXAbsent  = {
 	
 	getAllAbsencesForStudent: function(params, callback){
 		if (!db.isValidToken(params.token,arguments[arguments.length-1])) {
-			console.log("RETURNING THISSSSS*****************!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			callback({success:false,message:'no token'});
 			
 			return;
@@ -121,10 +120,28 @@ var DXAbsent  = {
 			return;
 		} 
 		
-        var paramsList = [];
+		var paramsList = [];
     	paramsList[0] = params.absence_id;
-		db.queryWithParams("delete from absence_owner where absence_id = ?;",paramsList,callback,true);
-		db.queryWithParams("delete from absence where id = ?;",paramsList,callback,true);
+    	var absence_ownerq = "delete from absence_owner where absence_id IN (?)";
+    	var absenceq = "delete from absence where id IN (?)";
+    	db.nestedQueryWithParams(absence_ownerq,paramsList,absenceq,paramsList,callback,-1);
+
+		//db.queryWithParams("delete from absence_owner where absence_id IN (?);",paramsList,callback,true);
+		//db.queryWithParams("delete from absence where id IN (?);",paramsList,callback,true);
+    },
+    
+    getTodaysAbsenceForStudent: function(params, callback){
+        	console.log("TOKEN:getTodaysAbsenceForStudent " + params.token)
+
+    	if (!db.isValidToken(params.token,arguments[arguments.length-1])) {
+			callback({success:false});
+			
+			return;
+		} 
+		
+        var paramsList = [];
+    	paramsList[0] = params.student_id;
+		db.queryWithParams("SELECT absence_id FROM absence_owner t1, absence t2 WHERE DATE_FORMAT(t2.start_date_time, '%Y-%m-%d') = CURDATE() and t1.student_id=? and t1.absence_id = t2.id",paramsList,callback,true);
     },
     
     insertOrUpdateAbsence: function(params, callback) {

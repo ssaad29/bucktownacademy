@@ -21,10 +21,10 @@ config: {
     },
     
     load: function () {
-    console.log("BULLETINS - school id " + sessionStorage.getItem("school_id"));
-    console.log("BULLETINS - user id " + sessionStorage.getItem("user_id"));
-    console.log("BULLETINS - token " + sessionStorage.getItem("token"));
-    console.log("BULLETINS - roles " + sessionStorage.getItem("roles"));
+    //console.log("BULLETINS - school id " + sessionStorage.getItem("school_id"));
+    //console.log("BULLETINS - user id " + sessionStorage.getItem("user_id"));
+    //console.log("BULLETINS - token " + sessionStorage.getItem("token"));
+    //console.log("BULLETINS - roles " + sessionStorage.getItem("roles"));
     
 		 	this.setStore(null);
 		 	var bulletinStore = Ext.create('myschoolishness.store.AllBulletinsStore', {
@@ -43,7 +43,7 @@ config: {
     				callback : function(records, operation, success) {
 							if (success) {
 								this.setStore(bulletinStore);
-								console.log("SETTING BUlletin STORE");
+								//console.log("SETTING BUlletin STORE");
 								this.fireEvent("goHome", this);
 							}
     					}

@@ -35,7 +35,7 @@ Ext.define('myschoolishness.view.AbsenceList', {
 		        								xtype: 'actionsheet',
 		        								items: [
         											{
-            										text: 'Out',
+            										text: 'Absent',
             										ui  : 'confirm',
             										scope: this,
             											handler: function() {
@@ -57,6 +57,13 @@ Ext.define('myschoolishness.view.AbsenceList', {
             											handler: function() {
             												this.actions.hide();
             												this.up().up().up().onRecordEarlyDismissal();
+            											}
+       	 											},
+       	 											{
+            										text: 'Cancel',
+            										scope: this,
+            											handler: function() {
+            												this.actions.hide();
             											}
        	 											}
     											]
@@ -292,7 +299,9 @@ Ext.define('myschoolishness.view.AbsenceList', {
 	},
 
  	afterStoreLoad: function(store, records, successful, operation, eOpts) {
-    	this.onCancelButtonTap();
+ 		Ext.Msg.alert('Status', 'Successfully added attendance record');
+    	//this.fireEvent("reloadRollCall", this);
+    	this.loadData();
 	},
 
     loadData: function () {	

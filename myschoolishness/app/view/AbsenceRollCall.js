@@ -8,121 +8,177 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
 		title: 'Roll call' ,
 		grouped: false,
 		indexBar: false,
+		style: ".myButton { margin-left: 10px; margin-right: 10px;float: left;} .myContent {margin-bottom: 5px;",
 		store: 'AttendanceStore',
-		itemTpl:'{display_first_name} {display_last_name} ',
-		itemId:'attendanceNamesList',
-		id:'attendanceNamesList',
+		itemTpl: '{first_name} {last_name}' + '<div class="myButton">' +
+        '<input type="button" name="{AorP}" value="{AorP}" ' +
+        'style="padding:3px;">' +
+        '</div>' ,
 		listeners: {
-                itemtap: function (list, idx, target, record, evt) {
-                	setTimeout(function() {
-					console.log("Item tap" + idx);
-					console.log("Student id I clicked " + record.get("student_id"));
-					sessionStorage.setItem("attendance.id_type", "student");
+                itemsingletap: function (list, idx, target, record, evt) {
+                	sessionStorage.setItem("attendance.id_type", "student");
 					sessionStorage.setItem("attendance.student_id", record.get("student_id"));
 					sessionStorage.setItem("attendance.first_name", record.get("first_name"));
 					sessionStorage.setItem("attendance.last_name", record.get("last_name"));
-					if (this.actions) {
-					console.log("Hidden" + this.actions.getHidden());
-					}
-					console.log("this.actions" + this.actions);
-					if (this.actions) {
-						console.log("GET HIDDEN?? " + this.actions.getHidden());
-						console.log("IS HIDDEN?? " + this.actions.isHidden());
-					} else {
-						console.log("ACTIONS NOT FOUND ");
-					}
-					if (!this.actions || this.actions.isHidden()) {
-						//				console.log("CREATING NEW");
-		        							this.actions = Ext.Viewport.add({
-		        								xtype: 'actionsheet',
-		        								items: [
-        											{
-            										text: 'Attendance',
-            										scope: this,
-            											handler: function() {
-															sessionStorage.setItem("absence.edit.role", "approver");
-															window.location.hash = 'absence/absenceList';
-															//this.fireEvent('showAbsenceList');
-															this.actions.hide();
-															console.log("Hiding...");
-            											}
-        											},
-        											{
-            										text: 'Sign out',
-            										scope: this,
-            											handler: function() {
-            												this.actions.hide();
-															var attendanceNamesList = Ext.getCmp('attendanceNamesList');
-            												attendanceNamesList.fireShowSignaturePad();
-            												console.log("Hiding...");
-            											}
-        											},
-        											{
-            										text: 'Absent Today',
-            										scope: this,
-            											handler: function() {
-															sessionStorage.setItem("absence.edit.role", "approver");
-            												this.actions.hide();
-            												var attendanceNamesList = Ext.getCmp('attendanceNamesList');
-            												attendanceNamesList.fireMarkOutForToday();
-            												//console.log("ROLL CALL DOWN " + this.down('#absence-rollcall'));
-            												//console.log("ROLL CALL UP " + this.up('#absence-rollcall'));
-            												//this.down('#absence-rollcall').fireMarkOutForToday();
-            												//this.parent.parent.parent.parent.fireEvent('markOutToday');
-            												console.log("Hiding...");
-            											}
-        											},
-    											]
-		        							})
-		        						} else {
-		        							console.log("Showing OLD");
-		        							this.actions.show();
-		        							console.log("Showing...");
-		        						}                
-                 }, 0);
-        		}
-        		
+                	var lastDate = sessionStorage.getItem("lastDate-attendance");
+                	var moreThenOneSec = myschoolishness.controller.Utils.moreThanOneSecondHasElapsed(lastDate);
+                	
+                	if(moreThenOneSec) {
+                		console.log('PROCESSING TAP EVENT ');
+        				if(evt.target.type == "button"){
+        					if (record.get("present") === null || record.get("present") === 0 || record.get("present") === '0') {
+        						
+            					list.fireMarkOutForToday();
+            					}
+            				else {
+            				console.log('Go ahead and delete ');
+            					list.deleteTodaysAbsences(record.get("student_id"));
+            				}
+    					} else {
+    						sessionStorage.setItem("absence.edit.role", "approver");
+							window.location.hash = 'absence/absenceList';
+    					}
+        			}
+        			sessionStorage.setItem("lastDate-attendance", new Date().getTime());
+                 }
 			}
 		},
 	
 	fireMarkOutForToday: function () {	
-	 	this.fireEvent('markOutToday');
+		console.log('fireMarkOutForToday FIRED ');
+	 	//this.fireEvent('markOutToday');
+	 	this.checkForDupes();
 	},
 	
-	fireShowSignaturePad: function () {	
-	console.log("FIRE showSigPanel");
-	 	this.checkSignature();
+	checkForDupes: function() {
+    	var startDate =new Date();
+		//var endDate = new Date(startDate.getTime() + 24 * 60 * 60 * 1000);
+		var endDate =new Date();
+		startDate.setHours(0,0,0,0);
+		endDate.setHours(23,59,59,999);
+		var student_id = null;
+		var user_id=null
+		if (sessionStorage.getItem("attendance.id_type")==="staff") {
+			user_id = sessionStorage.getItem("staff.user_id");
+		} else {
+			student_id = sessionStorage.getItem("attendance.student_id");
+		}
+		
+		var dupesStore = Ext.create('myschoolishness.store.AbsentCheckForDuplicatesStore', {
+			model: "myschoolishness.model.AbsentCheckForDuplicatesModel"
+		});
+		
+		//dupesStore.addListener('load',this.onStoreLoad,this);
+		dupesStore.addListener('load',this.afterDupesCheck,this);
+
+        dupesStore.load({
+    			//define the parameters of the store:
+    		    params: {
+        			student_id: student_id,
+        			user_id: user_id,
+        			start_date_range: startDate,
+        			end_date_range: endDate,
+        			token: sessionStorage.getItem("token")
+    			},
+    	})
 	},
 	
-	checkSignature: function (imageData) {
-    		console.log("checkSignature called");
-		 	var checkSignatureStore = Ext.create('myschoolishness.store.CheckSignedOutStore', {
-			model: 'myschoolishness.model.CheckSignedOutModel'
-			});
-			console.log("checkSignatureStore student ID " + sessionStorage.getItem("attendance.student_id"));
-			checkSignatureStore.load({
-    		//define the parameters of the store:
-    		params: {
-        		student_id: sessionStorage.getItem("attendance.student_id"),
-        		token: sessionStorage.getItem("token"),
-    		    				},
-    				scope: this,
-    				callback : function(records, operation, success) {
-							if (success) {
-								if (records.length===0) {
-									//console.log("No signature found for today. Inserting");
-									//this.insertSignature(imageData);
-									this.fireEvent('showSigPanel');
-								} else {
-									Ext.Msg.alert('Unable to complete', 'Already signed out for today', Ext.emptyFn);
-								}
-							}
-    					}
-					})
-	},		
+	afterDupesCheck: function(store, records, successful, operation, eOpts) {
+		var typeToCreate = parseInt(sessionStorage.getItem("absenceType"));
+		if (myschoolishness.controller.Utils.hasRecords(records)) {
+			for (var i=0;i<records.length;i++) {
+				if (records[i].get("type") ===typeToCreate) {
+					Ext.Msg.alert('Unable to complete', 'This would create a duplicate', Ext.emptyFn);
+					return;
+				}
+			}
+		}
+		
+		if (sessionStorage.getItem("absence.edit.role") === "approver" && (typeToCreate===2 || typeToCreate===3)) {
+			console.log("Teacher - tardy early ");
+			var pickerWindow = Ext.getCmp('timeEntryPanel');
+			if(!pickerWindow || pickerWindow===undefined){
+				pickerWindow = Ext.create('myschoolishness.view.EnterTimeWindow');
+				Ext.Viewport.add(pickerWindow);
+			}
+			pickerWindow.addListener('timeEntryCollected',this. onTimeCollected,this);
+			pickerWindow.show();
+		} else if (sessionStorage.getItem("absence.edit.role") === "creator" && (typeToCreate===1)){
+			Ext.Msg.prompt(
+      			"Reason",
+      			"Please enter a reason",
+      			function(buttonId,text) {
+          			this.gotReason(buttonId,text);                  
+      			}, 
+      			this // scope of the controller 
+    			);			
+		} else {
+			console.log("Plain ");
+			this.saveAbsenceToDatabase(null,null);
+		}
+	},
+	
 	tabChosen: function () {	
 	 	this.loadData();
 	},
+	
+	saveAbsenceToDatabase: function (tardyDismissalTime,reasonText) {
+		var reason = reasonText;
+		var startDate = new Date(); 
+		var endDate = new Date(); 
+		//var startDate = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+		//var startDate =new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+		//var endDate = new Date(startDate.getTime() + 24 * 60 * 60 * 1000);
+		var endDate =new Date();
+		startDate.setHours(0,0,0,0);
+		endDate.setHours(23,59,59,999);
+		var tardyTime =myschoolishness.controller.Utils.getTimeStringForDisplayFromString(tardyDismissalTime); 
+		var schoolEntered = 0;
+		var parentEntered = 1;
+		var student_id = null;
+		var user_id=null
+		if (sessionStorage.getItem("attendance.id_type")==="staff") {
+			user_id = sessionStorage.getItem("staff.user_id");
+		} else {
+			student_id = sessionStorage.getItem("attendance.student_id");
+		}
+		
+		if (sessionStorage.getItem("absence.edit.role") === "approver") {
+			reason = "Teacher reported";
+			schoolEntered = 1;
+			parentEntered = 0;
+		}
+		
+		
+		var absentInsertStore = Ext.create('myschoolishness.store.AbsentInsertStore', {
+			model: "myschoolishness.model.AbsentInsertModel"
+		});
+		
+		absentInsertStore.addListener('load',this. onStoreLoad,this);
+		absentInsertStore.addAfterListener('load',this.afterInsertStoreLoad,this);
+		var currentUser = sessionStorage.getItem("user_id");
+        absentInsertStore.load({
+    			//define the parameters of the store:
+    		    params: {
+        			student_id: student_id,
+        			user_id: user_id,
+        			reason: reason,
+        			tardy_dismissal_time: tardyDismissalTime,
+        			start_date_time: startDate,
+        			end_date_time: endDate,
+        			type: 1,
+        			createdBy: currentUser,
+        			school_entered: schoolEntered,
+        			parent_entered: parentEntered,
+        			token: sessionStorage.getItem("token")
+    			},
+    	})
+	},
+
+ 	afterInsertStoreLoad: function(store, records, successful, operation, eOpts) {
+ 		Ext.Msg.alert('Status', 'Successfully added attendance record');
+    	this.loadData();
+	},	
 	
     loadData: function () {		
 		this.setStore(null);
@@ -156,6 +212,81 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
 			})
 	},
 	
+	deleteTodaysAbsences: function (student_id) {
+			console.log("deleteTodaysAbsences called" + student_id);
+			var todaysAbsenceStore = Ext.create('myschoolishness.store.TodaysAbsenceForStudentStore', {
+				model: "myschoolishness.model.TodaysAbsenceForStudentModel"
+			});
+			console.log("todaysAbsenceStore created" + todaysAbsenceStore);
+			console.log("token" + sessionStorage.getItem("token"));
+			todaysAbsenceStore.load({
+    			//define the parameters of the store:
+    		    		params: {
+        		student_id: student_id,
+        		token: sessionStorage.getItem("token")
+    			},
+    			
+    		scope: this,
+    		callback : function(records, operation, success) {		
+
+			if (success===false) {
+				console.log("success " + success);
+				myschoolishness.controller.Utils.sessionExpired();
+		
+				return;
+			}
+				if (success===true) {
+						var ids = "";
+						
+						for (var i=0;i<records.length;i++) {
+							console.log("DELETE record with id " + records[i].get("absence_id"));
+							this.deleteAbsences(records[i].get("absence_id"));
+						}
+					}		
+				
+				}
+			})
+	},
+	
+	deleteAbsences: function (absence_id) {
+		if (absence_id!= null && absence_id!=undefined) {
+			console.log('try deleting this absence ' + absence_id);
+		
+			var absentDeleteStore = Ext.create('myschoolishness.store.AbsentDeleteStore', {
+				model: "myschoolishness.model.AbsentDeleteModel"
+			});
+			
+			absentDeleteStore.load({
+    			//define the parameters of the store:
+    		    		params: {
+        		absence_id: absence_id,
+        		token: sessionStorage.getItem("token")
+    			},
+    			
+    		scope: this,
+    		callback : function(records, operation, success) {		
+
+			if (success===false) {
+				myschoolishness.controller.Utils.sessionExpired();
+		
+				return;
+			}
+				if (myschoolishness.controller.Utils.hasRecords(records) || success===true) {
+						Ext.Msg.alert('Status', 'Successfully deleted attendance records for today');
+						//history.back();
+						this.loadData();
+					}		
+				
+				}
+			})
+		}
+	},
+	
+	showAddedAbsence: function (absence_id) {
+		Ext.Msg.alert('Status', 'Successfully added attendance record for today');
+		this.loadData();
+	},
+	
 	onStoreLoad: function(store, records, successful, operation, eOpts) {
 		var me = this;
 
@@ -166,16 +297,15 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
 		}	
 			for (var i=0;i<records.length;i++) {
 					if (records[i].get("present") === null || records[i].get("present") === 0 || records[i].get("present") === '0') {
-						records[i].set('display_first_name', "<font color='black'> " + records[i].get("first_name") );
-						records[i].set('display_last_name', records[i].get("last_name") + "</font>" );
-
+						records[i].set('AorP', 'P');
+						console.log(records[i].get("first_name") + " " + records[i].get("last_name") + " is PRESENT");
 					} else {
-						records[i].set('display_first_name', "<font color='red'> " + records[i].get("first_name") );
-						records[i].set('display_last_name', records[i].get("last_name") + "</font>" );
+						records[i].set('AorP', 'A');
+						console.log(records[i].get("first_name") + " " + records[i].get("last_name") + " is ABSENT");
+						//records[i].set('display_first_name', "<font color='red'> " + records[i].get("first_name") );
+						//records[i].set('display_last_name', records[i].get("last_name") + "</font>" );
 					}
 				}
-			this.refresh();
-
     }
     
     

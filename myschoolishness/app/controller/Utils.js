@@ -28,7 +28,21 @@ Ext.define('myschoolishness.controller.Utils', {
   });
 },
 
-
+	moreThanOneSecondHasElapsed: function (previousDate) { 
+		var nowDate = new Date().getTime();
+		var dateDiff = (parseInt(nowDate) - parseInt(previousDate))/1000;
+		//console.log(nowDate + " - " + previousDate + " = " + dateDiff);
+		if (previousDate=="null" || previousDate==undefined || previousDate.length < 1) {
+    		return true;
+    	}
+		
+		if (dateDiff<1) {
+			return false;
+		} else {
+				return true;
+		}
+	},
+	
 	getTimeStamp: function () { 
 		// Create a date object with the current time
   		var now = new Date();

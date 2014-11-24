@@ -162,8 +162,8 @@ config: {
 		],	
         },
 
+	
 	initScreens: function() {
-		console.log("INIT SCREENS in main");
 			var schoolHome = Ext.getCmp('schoolHome');	
 			schoolHome.loadScreens();
 			var classHome = Ext.getCmp('classHome');	
@@ -173,8 +173,13 @@ config: {
 	},
 		
 	newNote: function () {
-		console.log("Should fire show list");
 		this.fireEvent('showBulletinAdminList');
+	},
+	
+	showSignature: function () {
+		var classHome = Ext.getCmp('classHome');
+		classHome.makeSignOutActive();
+		console.log("SHOW SIG CALLED");
 	},
 	
 	onSegButtonTap: function (container, button, pressed) {
@@ -209,7 +214,6 @@ config: {
 	},
 		
 	loadData: function () {	
-		console.log("LOAD DATA called in MAIN!!");
 		var roles = sessionStorage.getItem("roles");
 		window.location.hash = 'home';		
 		this.setRoles(roles);	
@@ -227,6 +231,7 @@ config: {
 			classHome.loadScreens();
 			classHome.show();
 			activeItemIndex = 1;
+			
 		}
 		
 		if (roles.indexOf("P") != -1) {

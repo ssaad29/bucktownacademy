@@ -8,26 +8,36 @@ Ext.define('myschoolishness.controller.Signature', {
             },
             'button[action=setSignature]': {
                 tap: 'setSignature'
+            },
+            'button[action=cancelSignature]': {
+                tap: 'cancelSignature'
             }
         },
         refs: {
         	mainView: 'mainview',
+        	classHome: 'class-home',
             signatureField: 'signoutview signaturefield[name=signature]'
         }
     },
     
+     cancelSignature: function() {
+     	var mainView = this.getMainView();
+		mainView.setMasked(false);
+		Ext.Viewport.animateActiveItem(mainView,myschoolishness.controller.Utils.getDefaultSlideTransition());
+     },
+     
     getSignature: function() {
     	console.log("Get signature called");
         var imageData = this.getSignatureField().getValue();
         this.insertSignature(imageData);
-        var mainView = this.getMainView();
-		mainView.setMasked(false);
-		Ext.Viewport.animateActiveItem(mainView,myschoolishness.controller.Utils.getDefaultSlideTransition());
+        //var mainView = this.getMainView();
+		//mainView.setMasked(false);
+		//Ext.Viewport.animateActiveItem(mainView,myschoolishness.controller.Utils.getDefaultSlideTransition());
 		this.getSignatureField().setValue("");
     },
     
     insertSignature: function (imageData) {
-    		console.log("insertSignature called");
+    		console.log("insertSignature called " + sessionStorage.getItem("attendance.student_id"));
 		 	var insertSignatureStore = Ext.create('myschoolishness.store.InsertSignatureStore', {
 			model: 'myschoolishness.model.InsertSignatureModel'
 			});
@@ -43,9 +53,26 @@ Ext.define('myschoolishness.controller.Signature', {
     				callback : function(records, operation, success) {
 							if (success) {
 								console.log("Signature insert successful");
+								var mainView = this.getMainView();
+								mainView.setMasked(false);
+								Ext.Viewport.animateActiveItem(mainView,myschoolishness.controller.Utils.getDefaultSlideTransition());
+								mainView.showSignature();
+							} else {
+								console.log("Signature insert DID NOT WORK!!!!");
 							}
     					}
 					})
+	},
+	
+	goHome: function () {
+		var mainView = this.getMainView();
+		mainView.loadData();
+		mainView.setMasked(false);
+		//var absenceRollCall = this.getAbsenceRollCall();
+		//absenceRollCall.loadData();
+		Ext.Viewport.animateActiveItem(mainView,myschoolishness.controller.Utils.getDefaultSlideTransition());
+		//var absenceRollCall = this.getAbsenceRollCall();
+		//absenceRollCall.loadData();
 	},
 	
     setSignature: function() {

@@ -35,6 +35,7 @@ Ext.define('myschoolishness.controller.Absence', {
 			mainView: 'mainview',
 			absenceHome: 'absence-home',
 			absenceRollCall: 'absence-rollcall',
+			absenceSignOut: 'absence-signout',
 			absenceEdit: 'absence-edit',
 			absenceAllStaff: 'absence-allstaff',
 			absenceAllStudents: 'absence-allstudent',
@@ -54,7 +55,9 @@ Ext.define('myschoolishness.controller.Absence', {
 			absenceRollCall: {
 				showAbsenceList: 'showAbsenceList',
 				refreshHome: 'refreshHome',
-				markOutToday: 'markOutToday',
+				markOutToday: 'markOutToday'
+			},
+			absenceSignOut: {
 				showSigPanel: 'showSigPanel'
 			},
 			mainView: {
@@ -72,6 +75,7 @@ Ext.define('myschoolishness.controller.Absence', {
 			absenceList: {
 				showEdit: 'showEdit',
 				showRollCall: 'showRollCall',
+				reloadRollCall: 'reloadRollCall',
 				goHome: 'goHome',
 			}
 		},
@@ -91,10 +95,20 @@ Ext.define('myschoolishness.controller.Absence', {
         }
 	},
 	
+	reloadRollCall: function () {
+		var absenceRollCall = this.getAbsenceRollCall();
+		absenceRollCall.showAddedAbsence();
+	},
+	
 	goHome: function () {
 		var mainView = this.getMainView();
+		mainView.loadData();
 		mainView.setMasked(false);
+		//var absenceRollCall = this.getAbsenceRollCall();
+		//absenceRollCall.loadData();
 		Ext.Viewport.animateActiveItem(mainView,myschoolishness.controller.Utils.getDefaultSlideTransition());
+		//var absenceRollCall = this.getAbsenceRollCall();
+		//absenceRollCall.loadData();
 	},
 	
 	showSigPanel: function () {
@@ -130,7 +144,7 @@ Ext.define('myschoolishness.controller.Absence', {
 		console.log("markOutToday CALLED");
 		var absenceList = this.getAbsenceList();
 		absenceList.loadData();
-		Ext.Viewport.animateActiveItem(absenceList,myschoolishness.controller.Utils.getDefaultSlideTransition());
+		//Ext.Viewport.animateActiveItem(absenceList,myschoolishness.controller.Utils.getDefaultSlideTransition());
 		absenceList.onReportAbsentButtonTap();
 	},
 		

@@ -18,13 +18,17 @@ Ext.define('myschoolishness.view.MyClassHome', {
                 		docked: 'top',
                 		items: [
                     			{
+                    				itemId: 'classHomeSeg',
 		        					xtype: 'segmentedbutton',
                     			items: [{
                         				text: 'Updates',
-                        				pressed: true
+                        				pressed: true,
                     					}, {
                         				text: 'Attendance',
                     					},
+                    					{
+                        				text: 'Sign Out',
+                    					}
                     					 ], // items
                     					listeners: {
                         					toggle: function (segBtn, btn, isPressed) {
@@ -33,13 +37,21 @@ Ext.define('myschoolishness.view.MyClassHome', {
 													var bulletinsClass = Ext.getCmp('bulletinsClass');	
 													classPanel.setActiveItem(0);
 													bulletinsClass.load();	
-                            					} else {
+                            					} else if (btn.getText() === "Attendance") {
                             						var absenceList = Ext.getCmp('classAttendance');	
 													absenceList.loadData();
 													var classPanel = Ext.getCmp('classPanel');
 													classPanel.setActiveItem(1);
+                            					} else if (btn.getText() === "Sign Out") {
+                            						var signOutList = Ext.getCmp('classSignOut');	
+													signOutList.loadData();
+													var classPanel = Ext.getCmp('classPanel');
+													classPanel.setActiveItem(2);
                             					}
-                        					} // toggle
+                        					}, // toggle
+                        					painted: function (segBtn, btn, isPressed) {
+                        						this.setPressed(0);
+                        					},
                     					} // listeners
                	 					},
             
@@ -65,9 +77,19 @@ Ext.define('myschoolishness.view.MyClassHome', {
     	       		id: 'classAttendance',
     	       		title:'Attendance'
     	       		},
+    	       		{
+    	       		xtype: 'absence-signout',
+    	       		itemId: 'classSignOut',
+    	       		id: 'classSignOut',
+    	       		title:'Sign Out'
+    	       		},
     	       	]},
     	      ],
     },
+	
+	initialize: function () {
+		console.log("SHOW IN MY CLASS HOME CALLED");
+	},
 	
 	showUpdates: function () {
 		var classPanel = Ext.getCmp('classPanel');
@@ -82,11 +104,27 @@ Ext.define('myschoolishness.view.MyClassHome', {
 		var classPanel = Ext.getCmp('classPanel');
 		classPanel.setActiveItem(1);
 	},
+	/*
+	makeUpdatesActive: function() {
+    	var segButtonClass = Ext.getCmp('classHomeSeg');
+    	 segButtonClass.setPressedButtons([0]);
+    	 segButtonClass.setPressed(0);
+	},
+	*/
+	makeSignOutActive: function() {
+    	var segButtonClass = Ext.getCmp('classHomeSeg');
+    	 //segButtonClass.setPressedButtons([2]);
+    	 //segButtonClass.setPressed(2);
+    	 //var classPanel = Ext.getCmp('classPanel');
+		//classPanel.setActiveItem(2);
+	},
 		
 	loadScreens: function() {
     	console.log("Init CALLED->" + this.schoolIdIsValid());
         this.showUpdates();
         this.initialize();
+        var segButtonClass = Ext.getCmp('classHomeSeg');
+    	 console.log("segButtonClass IS " + segButtonClass);
 	},
 		
 	onTabSelect: function (sender, newActiveItem, oldActiveItem, eOpts ) {
