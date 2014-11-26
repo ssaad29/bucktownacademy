@@ -18,9 +18,9 @@ endif
 
 build:
 	cd myschoolishness; \
-	sencha app build -c package
+	/Users/ssaad29/bin/Sencha/Cmd/5.0.0.160/sencha app build -c production
 stage:
 	rm -R ./prod
 	mkdir ./prod
-	cp -R ./myschoolishness/build/package/myschoolishness/* ./prod
+	cp -R ./myschoolishness/build/production/myschoolishness/* ./prod
 	

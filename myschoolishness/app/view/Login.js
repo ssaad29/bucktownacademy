@@ -21,7 +21,7 @@ Ext.define('myschoolishness.view.Login', {
 				items: [
 						{
 							xtype:'panel',
-							html: '<center><img src="images/logo_small_trans.png" /></center> ',
+							html: '<center><img src="images/Bucktown_Academy_Web_Logo_Small.jpg" /></center> ',
 							align: 'center',
 			        		style: 'font:20px Comic Sans MS,cursive, sans-serif;',
 						},
