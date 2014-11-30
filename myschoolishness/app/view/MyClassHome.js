@@ -109,7 +109,8 @@ Ext.define('myschoolishness.view.MyClassHome', {
 	},
 	*/
 	makeSignOutActive: function() {
-    	//var segButtonClass = Ext.getCmp('classHomeSeg');
+    	var sigPanel = Ext.getCmp('classSignOut');
+    	sigPanel.loadData();
     	 //segButtonClass.setPressedButtons([2]);
     	 //segButtonClass.setPressed(2);
     	 //var classPanel = Ext.getCmp('classPanel');

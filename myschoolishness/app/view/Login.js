@@ -92,6 +92,11 @@ Ext.define('myschoolishness.view.Login', {
 			fn: 'onLogInButtonTap'
 		},
 		{
+			delegate: '#logInButton',
+			event: 'keyup',
+			fn: 'onLogInButtonTap'
+		},
+		{
 			delegate: '#forgotButton',
 			event: 'tap',
 			fn: 'onForgotButtonTap'
@@ -101,10 +106,8 @@ Ext.define('myschoolishness.view.Login', {
 	},
 	
 	show: function () {
-		console.log("SHOW LOGIN");
-		
 		var roles = sessionStorage.getItem("roles");
-		console.log("roles " + roles);
+
 		if (roles === null || roles === undefined || roles.length < 1) {
 			this.checkForEmailToken();
 		} else {			
@@ -114,29 +117,21 @@ Ext.define('myschoolishness.view.Login', {
 	
 	checkForEmailToken: function () {
 		var params = Ext.Object.fromQueryString(window.location.search);
-		console.log("params " + params);
 		var token = sessionStorage.getItem("token");
-		console.log("token " + token);
 		if (token!=null && token!=undefined && token==="processed") {
-		console.log("NO TOKEN " );
 			token===null;
 			token = sessionStorage.removeItem("token");
 			window.location.search="";
 			return;
 		} else {
 			 token = params.token;
-			 console.log("YES TOKEN " + token);
 		}
 		var student_id = params.student_id;
 		var userId = params.userId;
 		var schoolId = params.schoolId;
 		sessionStorage.setItem("school_id",schoolId);
-		console.log("student_id " + student_id);
-		console.log("userId " + userId);
-		console.log("schoolId " + schoolId);
 		
 		if (token!=null && token!=undefined && token.length > 0) {
-			console.log("CALLING token store ");
 			var tokenStore = Ext.create('myschoolishness.store.CheckEmailTokenStore', {
 				model: "myschoolishness.model.CheckEmailTokenModel"
 			});
@@ -147,7 +142,6 @@ Ext.define('myschoolishness.view.Login', {
         		token: token,
     		},
     		callback : function(records, operation, success) {	
-					console.log("TOKEN CALLBACK " + success);
 					if (success ===true) {
 						var type = records[0].get("type");
 						var date = records[0].get("creation_date");
@@ -162,16 +156,12 @@ Ext.define('myschoolishness.view.Login', {
     				scope: this,
     				callback : function(tokenRecords, operation, success) {	
 					if (success ===true) {
-						console.log("clientokenStore CALLBACK " + success);
-						console.log("type " + type);
 						sessionStorage.setItem("token", tokenRecords[0].get("session_id"));
 						if (type === "registration") {
 							sessionStorage.setItem("registration.student_id", student_id);
-							console.log("REDIRECTING ");
 							this.fireEvent("doNewRegistration", this);
 						} else if (type === "forgotPassword") {
 							sessionStorage.setItem("forgot.userId", userId);
-							console.log(" Token " + sessionStorage.getItem("token"));
 							this.fireEvent("doForgotPassword", this);
 						}
 						}
@@ -184,7 +174,10 @@ Ext.define('myschoolishness.view.Login', {
 	},
 	
     initialize: function () {
-    	console.log("INIT in login ");
+    	sessionStorage.removeItem("roles");
+		sessionStorage.removeItem("token");
+		sessionStorage.removeItem("user_id");
+		sessionStorage.removeItem("school_id");
 		var me = this;
     	rememberToggle = me.down('#rem');
     	
@@ -224,7 +217,6 @@ Ext.define('myschoolishness.view.Login', {
 	},
 		
 	onLogInButtonTap: function () {
-		console.log("LOGIN TAPPED");
 		var me = this;
 		
 		var usernameField = me.down('#userNameTextField');

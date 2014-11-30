@@ -24,15 +24,12 @@ Ext.define('myschoolishness.controller.Signature', {
      	var mainView = this.getMainView();
 		mainView.setMasked(false);
 		Ext.Viewport.animateActiveItem(mainView,myschoolishness.controller.Utils.getDefaultSlideTransition());
+		this.getSignatureField().setValue("");
      },
      
     getSignature: function() {
-    	console.log("Get signature called");
         var imageData = this.getSignatureField().getValue();
         this.insertSignature(imageData);
-        //var mainView = this.getMainView();
-		//mainView.setMasked(false);
-		//Ext.Viewport.animateActiveItem(mainView,myschoolishness.controller.Utils.getDefaultSlideTransition());
 		this.getSignatureField().setValue("");
     },
     
@@ -68,11 +65,7 @@ Ext.define('myschoolishness.controller.Signature', {
 		var mainView = this.getMainView();
 		mainView.loadData();
 		mainView.setMasked(false);
-		//var absenceRollCall = this.getAbsenceRollCall();
-		//absenceRollCall.loadData();
 		Ext.Viewport.animateActiveItem(mainView,myschoolishness.controller.Utils.getDefaultSlideTransition());
-		//var absenceRollCall = this.getAbsenceRollCall();
-		//absenceRollCall.loadData();
 	},
 	
     setSignature: function() {

@@ -6,7 +6,7 @@ Ext.define('myschoolishness.view.ManageBulletins', {
 	config: {
 		iconCls: 'news',
 		title: 'Bulletins' ,
-		store : 'AllBulletinsForAdminScreenStore',
+		store : 'AllBulletinsStore',
 		itemTpl:'{title}',
 		itemId:'Class Bulletins List',
 		listeners: {
@@ -28,8 +28,8 @@ Ext.define('myschoolishness.view.ManageBulletins', {
 	
 	loadData: function () {
 		 this.setStore(null);
-		 	var bulletinsStore = Ext.create('myschoolishness.store.AllBulletinsForAdminScreenStore', {
-			model: 'myschoolishness.model.AllBulletinsForAdminScreenModel'
+		 	var bulletinsStore = Ext.create('myschoolishness.store.AllBulletinsStore', {
+			model: 'myschoolishness.model.AllBulletinsModel'
 			});
 			bulletinsStore.addListener('load',this. onStoreLoad,this);
 			bulletinsStore.load({
@@ -44,7 +44,9 @@ Ext.define('myschoolishness.view.ManageBulletins', {
     				scope: this,
     				callback : function(records, operation, success) {
 							if (success) {
-								console.log("GOT DATA for bulletins");
+								for (var i=0;i<records.length;i++) {
+									console.log("Record at " + i + " " + records[i].get("title"));
+								}
 								this.setStore(bulletinsStore);
 							}
     					}

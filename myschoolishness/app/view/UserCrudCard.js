@@ -115,7 +115,7 @@ Ext.define('myschoolishness.view.UserCrudCard', {
         			},
 	
 	doRegister: function () {
-		console.log("isPasswordReset set to NO:2");
+		//console.log("isPasswordReset set to NO:2");
 		sessionStorage.setItem("isPasswordReset","no");
 		sessionStorage.setItem("newparent.index","5");
 		sessionStorage.setItem("edit_user.origin","registration");
@@ -435,6 +435,7 @@ Ext.define('myschoolishness.view.UserCrudCard', {
 	
 	
 	onSaveButtonTap: function () {
+	console.log("onSaveButtonTap: user crud card");
 		var createIndex = sessionStorage.getItem("newparent.index");
 		var userId = sessionStorage.getItem("user_crud.user_id");
 		var updatedBy = sessionStorage.getItem("user_id");
@@ -442,10 +443,7 @@ Ext.define('myschoolishness.view.UserCrudCard', {
 		var passwordForm = Ext.getCmp("userPasswordPanel");
 		var	isShowingExistingPasswordField = passwordForm.isShowingExistingPasswordField();
 		var currUserRoles = sessionStorage.getItem("roles");
-		
-		console.log("createIndex " + createIndex);
-		console.log("isShowingExistingPasswordField " + isShowingExistingPasswordField);
-		
+				
 		if (createIndex === "100") { //create a new user
 			sessionStorage.setItem("newparent.index",'3');
 			var insertStore = Ext.create('myschoolishness.store.UserInsertStore', {
@@ -621,12 +619,16 @@ Ext.define('myschoolishness.view.UserCrudCard', {
     			},
     		})
 		} else if (category === 'Password' && isShowingExistingPasswordField===true) {
+			console.log("IN password");
 			var passwordForm = Ext.getCmp("userPasswordPanel");
 			var existingPassword = passwordForm.getExistingPassword();	
 			var password = passwordForm.getNewPassword();	
 			var newPasswordMatch = passwordForm.getNewPasswordMatch();	
 			insertStore.addAfterListener('load',this.afterStoreLoad,this);	
-		
+			//console.log("existingPassword length " + existingPassword.length);
+			//		console.log("password length " + password.length);
+			//		console.log("newPasswordMatch length " + newPasswordMatch.length);
+			
 			var store = Ext.create('Ext.data.Store', {
 			model: "myschoolishness.model.UserByIdModel"
 			});
@@ -640,12 +642,18 @@ Ext.define('myschoolishness.view.UserCrudCard', {
 
     		scope: this,
     		callback : function(records, operation, success) {
-				
+				var record = records[0];
 				if (record!=null) {
-					var record = records[0];
+					
 					var oldPassword = record.get("password");
-					console.log("oldPassword " + oldPassword);
-					if (existingPassword!=oldPassword) {
+					
+					if (existingPassword.length < 1) {
+						Ext.Msg.alert('Enter existing password', 'No existing password entered.', Ext.emptyFn);
+					} else if (password.length < 1) {
+						Ext.Msg.alert('Enter password', 'No password entered.', Ext.emptyFn);
+					} else if (newPasswordMatch.length < 1) {
+						Ext.Msg.alert('Enter new password', 'No new password entered.', Ext.emptyFn);
+					} else if (existingPassword!=oldPassword) {
 						Ext.Msg.alert('Incorrect Password', 'Your password is incorrect.', Ext.emptyFn);
 					}	else if (password === null || password === undefined || password.length < 1 || password!=newPasswordMatch) {
 						Ext.Msg.alert('No Match', 'New password entries do not match', Ext.emptyFn);
@@ -689,8 +697,7 @@ Ext.define('myschoolishness.view.UserCrudCard', {
 		var editUserOrigin = sessionStorage.getItem("edit_user.origin");
 		if (successful) {
 			studentId = sessionStorage.getItem("registration.student_id")
-			console.log("Adding student " + studentId);
-			console.log("editUserOrigin " + editUserOrigin);
+
 			if (studentId!=null && studentId!=undefined && studentId.length >0) {
 				sessionStorage.setItem("user_id",records[0].get("insertId")),
 				this.addStudent(records[0].get("insertId"));
@@ -750,20 +757,20 @@ Ext.define('myschoolishness.view.UserCrudCard', {
 	afterRegistrationComplete: function(store, records, successful, operation, eOpts) {
 		console.log("afterRegistrationComplete successful " + successful);
     	if (successful) {
-    		console.log("About to redirect ");
     		sessionStorage.setItem("token","processed");
-    		console.log("Redirect ");
 			this.fireEvent("goToLogin", this);
 			sessionStorage.setItem("welcome-alert","yes");
     	}
 	},
 	
 	afterStoreLoad: function(store, records, successful, operation, eOpts) {
+		console.log("After store load in user crud card");
 		var isPasswordReset = sessionStorage.getItem("isPasswordReset");
-		console.log("isPasswordReset?????? " + isPasswordReset);
     	if (records.length === 1 && successful) {
     		Ext.Msg.alert('Success', 'Your changes have been saved', Ext.emptyFn);
-    		if (isPasswordReset) {
+    		console.log("After store load:isPasswordReset " + isPasswordReset);
+    		if (isPasswordReset==="yes") {
+    		console.log("Bumping to login " + isPasswordReset);
     			sessionStorage.setItem("token","processed");
     			this.fireEvent("goToLogin", this);
     		}
@@ -956,10 +963,6 @@ Ext.define('myschoolishness.view.UserCrudCard', {
     		scope: this,
     		callback : function(records, operation, success) {
 				if (success) {
-					console.log("load successful");
-					console.log("records " + records.length);
-					//console.log("student_first " + records[0].get("student_first"));
-					//console.log("student_last " + records[0].get("student_last"));
 					kidsList.setStore(kidsStore);
 				}
     		}
@@ -968,8 +971,6 @@ Ext.define('myschoolishness.view.UserCrudCard', {
 	},
 	
 	onStoreLoad: function(store, records, successful, operation, eOpts) {
-	console.log("records " + records);
-	console.log("successful " + successful);
 	
 			if (successful===false) {
 				myschoolishness.controller.Utils.sessionExpired();

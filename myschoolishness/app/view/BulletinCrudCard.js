@@ -168,9 +168,9 @@ Ext.define('myschoolishness.view.BulletinCrudCard', {
 								sessionStorage.setItem("edit_bulletin.bulletin_id",records[0].get("insertId"));
 								var index = sessionStorage.getItem("newbulletin.index");
 								console.log("index IS" + index);
-								if (index==="1") {
-									Ext.Msg.alert('Success', 'New bulletin added. Please add classrooms as recipients', Ext.emptyFn);
-								}
+								//if (index==="1") {
+								//	Ext.Msg.alert('Success', 'New bulletin added. Please add classrooms as recipients', Ext.emptyFn);
+								//}
 								this.fireEvent("showBulletinList", this);
 							}
     					}

@@ -104,18 +104,15 @@ Ext.define('myschoolishness.controller.Absence', {
 		var mainView = this.getMainView();
 		mainView.loadData();
 		mainView.setMasked(false);
-		//var absenceRollCall = this.getAbsenceRollCall();
-		//absenceRollCall.loadData();
+		mainView.showAttendance();
 		Ext.Viewport.animateActiveItem(mainView,myschoolishness.controller.Utils.getDefaultSlideTransition());
-		//var absenceRollCall = this.getAbsenceRollCall();
-		//absenceRollCall.loadData();
 	},
 	
 	showSigPanel: function () {
-		console.log("showSigPanel FIRED");
 		var signoutView = this.getSignoutView();
 		signoutView.setMasked(false);
 		signoutView.clearSignature();
+		signoutView.show();
 		Ext.Viewport.animateActiveItem(signoutView,myschoolishness.controller.Utils.getDefaultSlideTransition());
 	},
 	
@@ -131,7 +128,6 @@ Ext.define('myschoolishness.controller.Absence', {
 					console.log("STAFF MEMBER");
 		} 
 		absenceHome.configureTabs();
-		//this.showAllStudents();
 	},
 			
 	showAbsenceList: function () {
@@ -141,10 +137,8 @@ Ext.define('myschoolishness.controller.Absence', {
 	},
 	
 	markOutToday: function () {
-		console.log("markOutToday CALLED");
 		var absenceList = this.getAbsenceList();
 		absenceList.loadData();
-		//Ext.Viewport.animateActiveItem(absenceList,myschoolishness.controller.Utils.getDefaultSlideTransition());
 		absenceList.onReportAbsentButtonTap();
 	},
 		

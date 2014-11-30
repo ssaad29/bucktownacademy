@@ -164,7 +164,7 @@ config: {
 
 	
 	initScreens: function() {
-	console.log("initScreens CALLED");
+	//console.log("initScreens CALLED");
 			var schoolHome = Ext.getCmp('schoolHome');	
 			schoolHome.loadScreens();
 			var classHome = Ext.getCmp('classHome');	
@@ -182,6 +182,14 @@ config: {
 
 		var classHome = Ext.getCmp('classHome');
 		classHome.makeSignOutActive();
+		console.log("SHOW SIG CALLED");
+	},
+	
+	showAttendance: function () {
+		console.log("showSignature CALLED");
+
+		var classHome = Ext.getCmp('classHome');
+		classHome.showAttendance();
 		console.log("SHOW SIG CALLED");
 	},
 	
