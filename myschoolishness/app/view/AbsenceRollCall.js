@@ -22,13 +22,14 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
 					sessionStorage.setItem("attendance.first_name", record.get("first_name"));
 					sessionStorage.setItem("attendance.last_name", record.get("last_name"));
                 	var lastDate = sessionStorage.getItem("lastDate-attendance");
+                	console.log('myschoolishness.controller.Utils ' + myschoolishness.controller.Utils);
                 	var moreThenOneSec = myschoolishness.controller.Utils.moreThanOneSecondHasElapsed(lastDate);
-                	
+                	console.log('moreThenOneSec ' + moreThenOneSec);
                 	if(moreThenOneSec) {
         				if(evt.target.type == "button"){
         					if (record.get("present") === null || record.get("present") === 0 || record.get("present") === '0') {
         						            				console.log('Add absence ');
-
+								console.log('FIRING fireMarkOutForToday ');
             					list.fireMarkOutForToday();
             					}
             				else {
@@ -47,6 +48,8 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
 	
 	fireMarkOutForToday: function () {	
 	 	//this.fireEvent('markOutToday');
+	 									console.log('FIRING checkForDupes ');
+
 	 	this.checkForDupes();
 	},
 	
@@ -57,7 +60,8 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
 		startDate.setHours(0,0,0,0);
 		endDate.setHours(23,59,59,999);
 		var student_id = null;
-		var user_id=null
+		var user_id=null;
+		console.log('attendance.id_type ' + sessionStorage.getItem("attendance.id_type"));
 		if (sessionStorage.getItem("attendance.id_type")==="staff") {
 			user_id = sessionStorage.getItem("staff.user_id");
 		} else {
