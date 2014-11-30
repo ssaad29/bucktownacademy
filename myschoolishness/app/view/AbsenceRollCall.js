@@ -16,6 +16,7 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
         '</div>' ,
 		listeners: {
                 itemsingletap: function (list, idx, target, record, evt) {
+                console.log('ITEM tap ');
                 	sessionStorage.setItem("attendance.id_type", "student");
 					sessionStorage.setItem("attendance.student_id", record.get("student_id"));
 					sessionStorage.setItem("attendance.first_name", record.get("first_name"));
@@ -26,7 +27,8 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
                 	if(moreThenOneSec) {
         				if(evt.target.type == "button"){
         					if (record.get("present") === null || record.get("present") === 0 || record.get("present") === '0') {
-        						
+        						            				console.log('Add absence ');
+
             					list.fireMarkOutForToday();
             					}
             				else {
