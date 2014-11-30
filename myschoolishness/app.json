@@ -62,7 +62,7 @@
      *          "remote": true             // (Optional)
      *                                     // - Defaults to undefined (falsey) to signal a local file which will be copied
      *                                     // - Specify true if this file is a remote file which will not to be copied
-     *          "update": "delta"          // (Optional)
+     *          "update": "full"          // (Optional)
      *                                     //  - If not specified, this file will only be loaded once, and
      *                                     //    cached inside localStorage until this value is changed to either one below
      *                                     //  - "delta" to enable over-the-air delta update for this file
