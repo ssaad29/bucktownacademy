@@ -61,7 +61,7 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
 		endDate.setHours(23,59,59,999);
 		var student_id = null;
 		var user_id=null;
-		console.log('attendance.id_type ' + sessionStorage.getItem("attendance.id_type"));
+		//console.log('attendance.id_type ' + sessionStorage.getItem("attendance.id_type"));
 		if (sessionStorage.getItem("attendance.id_type")==="staff") {
 			user_id = sessionStorage.getItem("staff.user_id");
 		} else {
