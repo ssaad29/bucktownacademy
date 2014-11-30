@@ -18,7 +18,7 @@ endif
 
 build:
 	cd myschoolishness; \
-	/Users/ssaad29/bin/Sencha/Cmd/5.0.0.160/sencha app build -c production
+	/Users/ssaad29/bin/Sencha/Cmd/5.0.3.324/sencha app build -c production
 stage:
 	rm -R ./prod
 	mkdir ./prod

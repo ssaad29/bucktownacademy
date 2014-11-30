@@ -25,6 +25,7 @@
 Ext.Loader.addClassPathMappings({
   "Ext": "touch/src",
   "Ext-more": "touch/src/core/Ext-more.js",
+  "Ext.Boot": ".sencha/app/Boot.js",
   "Ext.DomHelper": "touch/src/dom/Helper.js",
   "Ext.DomQuery": "touch/src/dom/Query.js",
   "Ext.Element-alignment": "touch/src/dom/Element.alignment.js",
@@ -45,8 +46,8 @@ Ext.Loader.addClassPathMappings({
   "Ext.device.sqlite.SQLResultSet": "touch/src/device/sqlite/Sencha.js",
   "Ext.device.sqlite.SQLResultSetRowList": "touch/src/device/sqlite/Sencha.js",
   "Ext.device.sqlite.SQLTransaction": "touch/src/device/sqlite/Sencha.js",
-  "SignatureField": "touch/src/SignatureField",
   "SignatureField.Canvas": "touch/src/SignatureField/SignatureField.js",
+  "SignatureField.SignatureField": "touch/src/SignatureField/SignatureField.js",
   "myschoolishness": "app",
   "myschoolishness.model.validationsStudentNameValidation": "app/model/validations/validationsStudentNameValidation.js"
 });
