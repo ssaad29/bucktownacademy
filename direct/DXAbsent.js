@@ -62,13 +62,16 @@ var DXAbsent  = {
     	var paramsList = [];
     	paramsList[0] = params.start_date_range;
     	paramsList[1] = params.end_date_range;
-    	
+    	var timezone_query = "SET time_zone = '-6:00'";
+    	var paramsListempty = [];
+    	var studentquery = "SELECT t3.start_date_time,t3.end_date_time,t3.type,t3.id AS absence_id from student t1, absence_owner t2,absence t3 where t1.id = t2.student_id and t3.id = t2.absence_id and t3.start_date_time = ? and t3.end_date_time = ? and t1.id=?";
+    	var userquery = "SELECT t3.start_date_time,t3.end_date_time,t3.type,t3.id AS absence_id from user t1, absence_owner t2,absence t3 where t1.id = t2.user_id and t3.id = t2.absence_id and t3.start_date_time = ? and t3.end_date_time = ? and t1.id=?";
     	if (studentId!=null && studentId!=undefined && studentId.length >0) {
     		paramsList[2] = studentId;
-			db.queryWithParams("SELECT t3.start_date_time,t3.end_date_time,t3.type,t3.id AS absence_id from student t1, absence_owner t2,absence t3 where t1.id = t2.student_id and t3.id = t2.absence_id and t3.start_date_time = ? and t3.end_date_time = ? and t1.id=?",paramsList,callback,false);
+			db.nestedQueryWithParams(timezone_query,paramsListempty,studentquery,paramsList,callback,-1);
 			} else {
 			paramsList[2] = userId;
-			db.queryWithParams("SELECT t3.start_date_time,t3.end_date_time,t3.type,t3.id AS absence_id from user t1, absence_owner t2,absence t3 where t1.id = t2.user_id and t3.id = t2.absence_id and t3.start_date_time = ? and t3.end_date_time = ? and t1.id=?",paramsList,callback,false);
+			db.nestedQueryWithParams(timezone_query,paramsListempty,userquery,paramsList,callback,-1);
 			}
     },
     
@@ -79,9 +82,12 @@ var DXAbsent  = {
 			return;
 		} 
 		
-    	var paramsList = [];
-    	paramsList[0] = params.user_id;
-		db.queryWithParams("select distinct student_id,first_name,last_name,present from student_attendance where present = 1 UNION select distinct student_id,first_name,last_name,present from student_attendance where present = 0 and user_id=?",paramsList,callback,false);
+    	var paramsList1 = [];
+    	var paramsList2 = [];
+    	paramsList2[0] = params.user_id;
+    	var attendance_query = "select distinct student_id,first_name,last_name,present from student_attendance where present = 1 UNION select distinct student_id,first_name,last_name,present from student_attendance where present = 0 and user_id=?";
+    	var timezone_query = "SET time_zone = '-6:00'";
+    	db.nestedQueryWithParams(timezone_query,paramsList1,attendance_query,paramsList2,callback,-1);
     },
 	
 	getAllAbsencesForStudent: function(params, callback){
@@ -140,8 +146,11 @@ var DXAbsent  = {
 		} 
 		
         var paramsList = [];
+        var paramsListEmpty = [];
     	paramsList[0] = params.student_id;
-		db.queryWithParams("SELECT absence_id FROM absence_owner t1, absence t2 WHERE DATE_FORMAT(t2.start_date_time, '%Y-%m-%d') = CURDATE() and t1.student_id=? and t1.absence_id = t2.id",paramsList,callback,true);
+    	var timezone_query = "SET time_zone = '-6:00'";
+    	var q1 = "SELECT absence_id FROM absence_owner t1, absence t2 WHERE DATE_FORMAT(t2.start_date_time, '%Y-%m-%d') = CURDATE() and t1.student_id=? and t1.absence_id = t2.id";
+		db.nestedQueryWithParams(timezone_query,paramsListEmpty,q1,paramsList,callback,-1);
     },
     
     insertOrUpdateAbsence: function(params, callback) {
