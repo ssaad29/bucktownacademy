@@ -98,6 +98,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.Template": [],
   "Ext.Title": [],
   "Ext.TitleBar": [],
+  "Ext.Toast": [],
   "Ext.Toolbar": [],
   "Ext.Video": [],
   "Ext.XTemplate": [],
@@ -670,7 +671,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.ux.picker.Time": [
     "Ext.TimePicker"
   ],
-  "Ext.ux.slidenavigation.View": [],
   "Ext.viewport.Android": [],
   "Ext.viewport.Default": [],
   "Ext.viewport.Ios": [],
@@ -942,6 +942,7 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.TitleBar": [
     "widget.titlebar"
   ],
+  "Ext.Toast": [],
   "Ext.Toolbar": [
     "widget.toolbar"
   ],
@@ -1579,9 +1580,6 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Ext.ux.picker.Time": [
     "widget.timepicker"
-  ],
-  "Ext.ux.slidenavigation.View": [
-    "widget.slidenavigationview"
   ],
   "Ext.viewport.Android": [],
   "Ext.viewport.Default": [
