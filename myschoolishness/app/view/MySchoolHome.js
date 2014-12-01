@@ -85,6 +85,7 @@ Ext.define('myschoolishness.view.MySchoolHome', {
     },
 	
 	showUpdates: function () {
+		sessionStorage.setItem("homescreen","school");
 		var schoolPanel = Ext.getCmp('schoolPanel');
 		var bulletinsSchool = Ext.getCmp('bulletinsSchool');	
 		schoolPanel.setActiveItem(0);
@@ -92,6 +93,7 @@ Ext.define('myschoolishness.view.MySchoolHome', {
 	},
 	
 	showAttendance: function () {
+		sessionStorage.setItem("homescreen","school");
 		var absenceList = Ext.getCmp('schoolAttendance');	
 		absenceList.loadData();
 		var schoolPanel = Ext.getCmp('schoolPanel');
@@ -99,7 +101,7 @@ Ext.define('myschoolishness.view.MySchoolHome', {
 	},
 		
 	loadScreens: function() {
-    	console.log("Init CALLED->" + this.schoolIdIsValid());
+    	sessionStorage.setItem("homescreen","school");
         	this.showUpdates();
         	 this.initialize();
 	},

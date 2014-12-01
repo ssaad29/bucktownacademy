@@ -46,6 +46,7 @@ Ext.define('myschoolishness.controller.Absence', {
 			staffOutToday: 'absence-allstaff',
 			absenceList: 'absenceList',
 			signoutView: 'signoutview',
+			absenceEdit: 'absence-edit',
 		},
 		control: {
 			absenceHome: {
@@ -56,6 +57,10 @@ Ext.define('myschoolishness.controller.Absence', {
 				showAbsenceList: 'showAbsenceList',
 				refreshHome: 'refreshHome',
 				markOutToday: 'markOutToday'
+			},
+			absenceEdit: {
+				showAbsenceList: 'showAbsenceList',
+				goHome: 'goHome',
 			},
 			absenceSignOut: {
 				showSigPanel: 'showSigPanel'

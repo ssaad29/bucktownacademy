@@ -182,11 +182,11 @@ config: {
 
 		var classHome = Ext.getCmp('classHome');
 		classHome.makeSignOutActive();
-		console.log("SHOW SIG CALLED");
+		//console.log("SHOW SIG CALLED");
 	},
 	
 	showAttendance: function () {
-		console.log("showSignature CALLED");
+		//console.log("showSignature CALLED");
 
 		var classHome = Ext.getCmp('classHome');
 		classHome.showAttendance();
@@ -194,7 +194,7 @@ config: {
 	},
 	
 	onSegButtonTap: function (container, button, pressed) {
-	console.log("onSegButtonTap CALLED");
+	//console.log("onSegButtonTap CALLED");
 		var homePanel = Ext.getCmp('homePanel');	
 		if (button.getText() === "My Kids") {
 			this.loadData();
@@ -226,17 +226,18 @@ config: {
 	},
 		
 	loadData: function () {	
-	console.log("loadData:ONE");
+	//console.log("loadData:ONE");
 		var roles = sessionStorage.getItem("roles");
 		window.location.hash = 'home';		
 		this.setRoles(roles);	
 		var activeItemIndex = 0;
-		console.log("loadData:TWO");
+
 		if (roles.indexOf("A") != -1) {
 			var schoolHome = Ext.getCmp('schoolHome');	
 			schoolHome.loadScreens();
 			schoolHome.show();
 			activeItemIndex = 2;
+			sessionStorage.setItem("homescreen","school");
 		}
 		
 		if (roles.indexOf("T") != -1) {
@@ -244,15 +245,15 @@ config: {
 			classHome.loadScreens();
 			classHome.show();
 			activeItemIndex = 1;
-			
+			sessionStorage.setItem("homescreen","class");
 		}
 		
 		if (roles.indexOf("P") != -1) {
 			var kidsHome = Ext.getCmp('kidsHome');	
 			kidsHome.loadScreens();
 			//activeItemIndex = 0;
+			sessionStorage.setItem("homescreen","kids");
 		}
-		console.log("loadData:THREE");
 		//console.log("SETTING to ACTIVE " + activeItemIndex);
 		//var homePanel = Ext.getCmp('homePanel');	
 		//homePanel.setActiveItem(activeItemIndex);

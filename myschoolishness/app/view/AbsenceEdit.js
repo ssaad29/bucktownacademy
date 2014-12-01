@@ -1,6 +1,7 @@
 Ext.define('myschoolishness.view.AbsenceEdit', {
     extend: 'Ext.Panel',
 	alias: "widget.absence-edit",
+	 xtype: 'absence-edit',
 	requires: ['Ext.carousel.Carousel','Ext.data.Store','Ext.form.FieldSet','Ext.form.Text','Ext.field.Toggle','Ext.TitleBar','Ext.ux.field.TimePicker'],
 	config: {
 		title: 'Student Absences',
@@ -192,7 +193,11 @@ Ext.define('myschoolishness.view.AbsenceEdit', {
 	},
 	
 	onCancelButtonTap: function () {
-		history.back();
+		if (sessionStorage.getItem("homescreen") ==="kids") {
+    			this.fireEvent("goHome", this);
+    		} else {
+    			history.back();
+    		}
 	},
 
 	onRemoveButtonTap: function () {
@@ -221,7 +226,11 @@ Ext.define('myschoolishness.view.AbsenceEdit', {
 			}
 				if (myschoolishness.controller.Utils.hasRecords(records) || success===true) {
 						Ext.Msg.alert('Status', 'Delete successful');
-						history.back();
+						if (sessionStorage.getItem("homescreen") ==="kids") {
+    						this.fireEvent("goHome", this);
+    					} else {
+    						history.back();
+    					}
 					}		
 				
 				}
@@ -230,7 +239,11 @@ Ext.define('myschoolishness.view.AbsenceEdit', {
 	},
 
  	afterStoreLoad: function(store, records, successful, operation, eOpts) {
-    	history.back();
+    	if (sessionStorage.getItem("homescreen") ==="kids") {
+    			this.fireEvent("goHome", this);
+    		} else {
+    			history.back();
+    		}
 	},
 	
 	onActionButtonTap: function () {

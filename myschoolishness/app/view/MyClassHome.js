@@ -89,6 +89,7 @@ Ext.define('myschoolishness.view.MyClassHome', {
 	
 	
 	showUpdates: function () {
+		sessionStorage.setItem("homescreen","class");
 		var classPanel = Ext.getCmp('classPanel');
 		var bulletinsClass = Ext.getCmp('bulletinsClass');	
 		classPanel.setActiveItem(0);
@@ -96,6 +97,7 @@ Ext.define('myschoolishness.view.MyClassHome', {
 	},
 	
 	showAttendance: function () {
+		sessionStorage.setItem("homescreen","class");
 		var absenceList = Ext.getCmp('classAttendance');	
 		absenceList.loadData();
 		var classPanel = Ext.getCmp('classPanel');
@@ -118,6 +120,7 @@ Ext.define('myschoolishness.view.MyClassHome', {
 	},
 		
 	loadScreens: function() {
+		sessionStorage.setItem("homescreen","class");
         this.showUpdates();
         this.initialize();
 	},

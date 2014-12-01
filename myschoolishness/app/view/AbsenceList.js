@@ -305,6 +305,13 @@ Ext.define('myschoolishness.view.AbsenceList', {
 	},
 
     loadData: function () {	
+    		var cancelButton = Ext.getCmp('cancelButtonStudentAbsenceList');
+    		if (sessionStorage.getItem("homescreen") ==="kids") {
+    			cancelButton.setHidden(true);
+    		} else {
+    			cancelButton.setHidden(false);
+    		}
+    		
     		sessionStorage.setItem("absence.edit.absence_id", null);
     		var list = this.getComponent("studentAbsenceList");	
 			var idType = sessionStorage.getItem("attendance.id_type");

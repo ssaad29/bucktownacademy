@@ -105,12 +105,13 @@ Ext.define('myschoolishness.view.MyKidsHome', {
     },
 	
 	initialize: function () {
-		console.log("My kids show");
-		        	this.loadSelect();
-        	this.showUpdates();
+		  sessionStorage.setItem("homescreen","kids");
+		  this.loadSelect();
+          this.showUpdates();
 
 	},
 	showUpdates: function () {
+		sessionStorage.setItem("homescreen","kids");
 		var kidsPanel = Ext.getCmp('kidsPanel');
 		var bulletinsKids = Ext.getCmp('bulletinsKids');	
 		bulletinsKids.load();	
@@ -119,9 +120,9 @@ Ext.define('myschoolishness.view.MyKidsHome', {
 	},
 	
 	showAttendance: function () {
+		sessionStorage.setItem("homescreen","kids");
 		var absenceList = Ext.getCmp('kidsAttendance');	
 		absenceList.loadData();
-		console.log("ABSENCE LIST " + absenceList.getStore());
 		var kidsPanel = Ext.getCmp('kidsPanel');
 		kidsPanel.setActiveItem(1);
 		var absenceList = Ext.getCmp('kidsAttendance');	
@@ -140,7 +141,7 @@ Ext.define('myschoolishness.view.MyKidsHome', {
 	
 	schoolIdIsValid: function () {
 		var school_id = sessionStorage.getItem("school_id");
-		console.log("schoolIdIsValid->" + school_id);
+		//console.log("schoolIdIsValid->" + school_id);
 			if (school_id === null || school_id === undefined || school_id.length <1 || school_id === 'undefined') {
 				return false;
 			} else {
@@ -149,7 +150,7 @@ Ext.define('myschoolishness.view.MyKidsHome', {
 	},
 	
 	loadSelect: function () {
-			console.log("LOAD SELECT CALLED->" + this.schoolIdIsValid());
+			//console.log("LOAD SELECT CALLED->" + this.schoolIdIsValid());
 			var school_id = sessionStorage.getItem("school_id");
 			var kidsSelect = Ext.getCmp('kidsSelect');
 			kidsSelect.setHidden(true);
