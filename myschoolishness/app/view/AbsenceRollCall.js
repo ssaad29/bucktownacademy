@@ -48,7 +48,6 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
 	
 	fireMarkOutForToday: function () {	
 	 	//this.fireEvent('markOutToday');
-	 									console.log('FIRING checkForDupes ');
 
 	 	this.checkForDupes();
 	},
