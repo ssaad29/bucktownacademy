@@ -212,7 +212,7 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
 	},
 	
 	deleteTodaysAbsences: function (student_id) {
-			console.log("deleteTodaysAbsences called" + student_id);
+			//console.log("deleteTodaysAbsences called" + student_id);
 			var todaysAbsenceStore = Ext.create('myschoolishness.store.TodaysAbsenceForStudentStore', {
 				model: "myschoolishness.model.TodaysAbsenceForStudentModel"
 			});
