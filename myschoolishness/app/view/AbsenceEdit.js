@@ -201,6 +201,7 @@ Ext.define('myschoolishness.view.AbsenceEdit', {
 	},
 
 	onRemoveButtonTap: function () {
+		console.log("REMOVE Tapped");
 		absence_id = sessionStorage.getItem("absence.edit.absence_id");
 		if (absence_id!= null && absence_id!=undefined) {
 			console.log('try deleting this absence ' + absence_id);
@@ -218,17 +219,19 @@ Ext.define('myschoolishness.view.AbsenceEdit', {
     			
     		scope: this,
     		callback : function(records, operation, success) {		
-
+			console.log("REMOVE success " + success);
 			if (success===false) {
 				myschoolishness.controller.Utils.sessionExpired();
 		
 				return;
 			}
-				if (myschoolishness.controller.Utils.hasRecords(records) || success===true) {
+				if (success===true) {
 						Ext.Msg.alert('Status', 'Delete successful');
 						if (sessionStorage.getItem("homescreen") ==="kids") {
+							console.log("Going home ");
     						this.fireEvent("goHome", this);
     					} else {
+    						console.log("Going back ");
     						history.back();
     					}
 					}		
@@ -274,21 +277,23 @@ Ext.define('myschoolishness.view.AbsenceEdit', {
     	var endDate = to.getValue();
     	endDate.setMonth(endDate.getMonth() );
 		
-		if (role==="approver") {
-			schoolEntered=1;
-			parentEntered=noteFromHome.getValue();
-		} else {
-			parentEntered =1;
-		}
+		if(endDate > startDate) {
+
+			if (role==="approver") {
+				schoolEntered=1;
+				parentEntered=noteFromHome.getValue();
+			} else {
+				parentEntered =1;
+			}
 		
-		var absentInsertStore = Ext.create('myschoolishness.store.AbsentInsertStore', {
-			model: "myschoolishness.model.AbsentInsertModel"
+			var absentInsertStore = Ext.create('myschoolishness.store.AbsentInsertStore', {
+				model: "myschoolishness.model.AbsentInsertModel"
 			});
 		
-		absentInsertStore.addListener('load',this. onStoreLoad,this);
-		absentInsertStore.addAfterListener('load',this.afterStoreLoad,this);
+			absentInsertStore.addListener('load',this. onStoreLoad,this);
+			absentInsertStore.addAfterListener('load',this.afterStoreLoad,this);
 		
-        absentInsertStore.load({
+        	absentInsertStore.load({
     			//define the parameters of the store:
     		    		params: {
         		student_id: sessionStorage.getItem("attendance.student_id"),
@@ -317,10 +322,14 @@ Ext.define('myschoolishness.view.AbsenceEdit', {
 					}
 				}
 			})
+		} else {
+			Ext.Msg.alert('Cannot save', 'Start date cannot be later than end date');
+		}
 	},
 
    loadData: function () {	
 			var absence_id = sessionStorage.getItem("absence.edit.absence_id");
+			console.log("absence_id " + absence_id);
 			if (absence_id!= null && absence_id!=undefined && absence_id.length > 1) {
 				var absenceStore = Ext.create('myschoolishness.store.AbsentGetByIdStore', {
 					model: "myschoolishness.model.AbsentGetByIdModel"
@@ -337,11 +346,13 @@ Ext.define('myschoolishness.view.AbsenceEdit', {
 
     		scope: this,
     		callback : function(records, operation, success) {
+			console.log("Got an absence??" + success);
 			if (success===false) {
 				myschoolishness.controller.Utils.sessionExpired();
 		
 				return;
 			}
+				console.log("Got an absence?? + records[0] " + records[0]);
 				if (myschoolishness.controller.Utils.hasRecords(records)) {
 					this.configureView(records[0]);
 				} else {

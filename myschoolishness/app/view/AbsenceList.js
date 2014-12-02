@@ -96,7 +96,7 @@ Ext.define('myschoolishness.view.AbsenceList', {
 		        							listeners: {
                 								itemtap: function (list, idx, target, record, evt) {
 													sessionStorage.setItem("absence.edit.absence_id", record.get("absence_id"));
-													                									console.log("GOING tO edit ");
+													console.log("GOING tO edit " + record.get("absence_id"));
 													this.parent.fireEvent("showEdit", this);
         										},
         										show: function(list, opts){

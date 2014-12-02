@@ -125,7 +125,7 @@ Ext.define('myschoolishness.view.MyKidsHome', {
 		absenceList.loadData();
 		var kidsPanel = Ext.getCmp('kidsPanel');
 		kidsPanel.setActiveItem(1);
-		var absenceList = Ext.getCmp('kidsAttendance');	
+		//var absenceList = Ext.getCmp('kidsAttendance');	
 	},
 		
 	loadScreens: function() {

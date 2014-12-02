@@ -187,10 +187,14 @@ config: {
 	
 	showAttendance: function () {
 		//console.log("showSignature CALLED");
-
-		var classHome = Ext.getCmp('classHome');
-		classHome.showAttendance();
-		console.log("SHOW SIG CALLED");
+		if (sessionStorage.getItem("homescreen") ==="kids") {
+			var kidsHome = Ext.getCmp('kidsHome');	
+			kidsHome.showAttendance();
+		} else if (sessionStorage.getItem("homescreen") ==="kids") {
+			var classHome = Ext.getCmp('classHome');
+			classHome.showAttendance();
+		} else {
+		}
 	},
 	
 	onSegButtonTap: function (container, button, pressed) {
