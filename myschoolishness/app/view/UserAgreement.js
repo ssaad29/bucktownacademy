@@ -19,13 +19,13 @@ config: {
                 itemId: 'terms',
                 xtype: 'panel',
                 readOnly: true,
-                scroll: 'vertical',
+                 scrollable: 'vertical',
                 //maxRows : 40
             },
             {
                 title: 'Privacy Policy',
                 itemId: 'privacy',
-                xtype: 'panel',
+                xtype: 'tabpanel',
                 readOnly: true,
                 scroll: 'vertical',
                 //maxRows : 40
