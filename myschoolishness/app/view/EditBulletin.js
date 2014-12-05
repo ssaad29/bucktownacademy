@@ -65,7 +65,7 @@ Ext.define('myschoolishness.view.EditBulletin', {
 			
 	onDeleteButtonTap: function () {
 		var bulletinId = sessionStorage.getItem("edit_bulletin.bulletin_id")
-		console.log("BULLETIN ID is " + bulletinId);
+		var me = this;
 		
 		Ext.Msg.confirm("Confirmation", "Are you sure that you want to delete this Bulletin?",  function(choice)
  		{
@@ -87,7 +87,8 @@ Ext.define('myschoolishness.view.EditBulletin', {
     				callback : function(records, operation, success) {
 							if (success) {
     							Ext.Msg.alert('Success', 'Bulletin has been deleted', Ext.emptyFn);
-								this.fireEvent("showBulletinList", this);
+								//this.fireEvent("showBulletinList", this);
+								me.fireEvent("showBulletinList", me);
 							}
     					}
 					})

@@ -136,6 +136,7 @@ Ext.define('myschoolishness.controller.Admin', {
 	},
 	
 	showStudentAdminList: function () {
+		console.log("SHOUld Redirect to student list");
 		var staffHome = this.getStaffHome();
 		staffHome.showStudents();
 		Ext.Viewport.animateActiveItem(staffHome,myschoolishness.controller.Utils.getDefaultSlideTransition());

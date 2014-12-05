@@ -659,6 +659,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.ux.field.TimePicker": [
     "Ext.form.TimePicker"
   ],
+  "Ext.ux.form.TinyMCETextArea": [],
   "Ext.ux.parse.Helper": [
     "ParseHelper"
   ],
@@ -1562,6 +1563,10 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.device.twitter.Cordova": [],
   "Ext.ux.field.TimePicker": [
     "widget.timepickerfield"
+  ],
+  "Ext.ux.form.TinyMCETextArea": [
+    "widget.tinymce_field",
+    "widget.tinymce_textarea"
   ],
   "Ext.ux.parse.Helper": [],
   "Ext.ux.parse.Model": [],

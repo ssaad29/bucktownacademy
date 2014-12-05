@@ -65,7 +65,8 @@ Ext.define('myschoolishness.view.EditStudent', {
 			
 	onDeleteButtonTap: function () {
 		var student_id =	sessionStorage.getItem("child_crud.student_id");
-
+		var me = this;
+		
 		Ext.Msg.confirm("Confirmation", "Are you sure that you want to delete this student?",  function(choice)
  		{
    			if(choice == 'yes')
@@ -87,7 +88,11 @@ Ext.define('myschoolishness.view.EditStudent', {
     				callback : function(records, operation, success) {
 							if (success) {
     							Ext.Msg.alert('Success', 'Student has been deleted', Ext.emptyFn);
-								this.fireEvent("showStudentList", this);
+								
+								console.log("this " + this);
+								console.log("me " + me);
+								me.fireEvent("showStudentList", me);
+								//this.onBackButtonTap();
 							}
     					}
 					})

@@ -9,9 +9,31 @@ Ext.define('myschoolishness.controller.Utils', {
          
     constructor: function(config) {
         this.initConfig(config);
-        console.log("INTSTANTIATING SINGLETON" + config);
+        //console.log("INTSTANTIATING SINGLETON" + config);
     },
     
+    getTinyMCEConfig: function () {
+       var tinyCfg = {
+        plugins: [
+        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime media nonbreaking save table contextmenu directionality",
+        "emoticons template paste textcolor"
+        ],
+
+        toolbar1: "newdocument fullpage | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | styleselect formatselect fontselect fontsizeselect",
+        toolbar2: "cut copy paste | searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink anchor image media code | inserttime preview | forecolor backcolor",
+        toolbar3: "table | hr removeformat | subscript superscript | charmap emoticons | print fullscreen | ltr rtl | spellchecker | visualchars visualblocks nonbreaking template pagebreak restoredraft",
+
+        content_css : "contents.css",
+        
+        menubar: true,
+        toolbar_items_size: 'small'
+	};
+	
+	return tinyCfg;
+	},
+	
     
     printObject: function ( obj ) {
   var props = Object.getOwnPropertyNames( obj );
