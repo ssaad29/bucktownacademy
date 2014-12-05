@@ -17,18 +17,16 @@ config: {
             }, {
                 title: 'Terms of User',
                 itemId: 'terms',
-                xtype: 'panel',
+                xtype: 'scrollabletextarea',
                 readOnly: true,
-                 scrollable: 'vertical',
-                //maxRows : 40
+                maxRows : 40
             },
             {
                 title: 'Privacy Policy',
                 itemId: 'privacy',
-                xtype: 'tabpanel',
+                xtype: 'scrollabletextarea',
                 readOnly: true,
-                scroll: 'vertical',
-                //maxRows : 40
+                maxRows : 40
             },
             ],
 },
@@ -64,7 +62,7 @@ loadTerms: function () {
     				callback : function(records, operation, success) {
 							if (success) {
 								var terms = this.getComponent("terms");
-								terms.setHtml(records[0].get("content"));
+								terms.setValue(records[0].get("content"));
 								//console.log("GOT TOC " + records[0].get("content"));
 							} else {
 								console.log("Errored out " + success);
@@ -87,7 +85,7 @@ loadPrivacy: function () {
     				callback : function(records, operation, success) {
 							if (success) {
 								var privacy = this.getComponent("privacy");
-								privacy.setHtml(records[0].get("content"));
+								privacy.setValue(records[0].get("content"));
 							} else {
 								console.log("Errored out " + success);
 							}

@@ -848,6 +848,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.view.RotatingCarousel": [
     "Ext.RotatingCarousel"
   ],
+  "myschoolishness.view.ScrollableTextarea": [],
   "myschoolishness.view.SignOutView": [],
   "myschoolishness.view.SignaturePad": [],
   "myschoolishness.view.SignaturePanel": [],
@@ -1863,6 +1864,10 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "myschoolishness.view.RotatingCarousel": [
     "widget.rotating-carousel"
+  ],
+  "myschoolishness.view.ScrollableTextarea": [
+    "widget.mytextarea",
+    "widget.scrollabletextarea"
   ],
   "myschoolishness.view.SignOutView": [
     "widget.signoutview"
