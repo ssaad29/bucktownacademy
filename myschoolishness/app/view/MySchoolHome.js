@@ -48,7 +48,21 @@ Ext.define('myschoolishness.view.MySchoolHome', {
 													var schoolPanel = Ext.getCmp('schoolPanel');
 													schoolPanel.setActiveItem(2);
                             					}
-                        					} // toggle
+                        					}, // toggle
+                        					painted: function (segBtn, btn, isPressed) {
+                        						var pressedButtons = this.getPressedButtons();
+                        						var schoolPanel = Ext.getCmp('schoolPanel');
+                        						
+                        						if (pressedButtons[0].getText() === "Updates") {
+													schoolPanel.setActiveItem(0);
+													var bulletinsSchool = Ext.getCmp('bulletinsSchool');	
+													bulletinsSchool.load();		
+                            					} else if (pressedButtons[0].getText() === "Attendance") {
+													schoolPanel.setActiveItem(1);
+                            					} else if (pressedButtons[0].getText() === "Sign Out") {
+													schoolPanel.setActiveItem(2);
+                            					}
+                        					},
                     					} // listeners
                	 					},
             

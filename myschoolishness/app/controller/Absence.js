@@ -105,12 +105,15 @@ Ext.define('myschoolishness.controller.Absence', {
 		absenceRollCall.showAddedAbsence();
 	},
 	
-	goHome: function () {
+	goHome: function (showThis) {
 		var mainView = this.getMainView();
 		mainView.loadData();
 		mainView.setMasked(false);
-		mainView.showAttendance();
 		Ext.Viewport.animateActiveItem(mainView,myschoolishness.controller.Utils.getDefaultSlideTransition());
+		if (showThis==="attendance") {
+			console.log("SHOW attendance");
+			mainView.showAttendance();
+		}
 	},
 	
 	showSigPanel: function () {

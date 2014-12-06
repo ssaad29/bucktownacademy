@@ -41,14 +41,14 @@ Ext.define('myschoolishness.view.MyKidsHome', {
                     			{
 		        					xtype: 'segmentedbutton',
                     			items: [{
-                        				text: 'Updates:',
+                        				text: 'Updates',
                         				pressed: true
                     					}, {
                         				text: 'Attendance',
                     					}, ], // items
                     					listeners: {
                         					toggle: function (segBtn, btn, isPressed) {
-                            					if (btn.getText() === "Updates:") {
+                            					if (btn.getText() === "Updates") {
                             						var kidsPanel = Ext.getCmp('kidsPanel');
 													var bulletinsKids = Ext.getCmp('bulletinsKids');	
 													kidsPanel.setActiveItem(0);
@@ -59,7 +59,19 @@ Ext.define('myschoolishness.view.MyKidsHome', {
 													var kidsPanel = Ext.getCmp('kidsPanel');
 													kidsPanel.setActiveItem(1);
                             					}
-                        					} // toggle
+                        					}, // toggle
+                        					painted: function (segBtn, btn, isPressed) {
+                        						var pressedButtons = this.getPressedButtons();
+                        						var kidsPanel = Ext.getCmp('kidsPanel');
+                        						
+                        						if (pressedButtons[0].getText() === "Updates") {
+													kidsPanel.setActiveItem(0);
+													var bulletinsKids = Ext.getCmp('bulletinsKids');	
+													bulletinsKids.load();		
+                            					} else if (pressedButtons[0].getText() === "Attendance") {
+													kidsPanel.setActiveItem(1);
+                            					} 
+                        					},
                     					} // listeners
                	 					},
                	 					

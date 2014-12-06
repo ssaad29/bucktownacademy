@@ -34,7 +34,6 @@ Ext.define('myschoolishness.view.ViewBulletinDetails', {
                     		xtype: 'label',
                     		itemId: 'bulletinMessage',
 		        		    name: 'bulletinMessage',
-		        		    style: 'font-size:0.75em;',
 		        		    margin:20,
                     		},
         ],

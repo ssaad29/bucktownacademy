@@ -25,7 +25,9 @@ config: {
                 				}, {text: 'My School'
                 				}, {text: 'Directory'
                 				}, 
-                				]},
+                				],
+                				//listeners: {} // listeners
+                    					},
                 				{
 		        							xtype: 'button',
 		        							itemId:'logoutButton',
@@ -157,7 +159,12 @@ config: {
 			delegate: '#mainSegmentedButton',
 			event: 'toggle',
 			fn: 'onSegButtonTap'
-		}
+		},
+		{
+			delegate: '#homePanel',
+			event: 'activeitemchange',
+			fn: 'onTabSelect'
+			},
 		
 		],	
         },
@@ -171,6 +178,11 @@ config: {
 			classHome.loadScreens();
 			var kidsHome = Ext.getCmp('kidsHome');	
 			kidsHome.loadScreens();
+	},
+	
+	onTabSelect: function () {
+		console.log("TAB SELECT CALLED");
+		this.showUpdates();
 	},
 		
 	newNote: function () {
@@ -215,7 +227,7 @@ config: {
 		}
 	},
 	onSegButtonTap: function (container, button, pressed) {
-	//console.log("onSegButtonTap CALLED");
+	console.log("onSegButtonTap CALLED");
 		var homePanel = Ext.getCmp('homePanel');	
 		if (button.getText() === "My Kids") {
 			this.loadData();
@@ -230,7 +242,7 @@ config: {
 			homePanel.setActiveItem(3);
 		}
 		
-		this.showUpdates();
+		
 	},
 	
 	onDirectoryTap: function () {

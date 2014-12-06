@@ -15,6 +15,7 @@ Ext.define('myschoolishness.view.MyClassHome', {
     			{
                 		xtype: 'titlebar',
                 		itemId: 'classTitlebar',
+                		//id: 'classTitlebar',
                 		docked: 'top',
                 		items: [
                     			{
@@ -50,7 +51,18 @@ Ext.define('myschoolishness.view.MyClassHome', {
                             					}
                         					}, // toggle
                         					painted: function (segBtn, btn, isPressed) {
-                        						//this.setPressed(0);
+                        						var pressedButtons = this.getPressedButtons();
+                        						var classPanel = Ext.getCmp('classPanel');
+                        						
+                        						if (pressedButtons[0].getText() === "Updates") {
+													classPanel.setActiveItem(0);
+													var bulletinsClass = Ext.getCmp('bulletinsClass');	
+													bulletinsClass.load();	
+                            					} else if (pressedButtons[0].getText() === "Attendance") {
+													classPanel.setActiveItem(1);
+                            					} else if (pressedButtons[0].getText() === "Sign Out") {
+													classPanel.setActiveItem(2);
+                            					}
                         					},
                     					} // listeners
                	 					},
@@ -94,6 +106,11 @@ Ext.define('myschoolishness.view.MyClassHome', {
 		var bulletinsClass = Ext.getCmp('bulletinsClass');	
 		classPanel.setActiveItem(0);
 		bulletinsClass.load();	
+		var titleBar = this.getComponent('classTitlebar');
+		var segButtonClass = titleBar.getComponent('classHomeSeg');
+		var segButtonClass1 = Ext.ComponentQuery.query("classHomeSeg");
+		console.log("segButtonClass1 " + segButtonClass1);
+		console.log("segButtonClass " + segButtonClass);
 	},
 	
 	showAttendance: function () {
@@ -103,13 +120,11 @@ Ext.define('myschoolishness.view.MyClassHome', {
 		var classPanel = Ext.getCmp('classPanel');
 		classPanel.setActiveItem(1);
 	},
-	/*
-	makeUpdatesActive: function() {
-    	var segButtonClass = Ext.getCmp('classHomeSeg');
-    	 segButtonClass.setPressedButtons([0]);
-    	 segButtonClass.setPressed(0);
+	
+	syncSegPanel: function(index) {
+    	classPanel.setActiveItem(0);
 	},
-	*/
+	
 	makeSignOutActive: function() {
     	var sigPanel = Ext.getCmp('classSignOut');
     	sigPanel.loadData();
