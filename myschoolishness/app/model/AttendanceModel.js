@@ -5,7 +5,7 @@ Ext.define('myschoolishness.model.AttendanceModel', {
 		proxy: {
             //Set proxy type
             type: 'direct',
-			directFn:'ExtRemote.DXAbsent.getStudentsForTeacher',
+			directFn:'ExtRemote.DXAbsent.getStudentsForRollCall',
         },
 	}        
 })

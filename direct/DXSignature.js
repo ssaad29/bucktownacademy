@@ -26,7 +26,7 @@ var DXSignature  = {
 		} 
 		
 		console.log("IN getStudentsSignedOutToday ***********");
-        db.simpleQuery("SELECT * FROM students_signed_out_today",callback);
+        db.simpleQuery("SELECT * FROM students_signed_out_today where isTestStudent=0",callback);
     },
     
     alreadySignedOutCheck: function(params, callback){

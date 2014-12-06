@@ -1,12 +1,14 @@
+
+
 drop view if exists students_signed_out_today;
 CREATE VIEW students_signed_out_today AS
-SELECT  t2.id AS student_id, DATE_FORMAT(t1.time_collected, '%Y-%m-%d'), t2.first_name, t2.last_name,'1' AS signed_out_today
-FROM signature_records t1,student t2 where DATE(time_collected) = CURDATE() and t1.student_id = t2.id
+SELECT  t2.id AS student_id, DATE_FORMAT(t1.time_collected, '%Y-%m-%d'), t2.first_name, t2.last_name,'1' AS signed_out_today,t2.isTestStudent
+FROM signature_records t1,student t2 where DATE(time_collected) = CURDATE() and t1.student_id = t2.id 
 UNION
-SELECT  t1.id AS student_id,DATE_FORMAT(t2.time_collected, '%Y-%m-%d'),t1.first_name, t1.last_name,'0' AS signed_out_today
+SELECT  t1.id AS student_id,DATE_FORMAT(t2.time_collected, '%Y-%m-%d'),t1.first_name, t1.last_name,'0' AS signed_out_today,t1.isTestStudent
 FROM student t1 
 LEFT JOIN signature_records t2
-	ON DATE(t2.time_collected) != CURDATE() 
+	ON DATE(t2.time_collected) != CURDATE();
 
 drop view if exists staff_absent_today;
 CREATE VIEW staff_absent_today AS
@@ -21,7 +23,7 @@ order by user_id;
 drop view if exists  student_attendance;
 CREATE VIEW student_attendance AS
 SELECT t1.first_name, t1.last_name, t3.reason,t3.start_date_time,t3.end_date_time,t1.id AS student_id,t7.id AS user_id,
-t3.id as absence_id,
+t3.id as absence_id,t1.isTestStudent,
 (case when t3.start_date_time <= NOW() and t3.end_date_time >= NOW() then 1 else 0 end) AS present
 FROM student t1
 LEFT JOIN absence_owner t2
@@ -74,16 +76,17 @@ order by birthdate;
 
 drop view if exists  parents_students;
 CREATE VIEW parents_students AS
-select t1.id AS student_id,t5.id AS user_id, t1.first_name AS student_first,t1.last_name AS student_last,t6.name as GRADE,t1.allergies,t1.comments,t3.name AS class,t5.first_name AS
-parent_first,t5.last_name AS parent_last,t5.city,t5.state,t5.addr1,t5.addr2,t5.zip,t5.email,t5.phone,t5.public_profile,t5.cell_phone,t5.school_id
+select  t1.id AS student_id,t1.isTestStudent,t1.first_name AS student_first,t1.last_name AS student_last,t3.first_name AS 
+parent_first,t3.id AS user_id, t3.last_name AS parent_last,t5.name AS class,t6.name as GRADE,t1.allergies,t1.comments,t3.city,t3.state,t3.addr1,t3.addr2,t3.zip,t3.email,t3.phone,t3.public_profile,t3.cell_phone,t3.school_id
 from student t1
-INNER JOIN class_student t2
-	ON t1.id = t2.student_id 
-INNER JOIN classroom t3
-	ON t3.id = t2.classroom_id
-INNER JOIN user_student t4
-	ON t1.id = t4.student_id  
-INNER JOIN user t5
-	ON t4.user_id = t5.id  
-INNER JOIN grades t6
-	ON t1.grade_id = t6.id  
+LEFT JOIN user_student t2
+	ON t2.student_id = t1.id
+LEFT JOIN user t3
+	ON t2.user_id = t3.id
+LEFT JOIN class_student t4
+	ON t4.student_id = t1.id
+LEFT JOIN classroom t5
+	ON t4.classroom_id = t5.id
+LEFT JOIN grades t6
+	ON t1.grade_id = t6.id 
+

@@ -38,8 +38,8 @@ loadData: function () {
 
 hasAccepted: function () {
 	var agreement = this.getComponent("agreement");
-	console.log("privacy " + agreement.getPrivacy());
-	console.log("toc " + agreement.getTOC());
+	//console.log("privacy " + agreement.getPrivacy());
+	//console.log("toc " + agreement.getTOC());
 	
 	if (agreement.getPrivacy() === 1 && agreement.getTOC() === 1) {
 		return true;

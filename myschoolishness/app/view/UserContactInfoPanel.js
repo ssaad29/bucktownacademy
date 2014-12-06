@@ -13,7 +13,7 @@ config: {
                     					xtype: 'emailfield',
                     					itemId: 'emailField',
 		        		        		name: 'emailField',
-		        		        		placeHolder: "Email",
+		        		        		placeHolder: "Email (required)",
                     					value:""
                     					},
                     					{

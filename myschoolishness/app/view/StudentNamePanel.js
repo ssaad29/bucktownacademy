@@ -11,13 +11,13 @@ config: {
 		        		    {
                     		xtype: 'textfield',
                     		itemId: 'studentFirstName',
-                    		placeHolder: "First Name",
+                    		placeHolder: "First Name (required)",
 		        		    name: 'studentFirstName',
                     		value:""
                     		},
                     		{
                     		xtype: 'textfield',
-                    		placeHolder: "Last Name",
+                    		placeHolder: "Last Name (required)",
                     		itemId: 'studentLastName',
 		        		    name: 'studentLastName',
                     		value:""

@@ -120,7 +120,7 @@ Ext.define('myschoolishness.view.MyClassHome', {
 	},
 		
 	loadScreens: function() {
-		sessionStorage.setItem("homescreen","class");
+		sessionStorage.setItem("homescreen","school");
         this.showUpdates();
         this.initialize();
 	},

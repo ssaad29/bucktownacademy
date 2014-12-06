@@ -21,9 +21,14 @@ Ext.define('myschoolishness.view.DirectoryStaffDetail', {
                 			}
                 			]
            		},
+           		{
+           		xtype: 'fieldset',
+           		itemId:'dirStaffDetailFieldSet',
+		        id:'dirStaffDetailFieldSet',
+                items: [
 				{
                     xtype: 'textfield',
-                    name: 'fname',
+                    id: 'fname',
                     label: 'First:',
                     readOnly: true,
                     itemId: 'fname',
@@ -60,7 +65,6 @@ Ext.define('myschoolishness.view.DirectoryStaffDetail', {
                     label: 'Address 1:',
                     readOnly: true,
                     itemId: 'addr1',
-                    itemId: 'addr1',
 
                 },
                 {
@@ -94,8 +98,8 @@ Ext.define('myschoolishness.view.DirectoryStaffDetail', {
                     readOnly: true,
                     itemId: 'zip',
 
-                }
-					
+                },
+				]},	
 		        ],
 		listeners: [
 		        			{
@@ -138,15 +142,17 @@ Ext.define('myschoolishness.view.DirectoryStaffDetail', {
 			}
 					
 		if (myschoolishness.controller.Utils.hasRecords(records)) {
-			var firstName = this.getComponent("fname");
-			var lasttName = this.getComponent("lname");
-			var email = this.getComponent("email");
-			var phone = this.getComponent("phone");
-			var addr1 = this.getComponent("addr1");
-			var addr2 = this.getComponent("addr2");
-			var city = this.getComponent("city");
-			var state = this.getComponent("state");
-			var zip = this.getComponent("zip");
+		var fieldSet = this.getComponent('dirStaffDetailFieldSet');
+
+			var firstName = fieldSet.getComponent("fname");
+			var lasttName = fieldSet.getComponent("lname");
+			var email = fieldSet.getComponent("email");
+			var phone = fieldSet.getComponent("phone");
+			var addr1 = fieldSet.getComponent("addr1");
+			var addr2 = fieldSet.getComponent("addr2");
+			var city = fieldSet.getComponent("city");
+			var state = fieldSet.getComponent("state");
+			var zip = fieldSet.getComponent("zip");
 
 			for (var i=0;i<records.length;i++) {
 				firstName.setValue(records[i].get("first_name"));

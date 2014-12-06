@@ -178,11 +178,13 @@ config: {
 	},
 	
 	showSignature: function () {
-		console.log("showSignature CALLED");
-
-		var classHome = Ext.getCmp('classHome');
-		classHome.makeSignOutActive();
-		//console.log("SHOW SIG CALLED");
+		if (sessionStorage.getItem("homescreen") ==="class") {
+			var classHome = Ext.getCmp('classHome');
+			classHome.makeSignOutActive();
+		} else {
+			var schoolHome = Ext.getCmp('schoolHome');
+			schoolHome.makeSignOutActive();
+		}
 	},
 	
 	showAttendance: function () {
@@ -190,13 +192,28 @@ config: {
 		if (sessionStorage.getItem("homescreen") ==="kids") {
 			var kidsHome = Ext.getCmp('kidsHome');	
 			kidsHome.showAttendance();
-		} else if (sessionStorage.getItem("homescreen") ==="kids") {
+		} else if (sessionStorage.getItem("homescreen") ==="class") {
 			var classHome = Ext.getCmp('classHome');
 			classHome.showAttendance();
 		} else {
+			var schoolHome = Ext.getCmp('schoolHome');
+			schoolHome.showAttendance();
 		}
 	},
 	
+	showUpdates: function () {
+		//console.log("showUpdates CALLED " + sessionStorage.getItem("homescreen"));
+		if (sessionStorage.getItem("homescreen") ==="kids") {
+			var kidsHome = Ext.getCmp('kidsHome');	
+			kidsHome.showUpdates();
+		} else if (sessionStorage.getItem("homescreen") ==="class") {
+			var classHome = Ext.getCmp('classHome');
+			classHome.showUpdates();
+		} else {
+			var schoolHome = Ext.getCmp('schoolHome');
+			schoolHome.showUpdates();
+		}
+	},
 	onSegButtonTap: function (container, button, pressed) {
 	//console.log("onSegButtonTap CALLED");
 		var homePanel = Ext.getCmp('homePanel');	
@@ -212,6 +229,8 @@ config: {
 		} else {
 			homePanel.setActiveItem(3);
 		}
+		
+		this.showUpdates();
 	},
 	
 	onDirectoryTap: function () {
@@ -222,11 +241,13 @@ config: {
 	onMyClassTap: function () {
 		var homePanel = Ext.getCmp('homePanel');	
 		homePanel.setActiveItem(1);
+		this.showUpdates();
 	},
 	
 	onMySchoolTap: function () {
 		var homePanel = Ext.getCmp('homePanel');	
 		homePanel.setActiveItem(2);
+		this.showUpdates();
 	},
 		
 	loadData: function () {	

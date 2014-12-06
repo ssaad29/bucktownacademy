@@ -17,14 +17,14 @@ config: {
                     			},
 		        		        {
                     			xtype: 'passwordfield',
-                    			placeHolder: "New Password",
+                    			placeHolder: "Password (required)",
                     			itemId: 'newPassword',
 		        		        name: 'newPassword',
                     			value:""
                     			},
                     			{
                     			xtype: 'passwordfield',
-                    			placeHolder: "Retype new password",
+                    			placeHolder: "Retype password (required)",
                     			itemId: 'newPasswordMatch',
 		        		        name: 'newPasswordMatch',
                     			value:""

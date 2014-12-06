@@ -258,8 +258,16 @@ Ext.define('myschoolishness.view.DirectoryFamily', {
 			      	records[i].set("display_city",records[i].get('city'));
 			      	records[i].set("display_addr2",records[i].get('addr2'));
 			      	records[i].set("display_addr1",records[i].get('addr1'));
-			      	records[i].set("display_email",'<a href="mailto:' + records[i].get("email") + '">' + records[i].get("email") + '</a>');
-			      	records[i].set("display_phone",'<a href="tel:{' + records[i].get("phone") + '}">' + records[i].get("phone") + '</a>');
+			      	if (records[i].get("email") != null) {
+			      		records[i].set("display_email",'<a href="mailto:' + records[i].get("email") + '">' + records[i].get("email") + '</a>');
+			      	} else {
+			      		records[i].set("display_email",'');
+			      	}
+			      	if (records[i].get("phone") != null) {
+			      		records[i].set("display_phone",'<a href="tel:{' + records[i].get("phone") + '}">' + records[i].get("phone") + '</a>');
+			      	} else {
+			      			records[i].set("display_phone",'');
+			      	}
 			      	records[i].set("display_cell",'<a href="tel:{' + records[i].get("cell_phone") + '}">' + records[i].get("cell_phone") + '</a>');
 			      }
 			      

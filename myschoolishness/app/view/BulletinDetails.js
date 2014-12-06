@@ -24,13 +24,13 @@ Ext.define('myschoolishness.view.BulletinDetails', {
 		        		    {
                     		xtype: 'textfield',
                     		itemId: 'bulletinTitle',
-                    		placeHolder: "Title",
+                    		placeHolder: "Title (required)",
 		        		    name: 'bulletinTitle',
                     		value:""
                     		},
                     		{
                     		xtype: 'textareafield',
-                    		placeHolder: "Message",
+                    		placeHolder: "Message (required)",
                     		itemId: 'bulletinMessage',
 		        		    name: 'bulletinMessage',
                     		value:""

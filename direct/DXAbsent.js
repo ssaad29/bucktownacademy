@@ -76,6 +76,7 @@ var DXAbsent  = {
     },
     
     getStudentsForTeacher: function(params, callback){
+    console.log("getStudentsForTeacher");
     	if (!db.isValidToken(params.token,arguments[arguments.length-1])) {
 			callback({success:false});
 			
@@ -85,11 +86,36 @@ var DXAbsent  = {
     	var paramsList1 = [];
     	var paramsList2 = [];
     	paramsList2[0] = params.user_id;
-    	var attendance_query = "select distinct student_id,first_name,last_name,present from student_attendance where present = 1 UNION select distinct student_id,first_name,last_name,present from student_attendance where present = 0 and user_id=?";
+    	var attendance_query = "select distinct student_id,first_name,last_name,present from student_attendance where present = 1 and isTestStudent=0 UNION select distinct student_id,first_name,last_name,present from student_attendance where present = 0 and user_id=? and isTestStudent=0";
     	var timezone_query = "SET time_zone = '-6:00'";
     	db.nestedQueryWithParams(timezone_query,paramsList1,attendance_query,paramsList2,callback,-1);
     },
 	
+	getStudentsForRollCall: function(params, callback){
+		console.log("getStudentsForRollCall");
+    	if (!db.isValidToken(params.token,arguments[arguments.length-1])) {
+			callback({success:false});
+			
+			return;
+		} 
+		var roles = params.roles;
+		console.log("roles " + roles);
+		var attendance_query = null;
+		
+		if (roles != null && roles.indexOf("A") != -1) {
+    	 	attendance_query = "select distinct student_id,first_name,last_name,present from student_attendance where present = 1 and isTestStudent=0 UNION select distinct student_id,first_name,last_name,present from student_attendance where present = 0 and isTestStudent=0";
+        	}
+        else {
+    	 	attendance_query = "select distinct student_id,first_name,last_name,present from student_attendance where present = 1 and isTestStudent=0 UNION select distinct student_id,first_name,last_name,present from student_attendance where present = 0 and user_id=? and isTestStudent=0";
+        }
+        
+    	var paramsList1 = [];
+    	var paramsList2 = [];
+    	paramsList2[0] = params.user_id;
+    	var timezone_query = "SET time_zone = '-6:00'";
+    	db.nestedQueryWithParams(timezone_query,paramsList1,attendance_query,paramsList2,callback,-1);
+    },
+    
 	getAllAbsencesForStudent: function(params, callback){
 		if (!db.isValidToken(params.token,arguments[arguments.length-1])) {
 			callback({success:false,message:'no token'});

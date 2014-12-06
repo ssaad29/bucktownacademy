@@ -15,15 +15,14 @@ Ext.define('myschoolishness.view.Login', {
 		items: [
 				{
 				xtype:'panel',
-		        layout: 'hbox',
-		        align: 'center',
+		        layout: 'fit',
 		        		
 				items: [
 						{
 							xtype:'panel',
 							html: '<center><img src="images/Bucktown_Academy_Web_Logo_Small.jpg" /></center> ',
-							align: 'center',
 			        		style: 'font:20px Comic Sans MS,cursive, sans-serif;',
+			        		flex:'3',
 						},
 
 
@@ -35,6 +34,7 @@ Ext.define('myschoolishness.view.Login', {
 		        		    itemId: 'rem',
 		        		    checked: true,
 		        		    labelWrap:'false',
+		        		    flex:'1',
 		        			}
 		        			
 		        	   ]
@@ -53,7 +53,7 @@ Ext.define('myschoolishness.view.Login', {
 		        		items: [
 		        		        	{
 		        		        		xtype:'textfield',
-		        		        		placeHolder: 'Username',
+		        		        		placeHolder: 'Email address',
 		        		        		itemId: 'userNameTextField',
 		        		        		name: 'userNameTextField',
 		        		        		required: true

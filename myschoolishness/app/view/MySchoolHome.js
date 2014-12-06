@@ -99,7 +99,16 @@ Ext.define('myschoolishness.view.MySchoolHome', {
 		var schoolPanel = Ext.getCmp('schoolPanel');
 		schoolPanel.setActiveItem(1);
 	},
-		
+	
+	makeSignOutActive: function() {
+    	var sigPanel = Ext.getCmp('schoolSignOut');
+    	sigPanel.loadData();
+    	 //segButtonClass.setPressedButtons([2]);
+    	 //segButtonClass.setPressed(2);
+    	 //var classPanel = Ext.getCmp('classPanel');
+		//classPanel.setActiveItem(2);
+	},
+	
 	loadScreens: function() {
     	sessionStorage.setItem("homescreen","school");
         	this.showUpdates();

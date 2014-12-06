@@ -11,14 +11,14 @@ config: {
 		        					{
                     				xtype: 'textfield',
                     				itemId: 'firstname',
-                    				placeHolder: "First Name",
+                    				placeHolder: "First Name (required)",
 		        		        	name: 'firstname',
 		        		        	required: 'true',
                     				value:""
                     				},
                     				{
                     				xtype: 'textfield',
-                    				placeHolder: "Last Name",
+                    				placeHolder: "Last Name (required)",
                     				itemId: 'lastname',
 		        		        	name: 'lastname',
 		        		        	required: 'true',

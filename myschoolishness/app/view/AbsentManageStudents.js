@@ -188,7 +188,8 @@ Ext.define('myschoolishness.view.AbsentManageStudents', {
 		store.load();
 			//var user_id = store.getAt(0).get("dbId");
 			var user_id = sessionStorage.getItem("user_id");
-
+			var roles = sessionStorage.getItem("roles");
+			
 			var attendanceStore = Ext.create('myschoolishness.store.AttendanceStore', {
 			model: "myschoolishness.model.AttendanceModel"
 			});
@@ -198,7 +199,8 @@ Ext.define('myschoolishness.view.AbsentManageStudents', {
     			//define the parameters of the store:
     		    		params: {
         		user_id: user_id,
-        		token: sessionStorage.getItem("token")
+        		token: sessionStorage.getItem("token"),
+        		roles: roles
     			},
 
     		scope: this,
