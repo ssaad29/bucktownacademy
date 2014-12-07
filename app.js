@@ -1,3 +1,4 @@
+require('newrelic');
 var express        = require('express');
 var morgan         = require('morgan');
 var bodyParser     = require('body-parser');
@@ -13,7 +14,7 @@ var methodOverride = require('method-override');
 	var nodemailer = require("nodemailer");
 	var emailTemplates = require('email-templates');
 	var templatesDir   = path.join(__dirname, 'templates');
-	require('newrelic');
+
 	
 nconf.env().file({ file: 'config.json'});  
   
