@@ -57,7 +57,8 @@ Ext.define('myschoolishness.controller.Admin', {
 				goHome: 'goHome',
 			},
 			parentChooser: {
-				addParent: 'addParent'
+				addParent: 'addParent',
+				showChildCard: 'showChildCard'
 			},
 			studentParentsPanel: {
 				showParentChooser: 'showParentsChooser',
@@ -80,7 +81,8 @@ Ext.define('myschoolishness.controller.Admin', {
 			},
 			childCrudCard: {
 				showStudentList: 'showStudentAdminList',
-				editStudent: 'showEditStudent'
+				editStudent: 'showEditStudent',
+				goHome: 'goHome',
 			},
 			userCrudCard: {
 				showChildCard: 'showChildCard',
@@ -174,6 +176,7 @@ Ext.define('myschoolishness.controller.Admin', {
 	},
 	
 	showChildCard: function () {
+		console.log("show child card called");
 		var childCrudCard = this.getChildCrudCard();
 		childCrudCard.loadData();
 		childCrudCard.activateItem();

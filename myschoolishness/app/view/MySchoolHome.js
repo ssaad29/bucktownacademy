@@ -59,8 +59,12 @@ Ext.define('myschoolishness.view.MySchoolHome', {
 													bulletinsSchool.load();		
                             					} else if (pressedButtons[0].getText() === "Attendance") {
 													schoolPanel.setActiveItem(1);
+													var absenceList = Ext.getCmp('schoolAttendance');	
+													absenceList.loadData();
                             					} else if (pressedButtons[0].getText() === "Sign Out") {
 													schoolPanel.setActiveItem(2);
+													var signOutList = Ext.getCmp('schoolSignOut');	
+													signOutList.loadData();
                             					}
                         					},
                     					} // listeners

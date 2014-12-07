@@ -100,7 +100,6 @@ Ext.define('myschoolishness.view.ChildCrudCard', {
 		var card = this.getComponent("childPrefCardPanel");
 		
 		var idx = sessionStorage.getItem("newstudent.index");
-		console.log("IN doNext with idx TESTING " + idx);
 		
 		if (idx === null || idx === undefined) {
 			idx = 3;
@@ -109,7 +108,6 @@ Ext.define('myschoolishness.view.ChildCrudCard', {
 		}
 		
 		if (idx === 3) {
-			console.log("In 3");
 			var namePanel = Ext.getCmp("studentNamePanel");	
 			namePanel.setFirstName("");	
 			namePanel.setLastName("");	
@@ -134,7 +132,6 @@ Ext.define('myschoolishness.view.ChildCrudCard', {
 				sessionStorage.setItem("newstudent.index","0");
 			}
 		} else if (idx === 0) {
-		console.log("In 0");
 			sessionStorage.setItem("backButtonIdx.index",4);
 			var studentDetailsPanel = Ext.getCmp("studentDetailsPanel");
 			studentDetailsPanel.setAllergies("");	
@@ -184,7 +181,6 @@ Ext.define('myschoolishness.view.ChildCrudCard', {
 		} else {
 			idx = parseInt(idx);
 		}
-		console.log("IDX in activate " + idx);
 		if (idx === 0) {
 			card.setActiveItem(0);
 		} else if (idx === 1) {
@@ -199,20 +195,24 @@ Ext.define('myschoolishness.view.ChildCrudCard', {
 	},
 						
    onBackButtonTap: function () {
-   		var idx = sessionStorage.getItem("backButtonIdx.index");
-   		var card = this.getComponent("childPrefCardPanel");
+   		var roles = sessionStorage.getItem("roles");
+			
+    	if (roles.indexOf("P") != -1 ) {
+    			this.fireEvent("goHome", this);
+    	} else {
+   			var idx = sessionStorage.getItem("backButtonIdx.index");
+   			var card = this.getComponent("childPrefCardPanel");
    		
-		if (idx === null || idx === undefined) {
-			console.log("IDX undefined");
-			idx = 0;
-		} else {
-			idx = parseInt(idx);
-			console.log("IDX " + idx);
-			if (idx === -1) {
-				this.fireEvent("editStudent", this);
+			if (idx === null || idx === undefined) {
+				idx = 0;
+			} else {
+				idx = parseInt(idx);
+				if (idx === -1) {
+					this.fireEvent("editStudent", this);
 			} else {
 				sessionStorage.setItem("newstudent.index",idx);
 				this.doNext();
+				}
 			}
 		}
 	},
@@ -359,9 +359,15 @@ Ext.define('myschoolishness.view.ChildCrudCard', {
 	},
 	
 	afterUpdateLoad: function(store, records, successful, operation, eOpts) {
+		var roles = sessionStorage.getItem("roles");
+			
 		if (records.length === 1 && successful) {
     		Ext.Msg.alert('Success', 'Your changes have been saved', Ext.emptyFn);
-    		this.fireEvent("showStudentList", this);
+    		if (roles.indexOf("P") != -1 ) {
+    			this.fireEvent("goHome", this);
+    		} else {
+    			this.fireEvent("showStudentList", this);
+    		}
     	}
 	},
 	

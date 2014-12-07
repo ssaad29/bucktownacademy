@@ -54,7 +54,7 @@ Ext.define('myschoolishness.view.ChooseParentsWindow', {
         			},
 	
 	onCancelButtonTap: function () {
-		 history.back();
+		 this.fireEvent('showChildCard',this);
 	},
 		
 	loadData: function () {

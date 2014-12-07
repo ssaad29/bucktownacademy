@@ -84,10 +84,10 @@ Ext.define('myschoolishness.view.UserCrudCard', {
                 						itemtap: function (list, idx, target, record, evt) {
 										sessionStorage.setItem("child_crud.student_id", record.get("student_id"));
 										
-										//myschoolishness.app.redirectTo('editUser/editStudent');
+										console.log("should fire showchildcard");
 										
 										sessionStorage.setItem("edit_student.index", 0);
-										this.fireEvent("showChildCard", this);
+										this.parent.parent.fireEvent("showChildCard", this.parent.parent);
         								}
 									}
         						} 

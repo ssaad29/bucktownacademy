@@ -70,6 +70,8 @@ Ext.define('myschoolishness.view.MyKidsHome', {
 													bulletinsKids.load();		
                             					} else if (pressedButtons[0].getText() === "Attendance") {
 													kidsPanel.setActiveItem(1);
+													var absenceList = Ext.getCmp('kidsAttendance');	
+													absenceList.loadData();
                             					} 
                         					},
                     					} // listeners
