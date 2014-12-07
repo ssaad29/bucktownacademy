@@ -19,7 +19,7 @@ Ext.define('myschoolishness.view.Register', {
             							name: 'toc',
             							itemId:'toc',
             							id:'toc',
-            							label: 'Terms of Use and I accept',
+            							label: 'Terms of Use - Accept',
             							value:0,
             							labelWidth: '70%'
 		        		        	},
@@ -28,7 +28,7 @@ Ext.define('myschoolishness.view.Register', {
             							name: 'privacy',
             							itemId:'privacy',
             							id:'privacy',
-            							label: 'Privacy Policy and I accept',
+            							label: 'Privacy Policy - Accept',
             							labelWidth: '70%'
 		        		        	},
 		        		        	
