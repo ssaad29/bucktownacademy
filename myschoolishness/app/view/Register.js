@@ -7,14 +7,12 @@ Ext.define('myschoolishness.view.Register', {
 		fullstreen: true,
 		itemId:'registration',
 		items: [
-		        	{
+		        		{
 		        		xtype: 'fieldset',
 		        		items: [
 		        					{
 		        		        		xtype: 'label',
-            							label: 'I have reviewed:',
-            							value:0,
-            							labelWidth: '70%'
+            							html: 'I have reviewed:',
 		        		        	},
 		        		        	{
 		        		        		xtype: 'togglefield',
