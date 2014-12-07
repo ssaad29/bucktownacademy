@@ -13,7 +13,7 @@ var methodOverride = require('method-override');
 	var nodemailer = require("nodemailer");
 	var emailTemplates = require('email-templates');
 	var templatesDir   = path.join(__dirname, 'templates');
-	
+	require('newrelic');
 	
 nconf.env().file({ file: 'config.json'});  
   
