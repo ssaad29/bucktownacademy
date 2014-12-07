@@ -15,7 +15,7 @@ config: {
                 itemId: 'agreement',
                 xtype: 'register',
             }, {
-                title: 'Terms of User',
+                title: 'Terms of Use',
                 itemId: 'terms',
                 xtype: 'scrollabletextarea',
                 readOnly: true,

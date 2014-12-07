@@ -10,12 +10,18 @@ Ext.define('myschoolishness.view.Register', {
 		        	{
 		        		xtype: 'fieldset',
 		        		items: [
+		        					{
+		        		        		xtype: 'label',
+            							label: 'I have reviewed:',
+            							value:0,
+            							labelWidth: '70%'
+		        		        	},
 		        		        	{
 		        		        		xtype: 'togglefield',
             							name: 'toc',
             							itemId:'toc',
             							id:'toc',
-            							label: 'I have reviewed the Terms of Use and I accept them',
+            							label: 'Terms of Use and I accept',
             							value:0,
             							labelWidth: '70%'
 		        		        	},
@@ -24,7 +30,7 @@ Ext.define('myschoolishness.view.Register', {
             							name: 'privacy',
             							itemId:'privacy',
             							id:'privacy',
-            							label: 'I have reviewed the Privacy Policy and I accept its terms',
+            							label: 'Privacy Policy and I accept',
             							labelWidth: '70%'
 		        		        	},
 		        		        	
