@@ -5,7 +5,7 @@ Ext.define('myschoolishness.view.ViewBulletinDetails', {
 	title: 'View Bulletin',
 	config: {
 		title: 'View Bulleting',
-		layout: 'vbox',
+		//layout: 'vbox',
         items: [
         		{
                 			xtype: 'titlebar',
@@ -22,13 +22,13 @@ Ext.define('myschoolishness.view.ViewBulletinDetails', {
                 				}
                 				]
            		},
-		        		    {
-                    		xtype: 'label',
-                    		itemId: 'bulletinTitle',
-		        		    name: 'bulletinTitle',
-    						style: 'text-align: center;font-size:0.90em;',
+		        		    //{
+                    		//xtype: 'label',
+                    		//itemId: 'bulletinTitle',
+		        		    //name: 'bulletinTitle',
+    						//style: 'text-align: center;font-size:0.90em;',
     						//padding: 6,
-                    		},
+                    		//},
                     		{
                     		title: 'message',
                     		itemId: 'bulletinMessage',
@@ -57,8 +57,8 @@ setMessage: function (value) {
 },
 
 setTitle: function (value) {
-	var titleField = this.getComponent("bulletinTitle");
-	titleField.setHtml(value);
+	//var titleField = this.getComponent("bulletinTitle");
+	//titleField.setHtml(value);
 },
 
 getMessage: function () {
@@ -67,8 +67,8 @@ getMessage: function () {
 },
 
 getTitle: function () {
-	var titleField = this.getComponent("bulletinTitle");
-	return titleField.getHtml();
+	//var titleField = this.getComponent("bulletinTitle");
+	//return titleField.getHtml();
 },
 
 })
