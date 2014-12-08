@@ -5,7 +5,8 @@ Ext.define('myschoolishness.view.ViewBulletinDetails', {
 	title: 'View Bulletin',
 	config: {
 		title: 'View Bulleting',
-		//layout: 'vbox',
+		layout: 'card',
+		fullstreen: true,
         items: [
         		{
                 			xtype: 'titlebar',
@@ -32,7 +33,6 @@ Ext.define('myschoolishness.view.ViewBulletinDetails', {
                     		{
                     		title: 'message',
                     		itemId: 'bulletinMessage',
-		        		    name: 'bulletinMessage',
 		        		    xtype: 'scrollabletextarea',
                 			readOnly: true,
                 			maxRows : 300

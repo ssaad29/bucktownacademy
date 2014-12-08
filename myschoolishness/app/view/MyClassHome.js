@@ -113,7 +113,7 @@ Ext.define('myschoolishness.view.MyClassHome', {
 		var titleBar = this.getComponent('classTitlebar');
 		var segButtonClass = titleBar.getComponent('classHomeSeg');
 		var segButtonClass1 = Ext.ComponentQuery.query("classHomeSeg");
-		console.log("segButtonClass1 " + segButtonClass1);
+		console.log("segButtonClass1:BRANCH test change " + segButtonClass1);
 		console.log("segButtonClass " + segButtonClass);
 	},
 	
