@@ -27,14 +27,15 @@ Ext.define('myschoolishness.view.ViewBulletinDetails', {
                     		itemId: 'bulletinTitle',
 		        		    name: 'bulletinTitle',
     						style: 'text-align: center;font-size:0.90em;',
-    						padding: 6,
+    						//padding: 6,
                     		},
-                    		
                     		{
-                    		xtype: 'label',
                     		itemId: 'bulletinMessage',
 		        		    name: 'bulletinMessage',
-		        		    margin:20,
+		        		    styleHtmlContent:true,
+		        		    xtype: 'scrollabletextarea',
+                			readOnly: true,
+                			maxRows : 40
                     		},
         ],
         		        	listeners: [
@@ -52,7 +53,7 @@ onBackButtonTap: function () {
 	
 setMessage: function (value) {
 	var messageField = this.getComponent("bulletinMessage");
-	messageField.setHtml(value);
+	messageField.setValue(value);
 },
 
 setTitle: function (value) {
@@ -62,7 +63,7 @@ setTitle: function (value) {
 
 getMessage: function () {
 	var messageField = this.getComponent("bulletinMessage");
-	return messageField.getHtml();
+	return messageField.getValue();
 },
 
 getTitle: function () {
