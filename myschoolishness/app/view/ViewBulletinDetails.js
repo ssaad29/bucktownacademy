@@ -30,9 +30,9 @@ Ext.define('myschoolishness.view.ViewBulletinDetails', {
     						//padding: 6,
                     		},
                     		{
+                    		title: 'message',
                     		itemId: 'bulletinMessage',
 		        		    name: 'bulletinMessage',
-		        		    styleHtmlContent:true,
 		        		    xtype: 'scrollabletextarea',
                 			readOnly: true,
                 			maxRows : 300
