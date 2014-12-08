@@ -35,7 +35,7 @@ Ext.define('myschoolishness.view.ViewBulletinDetails', {
 		        		    styleHtmlContent:true,
 		        		    xtype: 'scrollabletextarea',
                 			readOnly: true,
-                			maxRows : 40
+                			maxRows : 300
                     		},
         ],
         		        	listeners: [
