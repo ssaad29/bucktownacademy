@@ -37,6 +37,16 @@
         "cert": "./config/amazon-rds-ca-cert.pem"
     },
 
+	"TestMySQLConfig": {
+         "hostname": "us-cdbr-iron-east-01.cleardb.net",
+        "port": 3306,
+        "user": "b337a29e6a184e",
+        "password": "48c33a8d",
+        "db": "heroku_5762e2c880d0b06",
+        "key": "./config/EC2-SSH.pem",
+        "cert": "./config/amazon-rds-ca-cert.pem"
+    },
+    
     "RedisConfig": {
         "hostname": "us-cdbr-iron-east-01.cleardb.net",
         "port": 3306,

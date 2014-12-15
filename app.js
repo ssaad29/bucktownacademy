@@ -46,20 +46,29 @@ var isHeroku = false;
 if (env==="production" || env==="test" || env==="ymca" || env==="prod") {
 	isHeroku = true;
 }
+
+if (env==="test" || env==="localtest") {
+	MySQLConfig = nconf.get("TestMySQLConfig");
+}
   
 if (env==="production") {
 		console.log("IS PROD ");
 		ExtDirectConfig = nconf.get("ExtDirectProdConfig");
 	} else if (env==="test") {
 	console.log("IS TEST ");
-		ExtDirectConfig = nconf.get("ExtDirectTestConfig");
+		 ExtDirectConfig = nconf.get("ExtDirectTestConfig");
+		 MySQLConfig = nconf.get("TestMySQLConfig");
 	} else if (env==="ymca") {
 	console.log("IS YMCA ");
 		ExtDirectConfig = nconf.get("ExtDirectYMCAConfig");
 	} else if (env==="localprod") {
 	console.log("IS LOCALPROD ");
 		ExtDirectConfig = nconf.get("ExtDirectLocalProdConfig");
-	}
+	} else if (env==="localtest") {
+		console.log("IS LOCALTEST ");
+		ExtDirectConfig = nconf.get("ExtDirectLocalConfig");
+		 MySQLConfig = nconf.get("TestMySQLConfig");
+	} 
 
 var server = ExtDirectConfig.server;
 var port =  process.env.PORT || ExtDirectConfig.port;
@@ -287,7 +296,8 @@ var queryWithParams = function(queryString,params,callback,shouldCommit){
   		connection.query(queryString, params,function(err, rows, fields) {
     		// And done with the connection.
     		if(ServerConfig.debug) {
-        		console.log("Result!!" + JSON.stringify(rows));
+        		console.log("Result for " + queryString + " with params " + params + " IS: " + JSON.stringify(rows));
+        		console.log("ERROR recorded " + err);
         	}
         	if (callback!=null) {
             		callback(rows);
