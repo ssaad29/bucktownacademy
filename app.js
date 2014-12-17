@@ -39,7 +39,7 @@ var ServerConfig = nconf.get("ServerConfig"),
   
 
 var env = ServerConfig.env;
-console.log("env IS!!!!" + env);
+console.log("environment IS!!!!" + env);
 
 var isHeroku = false;
 
