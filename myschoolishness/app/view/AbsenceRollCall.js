@@ -292,7 +292,7 @@ Ext.define('myschoolishness.view.AbsenceRollCall', {
 		var me = this;
 
 		if (successful===false) {
-			myschoolishness.app.sessionExpired();
+			myschoolishness.controller.Utils.sessionExpired();
 		
 			return;
 		}	

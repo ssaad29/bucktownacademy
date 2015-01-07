@@ -324,6 +324,13 @@ var queryWithParams = function(queryString,params,callback,shouldCommit){
 
 //if you don't want to use an id from an insert then send in -1 for the id index
 var nestedQueryWithParams = function(queryString1,params1,queryString2,params2,callback,indexToInsertIdInParams2){
+	console.log("nestedQueryWithParams:queryString1 " + queryString1);
+	console.log("nestedQueryWithParams:params1 " + params1);
+	console.log("nestedQueryWithParams:queryString2 " + queryString2);
+	console.log("nestedQueryWithParams:params2 " + params2);
+	console.log("nestedQueryWithParams:callback " + callback);
+	console.log("nestedQueryWithParams:indexToInsertIdInParams2 " + indexToInsertIdInParams2);
+	
 	var connection = null;
 	
   	if(ServerConfig.debug) {
@@ -348,14 +355,16 @@ var nestedQueryWithParams = function(queryString1,params1,queryString2,params2,c
     			
         	
         	if (queryString2) {
-        		console.log("Params 2" + JSON.stringify(params2));
-				console.log("query 2 " + queryString2);
+        		
         		if (indexToInsertIdInParams2 && indexToInsertIdInParams2!=-1) {
         			var index = parseInt(indexToInsertIdInParams2)
+        			console.log("index " + index);
         			var id = info.insertId;
+        			console.log("id " + id);
         			params2[index] = id;
         		}
-        	
+        		console.log("Params 2" + JSON.stringify(params2));
+				console.log("query 2 " + queryString2);
         		connection.query(queryString2, params2,function(err, rows, fields) {
             	
             	if(ServerConfig.debug) {
