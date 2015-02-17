@@ -22,9 +22,17 @@ Ext.define('myschoolishness.controller.Admin', {
 			loginView: 'loginview',
 			adminHome: 'admin-home',
 			kidsHome: 'my-kids-home',
-			bulletinHome: 'bulletin-home'
+			bulletinHome: 'bulletin-home',
+			manageReports: 'managereports',
+			attendanceReport: 'attendancereport',
 		},
 		control: {
+			managereports: {
+				showReport: 'showReport',
+			},
+			attendanceReport: {
+				showManageReports: 'showManageReports',
+			},
 			adminHome: {
 				goHome: 'goHome',
 			},
@@ -118,6 +126,14 @@ Ext.define('myschoolishness.controller.Admin', {
         }
 	},
 	
+	showReport: function (object,html) {
+	console.log(html);
+		//console.log("html above");
+		var attendanceReport = this.getAttendanceReport();
+		attendanceReport.setHtml(html);
+		Ext.Viewport.animateActiveItem(attendanceReport,myschoolishness.controller.Utils.getDefaultSlideTransition());
+	},
+	
 	manageBulletins: function () {
 		console.log("Fired!!");
 		var bulletinHome = this.getBulletinHome();
@@ -128,6 +144,12 @@ Ext.define('myschoolishness.controller.Admin', {
 	showBulletinAdminList: function () {
 		var staffHome = this.getStaffHome();
 		staffHome.showBulletins();
+		Ext.Viewport.animateActiveItem(staffHome,myschoolishness.controller.Utils.getDefaultSlideTransition());
+	},
+	
+	showManageReports: function () {
+		var staffHome = this.getStaffHome();
+		staffHome.showReports();
 		Ext.Viewport.animateActiveItem(staffHome,myschoolishness.controller.Utils.getDefaultSlideTransition());
 	},
 	
