@@ -181,10 +181,15 @@ Ext.define('myschoolishness.view.ManageReports', {
 								console.log("NUM records " + records.length);
 								//console.log("HTML: " + records[0].get("html"));
 								//this.fireEvent("showReport", this,records[0].get("html"));
+								
 								var myWindow = window.open("", "MsgWindow", "width=600, height=500");
+								console.log("my wondow opened");
 								var htmlContent = records[0].get("html");
+								console.log("html content");
 								myWindow.document.write("Bucktown Academy Attendance Report", htmlContent);
+								console.log("written");
 								myWindow.document.close();
+								console.log("closed");
 							}
     					}
 					})
