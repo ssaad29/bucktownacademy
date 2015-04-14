@@ -19,17 +19,13 @@ Ext.define('myschoolishness.view.ManageReports', {
 					{
                     	xtype: 'selectfield',
                     	label: 'Report',
-                    	id: 'typeField',
-		        		itemId: 'typeField',
+                    	id: 'attendanceTypeField',
+		        		itemId: 'attendanceTypeField',
                     	options: [
                         	{text: 'Attendance',  value: '1'},
                         	{text: 'Dismissal Signature', value: '2'},
                     	],
-                    	listeners: {                                
-                    			change: function(field, value) {
-                    				console.log("Value " + value);
-                        	}                      
-                    	}
+                    	
                 	 },
 					{
 		        						xtype: 'fieldset',
@@ -106,16 +102,24 @@ Ext.define('myschoolishness.view.ManageReports', {
 								event: 'change',
 								fn: 'fromChanged'
 								},
+								{
+								delegate: '#attendanceTypeField',
+								event: 'change',
+								fn: 'typeChanged'
+								},
 							]
 		
 		},
 	
+	typeChanged: function(object, newValue, oldValue, eOpts) {
+		console.log("typeChanged called" + newValue);
+		var attendanceTypeField =  Ext.getCmp("attendanceTypeField");
+		attendanceTypeField.setValue(newValue);
+	},
+	
 	toChanged: function(object, newDate, oldDate, eOpts) {
 		var to =  Ext.getCmp("toReports");
 		to.setValue(newDate);
-		console.log("object " + object);
-	console.log("newDate " + newDate);
-    	console.log("oldDate " + oldDate);
 	},
 	
 	fromChanged: function(object, newDate, oldDate, eOpts) {
@@ -147,8 +151,19 @@ Ext.define('myschoolishness.view.ManageReports', {
 		console.log("endDate-. " + to.getValue());
 		//endDate.setMonth(endDate.getMonth() );
 		
+		var typeField = Ext.getCmp("attendanceTypeField");
+		var reportType = "";
+		console.log("TYPE FIELD " + typeField.getValue());
+		if (typeField.getValue() ==="1") {
+			reportType = "attendance";
+		} else {
+			reportType="signout";
+		}
+				console.log("reportType " + reportType);
+
 		if(endDate >= startDate) {
-			var attendanceReportStore = Ext.create('myschoolishness.store.AttendanceReportStore', {
+			if(reportType === "attendance") {
+					var attendanceReportStore = Ext.create('myschoolishness.store.AttendanceReportStore', {
 					model: "myschoolishness.model.AttendanceReportModel"
 					});
 		    
@@ -173,6 +188,34 @@ Ext.define('myschoolishness.view.ManageReports', {
 							}
     					}
 					})
+					
+			}	else {
+				var SignoutReportStore = Ext.create('myschoolishness.store.SignoutReportStore', {
+					model: "myschoolishness.model.SignoutReportModel"
+					});
+		    
+        			SignoutReportStore.load({
+    				//define the parameters of the store:
+    		    		params: {
+        				start_date_time: startDate,
+        				end_date_time: endDate,
+        				token: sessionStorage.getItem("token")
+    				},
+
+    				scope: this,
+    				callback : function(records, operation, success) {
+							if (success) {
+								console.log("NUM records " + records.length);
+								//console.log("HTML: " + records[0].get("html"));
+								//this.fireEvent("showReport", this,records[0].get("html"));
+								var myWindow = window.open("", "MsgWindow", "width=600, height=500");
+								var htmlContent = records[0].get("html");
+								myWindow.document.write("Bucktown Academy Attendance Report", htmlContent);
+								myWindow.document.close();
+							}
+    					}
+					})
+			}	
 		} else {
 			Ext.Msg.alert('Invalid request', 'Start date cannot be later than end date');
 		}
