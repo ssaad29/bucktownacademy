@@ -605,11 +605,13 @@ formatReport = function(datesArray,students,maxStudents,maxDates,dataArray,repor
 
 arrayContains = function(theArray,elem)
 {
+
+	var elemWithNoYear =  elem.substring(0,9);
    for (var i in theArray)
    {
-   	
-       if (theArray[i] === elem) {
-       	console.log("Match found: " + theArray[i] + " with "+ elem);
+   	//console.log("COMPARING" + theArray[i] + " with "+ elemWithNoYear);
+       if (theArray[i] === elemWithNoYear) {
+       	//console.log("Match found: " + theArray[i] + " with "+ elemWithNoYear);
        	return true;
        	}
    }
@@ -618,8 +620,8 @@ arrayContains = function(theArray,elem)
 
 getMatchingSignature = function(signatureData,dateToMatch,studentId)
 {
-	console.log("!!Data to match: " + dateToMatch);
-	console.log("signatureData LENGTH: " + signatureData.length);
+	//console.log("!!Data to match: " + dateToMatch);
+	//console.log("signatureData LENGTH: " + signatureData.length);
 	var dateToMatchInArray = dateToMatch.split("-");
 	var matchDateObj = new Date(dateToMatchInArray[1]);
 
@@ -809,15 +811,17 @@ connection.query(timezone_query, function(err, info) {
 
 
 var getHtmlForAttendanceReport = function(start_date_range,end_date_range,callback){
-	console.log("Getting dates for attendance report ");
+	//console.log("Getting dates for attendance report ");
+	//	console.log("start_date_range " + start_date_range);
+	//console.log("end_date_range " + end_date_range);
 		var attendanceDataArray = new Array();
 		var datesForAttendanceReport = getDatesArray(start_date_range,end_date_range);
-		console.log("BACK attendance report " + datesForAttendanceReport);
+		//console.log("BACK attendance report " + datesForAttendanceReport);
 		var connection = getConnection();
 		var timezone_query = "SET time_zone = '-6:00'";
 		var student_names_query = "select id, first_name,last_name from student";
 		var student_attendance_query = "select t1.id AS absence_id,t1.start_date_time,t1.end_date_time,t3.id AS student_id,t3.first_name,t3.last_name from absence t1, absence_owner t2, student t3 where t1.start_date_time BETWEEN ? and ? and t1.id = t2.absence_id and t2.student_id = t3.id";
-		console.log("Timezone query ");
+		//console.log("Timezone query ");
   		connection.query(timezone_query, function(err, info) {
 
   				console.log("Recieved reply for " + timezone_query);
@@ -840,7 +844,7 @@ var getHtmlForAttendanceReport = function(start_date_range,end_date_range,callba
         					//console.log('endDateDayMonthYear: ', endDateDayMonthYear);
 							var previousDate = startDate;
 							if (startDateDayMonthYear===endDateDayMonthYear) {
-								//console.log("Only one day! ADDING$$ " + attendanceRows[i].student_id + "-" + (startDate.getMonth() + 1) + "/" + startDate.getDate());
+								console.log("Only one day! ADDING$$ " + attendanceRows[i].student_id + "-" + (startDate.getMonth() + 1) + "/" + startDate.getDate());
 								attendanceDataArray.push(attendanceRows[i].student_id + "-" + (endDate.getMonth() + 1) + "/" + endDate.getDate());
 							} else {
 							//console.log("More than one day!");
@@ -852,7 +856,7 @@ var getHtmlForAttendanceReport = function(start_date_range,end_date_range,callba
 								currDate.setDate(currDate.getDate() + 1);
 								var currDateDayMonthYear = currDate.getMonth().toString() + currDate.getDate().toString() + currDate.getFullYear().toString();
 								previousDate=currDate;
-								//console.log("putting DATE$$ " + attendanceRows[i].student_id + "-" + (currDate.getMonth() + 1) + "/" + currDate.getDate());
+								console.log("putting DATE$$ " + attendanceRows[i].student_id + "-" + (currDate.getMonth() + 1) + "/" + currDate.getDate());
 								attendanceDataArray.push(attendanceRows[i].student_id + "-" + (currDate.getMonth() + 1) + "/" + currDate.getDate());
 								index++;
 								}
