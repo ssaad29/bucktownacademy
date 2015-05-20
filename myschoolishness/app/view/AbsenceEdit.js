@@ -275,6 +275,7 @@ Ext.define('myschoolishness.view.AbsenceEdit', {
 		var parentEntered = 0;
 		var role = sessionStorage.getItem("absence.edit.role");
     	var endDate = to.getValue();
+    	console.log("END DATE " + endDate);
     	endDate.setMonth(endDate.getMonth() );
 		
 		if(endDate > startDate) {

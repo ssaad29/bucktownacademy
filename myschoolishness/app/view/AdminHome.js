@@ -54,6 +54,10 @@ Ext.define('myschoolishness.view.AdminHome', {
     	       	{
     	       	xtype: 'manage-bulletins',
     	       	itemId: 'bulletins',
+    	       	},
+    	       	{
+    	       	xtype: 'managereports',
+    	       	itemId: 'reports',
     	       	}
     	      ],
 		        listeners: [
@@ -87,11 +91,16 @@ Ext.define('myschoolishness.view.AdminHome', {
 	},
 	
 	onTabSelect: function (sender, newActiveItem, oldActiveItem, eOpts ) {
-		if (newActiveItem.getItemId() === "parents" || newActiveItem.getItemId() === "bulletins") {
+		if (newActiveItem.getItemId() === "parents" || newActiveItem.getItemId() === "bulletins" || newActiveItem.getItemId() === "reports") {
 			newActiveItem.loadData();
-			} 
+		} 
 		
 		this.setRoles();
+	},
+	
+	showReports: function () {
+		var reports = this.getComponent("reports");
+		reports.loadData();
 	},
 	
 	showBulletins: function () {

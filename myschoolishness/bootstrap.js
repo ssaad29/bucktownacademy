@@ -705,6 +705,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.model.AllBulletinsModel": [],
   "myschoolishness.model.AssociateUserSchoolModel": [],
   "myschoolishness.model.AttendanceModel": [],
+  "myschoolishness.model.AttendanceReportModel": [],
   "myschoolishness.model.BulletinByIdModel": [],
   "myschoolishness.model.BulletinClassAssociationModel": [],
   "myschoolishness.model.CategoryModel": [],
@@ -735,6 +736,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.model.ParentsModel": [],
   "myschoolishness.model.SaveBulletinModel": [],
   "myschoolishness.model.SendEmailModel": [],
+  "myschoolishness.model.SignoutReportModel": [],
   "myschoolishness.model.StateModel": [],
   "myschoolishness.model.StudentInsertModel": [],
   "myschoolishness.model.TodaysAbsenceForStudentModel": [],
@@ -765,6 +767,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.store.AllBulletinsForAdminScreenStore": [],
   "myschoolishness.store.AllBulletinsStore": [],
   "myschoolishness.store.AssociateUserSchoolStore": [],
+  "myschoolishness.store.AttendanceReportStore": [],
   "myschoolishness.store.AttendanceStore": [],
   "myschoolishness.store.BulletinByIdStore": [],
   "myschoolishness.store.BulletinClassAssociationStore": [],
@@ -795,6 +798,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.store.SaveBulletinStore": [],
   "myschoolishness.store.SendEmailStore": [],
   "myschoolishness.store.SettingCategoriesStore": [],
+  "myschoolishness.store.SignoutReportStore": [],
   "myschoolishness.store.StateStore": [],
   "myschoolishness.store.StudentInsertStore": [],
   "myschoolishness.store.TodaysAbsenceForStudentStore": [],
@@ -816,6 +820,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.view.AbsentManageStaff": [],
   "myschoolishness.view.AbsentManageStudents": [],
   "myschoolishness.view.AdminHome": [],
+  "myschoolishness.view.AttendanceReport": [],
   "myschoolishness.view.BulletinBoard": [],
   "myschoolishness.view.BulletinCrudCard": [],
   "myschoolishness.view.BulletinDetails": [],
@@ -840,6 +845,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "myschoolishness.view.Main": [],
   "myschoolishness.view.ManageBulletins": [],
   "myschoolishness.view.ManageParents": [],
+  "myschoolishness.view.ManageReports": [],
   "myschoolishness.view.ManageStudents": [],
   "myschoolishness.view.MyClassHome": [],
   "myschoolishness.view.MyKidsHome": [],
@@ -1626,6 +1632,7 @@ Ext.ClassManager.addNameAliasMappings({
   "myschoolishness.model.AllBulletinsModel": [],
   "myschoolishness.model.AssociateUserSchoolModel": [],
   "myschoolishness.model.AttendanceModel": [],
+  "myschoolishness.model.AttendanceReportModel": [],
   "myschoolishness.model.BulletinByIdModel": [],
   "myschoolishness.model.BulletinClassAssociationModel": [],
   "myschoolishness.model.CategoryModel": [],
@@ -1656,6 +1663,7 @@ Ext.ClassManager.addNameAliasMappings({
   "myschoolishness.model.ParentsModel": [],
   "myschoolishness.model.SaveBulletinModel": [],
   "myschoolishness.model.SendEmailModel": [],
+  "myschoolishness.model.SignoutReportModel": [],
   "myschoolishness.model.StateModel": [],
   "myschoolishness.model.StudentInsertModel": [],
   "myschoolishness.model.TodaysAbsenceForStudentModel": [],
@@ -1700,6 +1708,7 @@ Ext.ClassManager.addNameAliasMappings({
   "myschoolishness.store.AllBulletinsForAdminScreenStore": [],
   "myschoolishness.store.AllBulletinsStore": [],
   "myschoolishness.store.AssociateUserSchoolStore": [],
+  "myschoolishness.store.AttendanceReportStore": [],
   "myschoolishness.store.AttendanceStore": [],
   "myschoolishness.store.BulletinByIdStore": [],
   "myschoolishness.store.BulletinClassAssociationStore": [],
@@ -1730,6 +1739,7 @@ Ext.ClassManager.addNameAliasMappings({
   "myschoolishness.store.SaveBulletinStore": [],
   "myschoolishness.store.SendEmailStore": [],
   "myschoolishness.store.SettingCategoriesStore": [],
+  "myschoolishness.store.SignoutReportStore": [],
   "myschoolishness.store.StateStore": [],
   "myschoolishness.store.StudentInsertStore": [],
   "myschoolishness.store.TodaysAbsenceForStudentStore": [],
@@ -1773,6 +1783,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "myschoolishness.view.AdminHome": [
     "widget.admin-home"
+  ],
+  "myschoolishness.view.AttendanceReport": [
+    "widget.attendancereport"
   ],
   "myschoolishness.view.BulletinBoard": [
     "widget.bulletin-board"
@@ -1846,6 +1859,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "myschoolishness.view.ManageParents": [
     "widget.manage-parents"
+  ],
+  "myschoolishness.view.ManageReports": [
+    "widget.managereports"
   ],
   "myschoolishness.view.ManageStudents": [
     "widget.manage-students"

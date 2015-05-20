@@ -3,6 +3,7 @@ var express        = require('express');
 var morgan         = require('morgan');
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
+var HashMap = require('hashmap').HashMap;
     nconf = require('nconf'),
     http = require('http'),
     path = require('path'),
@@ -221,6 +222,46 @@ var isValidToken = function(clientToken,serverToken) {
 	return true;
 };
 
+getDatesArray = function(start_date_range,end_date_range){
+			console.log("##startDate " + start_date_range);
+	console.log("endDate " + end_date_range);
+	var startDate = new Date(start_date_range);
+	var endDate = new Date(end_date_range);
+		console.log("NOW startDate " + startDate);
+	console.log("NOW endDate " + endDate);
+
+	var startDateDayMonthYear = startDate.getMonth().toString() + startDate.getDate().toString() + startDate.getFullYear().toString();
+	console.log("startDateDayMonthYear " + startDateDayMonthYear);
+	var endDateDayMonthYear = endDate.getMonth().toString() + endDate.getDate().toString() + endDate.getFullYear().toString();
+	console.log("endDateDayMonthYear " + endDateDayMonthYear);
+	
+	var results = [];
+	console.log("startDate " + startDate);
+	var previousDate = startDate;
+
+	if (startDateDayMonthYear===endDateDayMonthYear) {
+		var theDate = new Date(previousDate);
+		results[index]=(theDate.getMonth() + 1) + "/" + theDate.getDate() + "/" + theDate.getFullYear();;
+	} else {
+		//console.log("More than one day!");
+		var currDateDayMonthYear = "";
+	
+		var index = 0;
+			while (currDateDayMonthYear != endDateDayMonthYear) {	
+				
+				var currDate = new Date(previousDate);
+				currDate.setDate(currDate.getDate() + 1);
+				var currDateDayMonthYear = currDate.getMonth().toString() + currDate.getDate().toString() + currDate.getFullYear().toString();
+				previousDate=currDate;
+				results[index]=(currDate.getMonth() + 1) + "/" + currDate.getDate() + "/" + currDate.getFullYear();
+				index++;
+			}
+			var theDate = new Date(endDate);
+			theDate.setDate(theDate.getDate() + 1);
+			results[index]=(theDate.getMonth() + 1) + "/" + theDate.getDate() + "/" + theDate.getFullYear();
+		}
+	return results;
+};
 
 handleDBError = function(ex){
 	console.log("handleDBError called " + ex);
@@ -491,6 +532,359 @@ var nestedQueriesUptoFour = function(queryString1,queryString2,queryString3,quer
 		}
 };
 
+getRanges = function(toSplit,maxInRange){
+	var numRanges = 1;
+	var ranges = [];
+	
+	if (toSplit.length > maxInRange) {
+		numRanges = toSplit.length/maxInRange;
+		numRanges = Math.floor(numRanges);
+		var remainder = toSplit.length % maxInRange;
+
+		if (remainder > 0) {
+			numRanges++;
+		} 
+	
+		for (var i = 0; i < numRanges; i++) {
+		  var currRange = toSplit.slice(i * maxInRange, ((i * maxInRange) + maxInRange));
+		  ranges[i] = 	currRange;
+		}
+	} else {
+		ranges[0] = toSplit;
+	}
+	
+	
+	return ranges;
+};
+
+
+getPagesArray = function(datesArray,students,maxStudents,maxDates){
+	var dateRanges = getRanges(datesArray,maxDates);
+	var studentRanges = getRanges(students,maxStudents);
+	var pagesArray = [];
+	var counter = 0;
+	
+	for (var i = 0; i < dateRanges.length; i++) {
+		for (var j = 0; j < studentRanges.length; j++) {
+			var currMap = new HashMap();
+			currMap.set("Dates", dateRanges[i]);
+			currMap.set("Students", studentRanges[j]);
+			pagesArray[counter] = currMap;
+			counter++;
+		}
+	}
+	return pagesArray;
+};
+
+formatReport = function(datesArray,students,maxStudents,maxDates,dataArray,reportType){
+	var preHTML = "<html> <head><style>.break { page-break-before: always; }</style></head><body>  <form> <input type='button' value='Print this page' onClick='window.print()'></form>";
+	var postHtml = "</body></html>";
+	var pages = getPagesArray(datesArray,students,maxStudents,maxDates);
+	var reportHtml = preHTML;
+	for (var i = 0; i < pages.length; i++) {
+		var currPage = pages[i];
+		var pageHtml = "";
+		
+		if (reportType==="attendance") {
+			if (i===0) {
+				pageHtml = getAttendanceHtmlForPage(currPage,dataArray,true);
+			} else {
+				pageHtml = getAttendanceHtmlForPage(currPage,dataArray,false);
+			}
+		} else if (reportType==="signout") {
+			if (i===0) {
+				pageHtml = getSignoutHtmlForPage(currPage,dataArray,true);
+			} else {
+				pageHtml = getSignoutHtmlForPage(currPage,dataArray,false);
+			}
+		}
+		
+		reportHtml = reportHtml + pageHtml;
+	}
+	
+	reportHtml = reportHtml + postHtml;
+
+	return reportHtml;
+},
+
+arrayContains = function(theArray,elem)
+{
+
+	var elemWithNoYear =  elem.substring(0,9);
+   for (var i in theArray)
+   {
+   	//console.log("COMPARING" + theArray[i] + " with "+ elemWithNoYear);
+       if (theArray[i] === elemWithNoYear) {
+       	//console.log("Match found: " + theArray[i] + " with "+ elemWithNoYear);
+       	return true;
+       	}
+   }
+   return false;
+};
+
+getMatchingSignature = function(signatureData,dateToMatch,studentId)
+{
+	//console.log("!!Data to match: " + dateToMatch);
+	//console.log("signatureData LENGTH: " + signatureData.length);
+	var dateToMatchInArray = dateToMatch.split("-");
+	var matchDateObj = new Date(dateToMatchInArray[1]);
+
+   for (var i = 0; i < signatureData.length; i++) {
+   	
+   		var sigDataSplit = signatureData[i].split("*");
+   		console.log("i: " + i);
+   		var currDateObj = new Date(sigDataSplit[0]);
+   		var currStudent_id = sigDataSplit[1];
+   		var currSignature = sigDataSplit[2];
+   		
+   		//console.log("match month: " + matchDateObj.getMonth() );
+   		//console.log("SIG DATA month: " + currDateObj.getMonth() );
+   		//console.log("SIG DATA month plus 1: " + parseInt(currDateObj.getMonth() + 1)  );
+   		//console.log("match DAY: " + matchDateObj.getDate() );
+   		//console.log("SIG DATA DAY: " + currDateObj.getDate() );
+   		//console.log("SIG DATA ID: " + currStudent_id );
+   		//console.log("studentId: " + studentId );
+   		var sigData = currStudent_id + "-" + parseInt(currDateObj.getMonth() + 1) + "/" + currDateObj.getDate() + "/" + currDateObj.getFullYear();
+   		console.log("Testing db data: " + sigData );
+   		var monthMatch = parseInt(matchDateObj.getMonth()) === parseInt(currDateObj.getMonth());
+   		var dayMatch = parseInt(matchDateObj.getDate()) === parseInt(currDateObj.getDate());
+   		var studentIdMatch = parseInt(currStudent_id) === parseInt(studentId);
+   		
+   		// console.log("Month matches?: " + monthMatch );
+   		//console.log("DAY matches?: " + dayMatch );
+   		//console.log("ID matches?: " + studentIdMatch );
+
+
+   		//console.log("currSignature: " + currSignature );
+   		if (dateToMatch === sigData) {
+   			console.log("FOUND");
+   			return " <img src=' " + currSignature + "' width='25' height='20'>";
+   		} 
+
+   }
+   
+   return "";
+   	console.log("*************^^^ END &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&: ");
+
+};
+
+getSignoutHtmlForPage = function(page,signoutDataArray, isFirstPage){
+	var datesArray = page.get("Dates");
+	var students = page.get("Students");
+	var preHTML = "<p class='break'> <table border='1' style='width:80%;'><tr><th> Student Name </th>";
+	var preHTMLFirstPage = "<p> <table border='1' style='width:80%;'><tr><th> Student Name </th>";
+	var datesHTML ="";
+	var preStudentsHtml ="</tr>";
+	var studentsHtml ="</tr>";
+	var postStudentsHtml ="</table> </p>";
+	var studentsHtml = "";
+	
+	for (var i = 0; i < datesArray.length; i++) {
+			var currRow = "<th>" + datesArray[i] + "</th>";
+    		console.log('Appending: ' +  currRow);
+    		datesHTML = datesHTML + currRow;
+	}
+		console.log('got this many students: ', students.length);
+		
+	for (var i = 0; i < students.length; i++) {
+		 	studentsHtml = studentsHtml + "<tr> <td>" + students[i].first_name + " " + students[i].last_name +"</td>";
+			for (var j = 0; j < datesArray.length; j++) {
+				var currDate = students[i].id + "-" + datesArray[j];
+				//console.log("checking if there is an absence for " + currDate);
+				var signature = getMatchingSignature(signoutDataArray,currDate,students[i].id);
+				//console.log("signature IS " + signature);
+				studentsHtml = studentsHtml + " <td> <font color='red'> " + signature + " </font> </td>";
+			}
+			//console.log("studentsHtml-> " + studentsHtml);
+			studentsHtml = studentsHtml + " </tr>";
+		}
+	
+	var resultBuffer = "";
+	
+	if (isFirstPage) {
+		resultBuffer = preHTMLFirstPage + datesHTML + preStudentsHtml + studentsHtml + postStudentsHtml;
+	} else {
+		resultBuffer = preHTML + datesHTML + preStudentsHtml + studentsHtml + postStudentsHtml;
+	}
+	
+	//console.log("HTML is->" + resultBuffer);
+	
+	return resultBuffer;
+	    				//console.log('id: ', rows[i].id);
+    				//console.log('last_name: ', rows[i].last_name);
+    				//console.log('first_name: ', rows[i].first_name);
+
+};
+
+getAttendanceHtmlForPage = function(page,attendanceDataArray, isFirstPage){
+	var datesArray = page.get("Dates");
+	var students = page.get("Students");
+	var preHTML = "<p class='break'> <table border='1' style='width:80%;'><tr><th> Student Name </th>";
+	var preHTMLFirstPage = "<p> <table border='1' style='width:80%;'><tr><th> Student Name </th>";
+	var datesHTML ="";
+	var preStudentsHtml ="</tr>";
+	var studentsHtml ="</tr>";
+	var postStudentsHtml ="</table> </p>";
+	var studentsHtml = "";
+	
+	for (var i = 0; i < datesArray.length; i++) {
+			var currRow = "<th>" + datesArray[i] + "</th>";
+    		//console.log('Appending: ' +  currRow);
+    		datesHTML = datesHTML + currRow;
+	}
+		console.log('got this many students: ', students.length);
+		
+	for (var i = 0; i < students.length; i++) {
+		 	studentsHtml = studentsHtml + "<tr> <td>" + students[i].first_name + " " + students[i].last_name +"</td>";
+			for (var j = 0; j < datesArray.length; j++) {
+				var currDate = students[i].id + "-" + datesArray[j];
+				//console.log("checking if there is an absence for " + currDate);
+				if (arrayContains(attendanceDataArray,currDate)) {
+					studentsHtml = studentsHtml + " <td> <font color='red'>A</font> </td>";
+				} else {
+					studentsHtml = studentsHtml + " <td> P </td>";
+				}
+			}
+			//console.log("studentsHtml-> " + studentsHtml);
+			studentsHtml = studentsHtml + " </tr>";
+		}
+	
+	var resultBuffer = "";
+	
+	if (isFirstPage) {
+		resultBuffer = preHTMLFirstPage + datesHTML + preStudentsHtml + studentsHtml + postStudentsHtml;
+	} else {
+		resultBuffer = preHTML + datesHTML + preStudentsHtml + studentsHtml + postStudentsHtml;
+	}
+	
+	//console.log("HTML is->" + resultBuffer);
+	
+	return resultBuffer;
+	    				//console.log('id: ', rows[i].id);
+    				//console.log('last_name: ', rows[i].last_name);
+    				//console.log('first_name: ', rows[i].first_name);
+
+};
+
+var getHtmlForSignOutReport = function(start_date_range,end_date_range,callback){
+	console.log("***** getHtmlForSignOutReport ********");
+	var signoutDataArray = new Array();
+	console.log("start_date_range " + start_date_range);
+	console.log("end_date_range " + end_date_range);
+		var datesForSignouteReport = getDatesArray(start_date_range,end_date_range);
+
+			//console.log("datesForSignouteReport: " + datesForSignouteReport);
+		var connection = getConnection();
+		var timezone_query = "SET time_zone = '-6:00'";
+		var student_names_query = "select id, first_name,last_name from student";
+		var student_signout_query = "SELECT signature,time_collected,student_id FROM signature_records where time_collected BETWEEN ? and ?;";
+		console.log("Timezone query ");
+connection.query(timezone_query, function(err, info) {
+
+  				console.log("Recieved reply for " + timezone_query);
+        		connection.query(student_names_query,function(err, studentsList, fields) {
+
+        			var dateParams = [];
+    				dateParams[0] = start_date_range;
+    				dateParams[1] = end_date_range;
+    				        					console.log("start_date_range AGAIN " + dateParams[0]);
+	console.log("end_date_range AGAIN " + dateParams[1]);
+        			connection.query(student_signout_query,dateParams,function(err, signoutRows, fields) {
+        				console.log('got this many signout rows: ', signoutRows.length);	
+        				console.log("Recieved reply for " + student_signout_query);
+            			//console.log(JSON.stringify(signoutRows) + " +++++++++DONE+++++++++");
+        				for (var i = 0; i < signoutRows.length; i++) {
+        					console.log("Row collected at " + signoutRows[i].time_collected);
+        					console.log("Student id " + signoutRows[i].student_id);
+							signoutDataArray.push(signoutRows[i].time_collected + "*" + signoutRows[i].student_id + "*" + signoutRows[i].signature);
+							}
+        			
+        				var htmlReport = formatReport(datesForSignouteReport,studentsList,10,15,signoutDataArray,"signout");
+        				var jsonResult = "[{\"html\":\"" + htmlReport + "\"}]";
+        				//console.log("htmlReport " + htmlReport);
+        				callback(jsonResult);
+            			connection.end();
+					});
+            	
+        	});
+        
+  		});
+  		
+
+};
+
+
+var getHtmlForAttendanceReport = function(start_date_range,end_date_range,callback){
+	console.log("Getting dates for attendance report HHHHHHH");
+	console.log("start_date_range " + start_date_range);
+	console.log("end_date_range " + end_date_range);
+		var attendanceDataArray = new Array();
+		var datesForAttendanceReport = getDatesArray(start_date_range,end_date_range);
+		//console.log("BACK attendance report " + datesForAttendanceReport);
+		var connection = getConnection();
+		var timezone_query = "SET time_zone = '-6:00'";
+		var student_names_query = "select id, first_name,last_name from student";
+		var student_attendance_query = "select t1.id AS absence_id,t1.start_date_time,t1.end_date_time,t3.id AS student_id,t3.first_name,t3.last_name from absence t1, absence_owner t2, student t3 where t1.start_date_time BETWEEN ? and ? and t1.id = t2.absence_id and t2.student_id = t3.id";
+		//console.log("Timezone query ");
+  		connection.query(timezone_query, function(err, info) {
+
+  				console.log("Recieved reply for " + timezone_query);
+        		connection.query(student_names_query,function(err, studentsList, fields) {
+        			
+        			var paramsList = [];
+    				paramsList[0] = start_date_range;
+    				paramsList[1] = end_date_range;
+        			connection.query(student_attendance_query,paramsList,function(err, attendanceRows, fields) {
+        				console.log('got this many attendance rows: ', attendanceRows.length);	
+        				for (var i = 0; i < attendanceRows.length; i++) {
+        					//console.log('student_id: ', attendanceRows[i].student_id);
+        					//console.log('start_date_time: ', attendanceRows[i].start_date_time);
+        					//console.log('end_date_time: ', attendanceRows[i].end_date_time);
+        					var startDate = new Date(attendanceRows[i].start_date_time);
+							var endDate = new Date(attendanceRows[i].end_date_time);
+							var startDateDayMonthYear = startDate.getMonth().toString() + startDate.getDate().toString() + startDate.getFullYear().toString();
+							var endDateDayMonthYear = endDate.getMonth().toString() + endDate.getDate().toString() + endDate.getFullYear().toString();
+							//console.log('startDateDayMonthYear: ', startDateDayMonthYear);
+        					//console.log('endDateDayMonthYear: ', endDateDayMonthYear);
+							var previousDate = startDate;
+							if (startDateDayMonthYear===endDateDayMonthYear) {
+								console.log("Only one day! ADDING$$ " + attendanceRows[i].student_id + "-" + (startDate.getMonth() + 1) + "/" + startDate.getDate());
+								attendanceDataArray.push(attendanceRows[i].student_id + "-" + (endDate.getMonth() + 1) + "/" + endDate.getDate());
+							} else {
+							//console.log("More than one day!");
+							var currDateDayMonthYear = "";
+	
+							var index = 0;
+							while (currDateDayMonthYear != endDateDayMonthYear) {	
+								var currDate = new Date(previousDate);
+								currDate.setDate(currDate.getDate() + 1);
+								var currDateDayMonthYear = currDate.getMonth().toString() + currDate.getDate().toString() + currDate.getFullYear().toString();
+								previousDate=currDate;
+								console.log("putting DATE$$ " + attendanceRows[i].student_id + "-" + (currDate.getMonth() + 1) + "/" + currDate.getDate());
+								attendanceDataArray.push(attendanceRows[i].student_id + "-" + (currDate.getMonth() + 1) + "/" + currDate.getDate());
+								index++;
+								}
+							attendanceDataArray.push(attendanceRows[i].student_id + "-" + (endDate.getMonth() + 1) + "/" + endDate.getDate());
+							//console.log("putting DATE$$ " + attendanceRows[i].student_id + "-" + (endDate.getMonth() + 1) + "/" + endDate.getDate());
+
+							}
+        				}
+        				var htmlReport = formatReport(datesForAttendanceReport,studentsList,10,15,attendanceDataArray,"attendance");
+        				var jsonResult = "[{\"html\":\"" + htmlReport + "\"}]";
+        				console.log("htmlReport " + htmlReport);
+        				callback(jsonResult);
+            			connection.end();
+					});
+            	
+        	});
+        
+  		});
+  		
+
+};
+
+
+
 var sendEmail = function(subject,recipeint,templateName,locals,callback){
 	//if(ServerConfig.debug) {
 		console.log("*****SENDING EMAIL *******");
@@ -595,6 +989,8 @@ global['dbConnection'] =  {
     createNewToken : createNewToken,
     getTextContent : getTextContent,
     appURL : appURL,
+    getHtmlForAttendanceReport : getHtmlForAttendanceReport,
+    getHtmlForSignOutReport : getHtmlForSignOutReport,
 };
 
 process.on('uncaughtException', function (exception) {
