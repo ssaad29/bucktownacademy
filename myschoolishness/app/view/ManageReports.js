@@ -161,7 +161,7 @@ Ext.define('myschoolishness.view.ManageReports', {
 		}
 				console.log("reportType " + reportType);
 
-		if(endDate >= startDate) {
+		if(endDate > startDate) {
 			if(reportType === "attendance") {
 					var attendanceReportStore = Ext.create('myschoolishness.store.AttendanceReportStore', {
 					model: "myschoolishness.model.AttendanceReportModel"
@@ -222,7 +222,7 @@ Ext.define('myschoolishness.view.ManageReports', {
 					})
 			}	
 		} else {
-			Ext.Msg.alert('Invalid request', 'Start date cannot be later than end date');
+			Ext.Msg.alert('Invalid request', 'End date must be later than start date');
 		}
 		
 	},

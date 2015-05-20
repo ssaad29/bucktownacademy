@@ -223,9 +223,13 @@ var isValidToken = function(clientToken,serverToken) {
 };
 
 getDatesArray = function(start_date_range,end_date_range){
-	
+			console.log("##startDate " + start_date_range);
+	console.log("endDate " + end_date_range);
 	var startDate = new Date(start_date_range);
 	var endDate = new Date(end_date_range);
+		console.log("NOW startDate " + startDate);
+	console.log("NOW endDate " + endDate);
+
 	var startDateDayMonthYear = startDate.getMonth().toString() + startDate.getDate().toString() + startDate.getFullYear().toString();
 	console.log("startDateDayMonthYear " + startDateDayMonthYear);
 	var endDateDayMonthYear = endDate.getMonth().toString() + endDate.getDate().toString() + endDate.getFullYear().toString();
@@ -811,9 +815,9 @@ connection.query(timezone_query, function(err, info) {
 
 
 var getHtmlForAttendanceReport = function(start_date_range,end_date_range,callback){
-	//console.log("Getting dates for attendance report ");
-	//	console.log("start_date_range " + start_date_range);
-	//console.log("end_date_range " + end_date_range);
+	console.log("Getting dates for attendance report HHHHHHH");
+	console.log("start_date_range " + start_date_range);
+	console.log("end_date_range " + end_date_range);
 		var attendanceDataArray = new Array();
 		var datesForAttendanceReport = getDatesArray(start_date_range,end_date_range);
 		//console.log("BACK attendance report " + datesForAttendanceReport);
